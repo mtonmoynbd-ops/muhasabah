@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>মুহাসাবা — দৈনিক আত্মজিজ্ঞাসা</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Bengali:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12302E;
+    --ink-2:#1B3F3C;
+    --ink-3:#245250;
+    --gold:#C79A56;
+    --gold-soft:#E4C98A;
+    --parchment:#F3ECDD;
+    --parchment-dim:#E7DDC7;
+    --sage:#6B8F7B;
+    --clay:#A65D45;
+    --clay-soft:#C98F7B;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--ink);
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(199,154,86,0.07), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(199,154,86,0.05), transparent 45%);
+    color:var(--parchment);
+    font-family:'Noto Serif Bengali', serif;
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  .arabic{font-family:'Amiri', serif;}
+  .ui-label{font-family:'Noto Sans Bengali', sans-serif;}
+
+  /* ---------- Header / hero ---------- */
+  header.hero{
+    padding:36px 20px 28px;
+    text-align:center;
+    border-bottom:1px solid rgba(199,154,86,0.25);
+    position:relative;
+  }
+  .ornament-corner{
+    position:absolute; width:38px; height:38px; opacity:0.55;
+  }
+  .oc-tl{top:10px; left:10px;}
+  .oc-tr{top:10px; right:10px; transform:scaleX(-1);}
+  header.hero .arabic-line{
+    font-size:22px; color:var(--gold-soft); letter-spacing:1px; margin-bottom:6px;
+    direction:rtl;
+  }
+  header.hero h1{
+    font-size:28px; margin:6px 0 4px; font-weight:700; letter-spacing:0.5px;
+  }
+  header.hero p{
+    font-family:'Noto Sans Bengali', sans-serif;
+    font-size:13.5px; color:var(--parchment-dim); max-width:420px; margin:0 auto; line-height:1.6;
+  }
+
+  /* ---------- Return arc (signature element) ---------- */
+  .return-wrap{
+    display:flex; flex-direction:column; align-items:center; gap:8px; margin-top:22px;
+  }
+  .return-arc-label{
+    font-family:'Noto Sans Bengali', sans-serif; font-size:12px; color:var(--gold-soft); letter-spacing:0.5px;
+  }
+  .return-count{font-family:'Amiri', serif; font-size:15px; color:var(--parchment-dim); margin-top:2px;}
+
+  /* ---------- Sections ---------- */
+  main{max-width:640px; margin:0 auto; padding:0 16px;}
+  section{margin-top:30px;}
+  .section-title{
+    font-family:'Noto Sans Bengali', sans-serif;
+    font-size:13px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:14px;
+  }
+  .section-title::after{content:''; flex:1; height:1px; background:linear-gradient(to right, rgba(199,154,86,0.5), transparent);}
+
+  /* ---------- Today's page (manuscript card) ---------- */
+  .page-card{
+    background:var(--parchment);
+    color:var(--ink);
+    border-radius:4px;
+    padding:22px 18px;
+    position:relative;
+    box-shadow:0 12px 30px rgba(0,0,0,0.35);
+    border:1px solid rgba(199,154,86,0.4);
+  }
+  .page-card .frame-corner{position:absolute; width:22px; height:22px; opacity:0.7;}
+  .fc-tl{top:6px; left:6px;} .fc-tr{top:6px; right:6px; transform:scaleX(-1);}
+  .fc-bl{bottom:6px; left:6px; transform:scaleY(-1);} .fc-br{bottom:6px; right:6px; transform:scale(-1,-1);}
+
+  .empty-state{
+    text-align:center; padding:24px 10px; color:#5b5142;
+    font-family:'Noto Sans Bengali', sans-serif; font-size:13.5px; line-height:1.7;
+  }
+
+  .entry-row{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    padding:10px 0; border-bottom:1px dashed rgba(18,48,46,0.18);
+    gap:10px;
+  }
+  .entry-row:last-child{border-bottom:none;}
+  .entry-name{font-weight:600; font-size:15px;}
+  .entry-note{font-family:'Noto Sans Bengali', sans-serif; font-size:12px; color:#5b5142; margin-top:2px;}
+  .entry-badge{
+    font-family:'Noto Sans Bengali', sans-serif; font-size:10.5px; padding:2px 8px; border-radius:10px;
+    white-space:nowrap; height:fit-content;
+  }
+  .badge-kabira{background:rgba(166,93,69,0.15); color:var(--clay);}
+  .badge-sagira{background:rgba(107,143,123,0.18); color:#3f5f4d;}
+  .return-check{
+    display:flex; align-items:center; gap:6px; margin-top:6px;
+    font-size:11.5px; color:#3f5f4d;
+  }
+  .return-check input{accent-color:#6B8F7B;}
+  .entry-remove{
+    background:none; border:none; color:#9a3c2c; font-family:'Noto Sans Bengali', sans-serif;
+    font-size:11px; cursor:pointer; padding:2px 6px;
+  }
+
+  .add-btn{
+    display:block; width:100%; margin-top:16px;
+    background:var(--ink); color:var(--gold-soft);
+    border:1px solid rgba(199,154,86,0.5);
+    font-family:'Noto Sans Bengali', sans-serif; font-size:14px; font-weight:500;
+    padding:12px; border-radius:6px; cursor:pointer;
+  }
+  .add-btn:active{transform:scale(0.98);}
+
+  /* ---------- Sin index (fihrist) ---------- */
+  .filter-tabs{display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; margin-bottom:10px;}
+  .filter-tab{
+    font-family:'Noto Sans Bengali', sans-serif; font-size:12.5px; padding:7px 14px;
+    border-radius:16px; border:1px solid rgba(199,154,86,0.35); background:transparent;
+    color:var(--parchment-dim); white-space:nowrap; cursor:pointer;
+  }
+  .filter-tab.active{background:var(--gold); color:var(--ink); border-color:var(--gold); font-weight:600;}
+
+  .fihrist{display:flex; flex-direction:column; gap:1px; border-top:1px solid rgba(199,154,86,0.2);}
+  .fihrist-item{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 4px; border-bottom:1px solid rgba(199,154,86,0.2);
+    cursor:pointer;
+  }
+  .fihrist-item:hover{background:rgba(199,154,86,0.06);}
+  .fihrist-left{display:flex; flex-direction:column;}
+  .fihrist-name{font-size:16px; font-weight:600;}
+  .fihrist-name-ar{font-family:'Amiri', serif; font-size:14px; color:var(--gold-soft); direction:rtl;}
+  .fihrist-tags{margin-top:4px; display:flex; gap:6px;}
+  .tag{
+    font-family:'Noto Sans Bengali', sans-serif; font-size:10px; padding:2px 7px; border-radius:9px;
+  }
+  .tag-kabira{background:rgba(166,93,69,0.2); color:var(--clay-soft);}
+  .tag-sagira{background:rgba(107,143,123,0.2); color:#9fc2ab;}
+  .tag-huquq{background:rgba(199,154,86,0.2); color:var(--gold-soft);}
+  .tag-common{background:rgba(107,143,123,0.25); color:#9fc2ab;}
+  .chevron{color:var(--gold); font-size:18px;}
+
+  /* not-reviewed disclaimer strip */
+  .review-flag{
+    font-family:'Noto Sans Bengali', sans-serif; font-size:10.5px; color:#8a6d3b;
+    background:rgba(199,154,86,0.12); border:1px solid rgba(199,154,86,0.3);
+    padding:2px 8px; border-radius:9px; margin-top:4px; display:inline-block;
+  }
+
+  /* ---------- Modal ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(8,20,19,0.75);
+    display:none; align-items:flex-end; justify-content:center; z-index:50;
+  }
+  .overlay.open{display:flex;}
+  .sheet{
+    background:var(--parchment); color:var(--ink);
+    width:100%; max-width:640px; max-height:88vh; overflow-y:auto;
+    border-radius:16px 16px 0 0; padding:20px 18px 30px;
+    animation:slideup 0.25s ease;
+  }
+  @keyframes slideup{from{transform:translateY(30px); opacity:0;} to{transform:translateY(0); opacity:1;}}
+  .sheet-handle{width:40px; height:4px; background:rgba(18,48,46,0.25); border-radius:2px; margin:0 auto 16px;}
+  .sheet h2{margin:0 0 2px; font-size:22px;}
+  .sheet h2 .ar{font-family:'Amiri', serif; font-size:17px; color:var(--clay); margin-right:8px; direction:rtl; display:inline-block;}
+  .sheet .close-x{
+    position:absolute; top:16px; right:18px; background:none; border:none;
+    font-size:20px; color:#5b5142; cursor:pointer;
+  }
+  .block-label{
+    font-family:'Noto Sans Bengali', sans-serif; font-size:11.5px; letter-spacing:0.5px;
+    text-transform:uppercase; color:var(--clay); margin:18px 0 6px; font-weight:600;
+  }
+  .block-text{font-size:14.5px; line-height:1.8;}
+  .evidence-item{font-size:13.5px; line-height:1.75; margin-bottom:6px; padding-left:12px; border-left:2px solid var(--gold);}
+  .evidence-src{font-family:'Noto Sans Bengali', sans-serif; font-size:11px; color:#7a6a4d;}
+
+  .madhab-toggle{display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;}
+  .madhab-btn{
+    font-family:'Noto Sans Bengali', sans-serif; font-size:12px; padding:6px 12px;
+    border-radius:14px; border:1px solid rgba(18,48,46,0.25); background:transparent; cursor:pointer; color:#5b5142;
+  }
+  .madhab-btn.active{background:var(--ink); color:var(--gold-soft); border-color:var(--ink);}
+  .kaffarah-box{
+    margin-top:10px; background:rgba(107,143,123,0.1); border:1px solid rgba(107,143,123,0.3);
+    border-radius:8px; padding:12px 14px; font-size:13.5px; line-height:1.7;
+  }
+  .huquq-note{
+    margin-top:10px; background:rgba(199,154,86,0.12); border:1px solid rgba(199,154,86,0.35);
+    border-radius:8px; padding:10px 14px; font-size:13px; font-family:'Noto Sans Bengali', sans-serif; line-height:1.7;
+  }
+  .dua-box{
+    margin-top:8px; background:var(--ink); color:var(--parchment);
+    border-radius:8px; padding:14px; text-align:center;
+  }
+  .dua-ar{font-family:'Amiri', serif; font-size:19px; direction:rtl; line-height:1.9; color:var(--gold-soft);}
+  .dua-uccharan{font-size:12.5px; margin-top:8px; color:var(--gold-soft); font-style:italic; opacity:0.9;}
+  .dua-bn{font-family:'Noto Sans Bengali', sans-serif; font-size:12px; margin-top:6px; color:var(--parchment-dim);}
+
+  .log-this-btn{
+    width:100%; margin-top:22px; padding:13px; border-radius:8px; border:none;
+    background:var(--clay); color:var(--parchment); font-family:'Noto Sans Bengali', sans-serif;
+    font-size:14.5px; font-weight:600; cursor:pointer;
+  }
+
+  .reviewed-note{
+    margin-top:16px; font-family:'Noto Sans Bengali', sans-serif; font-size:11px; color:#8a6d3b;
+    background:rgba(199,154,86,0.12); padding:8px 12px; border-radius:8px; line-height:1.6;
+  }
+
+  footer{
+    text-align:center; margin-top:40px; padding:0 20px;
+    font-family:'Noto Sans Bengali', sans-serif; font-size:11px; color:rgba(243,236,221,0.4); line-height:1.8;
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="ornament-corner oc-tl" viewBox="0 0 40 40"><path d="M2 2 L2 20 M2 2 L20 2" stroke="#C79A56" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="3" fill="none" stroke="#C79A56" stroke-width="1.2"/></svg>
+  <svg class="ornament-corner oc-tr" viewBox="0 0 40 40"><path d="M2 2 L2 20 M2 2 L20 2" stroke="#C79A56" stroke-width="1.5" fill="none"/><circle cx="2" cy="2" r="3" fill="none" stroke="#C79A56" stroke-width="1.2"/></svg>
+  <div class="arabic-line">وَتُوبُوا إِلَى اللَّهِ جَمِيعًا</div>
+  <h1>মুহাসাবা</h1>
+  <p>দিন শেষে নিজের সাথে হিসাব — কী ভুল করলাম, কী তার প্রতিকার, আর কীভাবে ফিরে যাব আল্লাহর দিকে। এটা লজ্জার খাতা না, ফেরার খাতা।</p>
+
+  <div class="return-wrap">
+    <div class="return-arc-label ui-label">আজ ফিরে আসা হয়েছে</div>
+    <svg width="120" height="66" viewBox="0 0 120 66">
+      <path d="M8 60 A52 52 0 0 1 112 60" stroke="rgba(199,154,86,0.25)" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path id="returnArc" d="M8 60 A52 52 0 0 1 112 60" stroke="#C79A56" stroke-width="7" fill="none" stroke-linecap="round"
+        stroke-dasharray="163" stroke-dashoffset="163"/>
+      <text x="60" y="48" text-anchor="middle" fill="#F3ECDD" font-size="20" font-family="Amiri, serif" id="returnNum">0</text>
+    </svg>
+    <div class="return-count ui-label" id="returnSub">ইস্তিগফার/তওবা লগ করা হয়েছে ০ বার</div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="section-title">আজকের পাতা</div>
+    <div class="page-card">
+      <svg class="frame-corner fc-tl" viewBox="0 0 24 24"><path d="M2 2 L2 14 M2 2 L14 2" stroke="#C79A56" stroke-width="1.4" fill="none"/></svg>
+      <svg class="frame-corner fc-tr" viewBox="0 0 24 24"><path d="M2 2 L2 14 M2 2 L14 2" stroke="#C79A56" stroke-width="1.4" fill="none"/></svg>
+      <svg class="frame-corner fc-bl" viewBox="0 0 24 24"><path d="M2 2 L2 14 M2 2 L14 2" stroke="#C79A56" stroke-width="1.4" fill="none"/></svg>
+      <svg class="frame-corner fc-br" viewBox="0 0 24 24"><path d="M2 2 L2 14 M2 2 L14 2" stroke="#C79A56" stroke-width="1.4" fill="none"/></svg>
+
+      <div id="todayList"></div>
+      <button class="add-btn ui-label" onclick="openPicker()">+ আজকের একটা এন্ট্রি যোগ করো</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">গুনাহর ফিহরিস্ত</div>
+    <div class="filter-tabs" id="filterTabs">
+      <button class="filter-tab active ui-label" data-f="all" onclick="setFilter('all')">সব</button>
+      <button class="filter-tab ui-label" data-f="common" onclick="setFilter('common')">দৈনন্দিন কমন</button>
+      <button class="filter-tab ui-label" data-f="allah" onclick="setFilter('allah')">হক্কুল্লাহ</button>
+      <button class="filter-tab ui-label" data-f="ibad" onclick="setFilter('ibad')">হক্কুল ইবাদ</button>
+    </div>
+    <div class="fihrist" id="sinIndex"></div>
+  </section>
+</main>
+
+<footer>
+  ফতোয়া হিসেবে নয়, আত্মজিজ্ঞাসা ও স্মরণের উপকরণ হিসেবে ব্যবহার করুন।
+</footer>
+
+<div class="overlay" id="overlay">
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<script>
+// ---------------- CURRENCY RATES (approximate, update periodically) ----------------
+const RATES = {
+  silver_bdt_per_gram: 310,   // প্রায় — সনাতন/খাঁটি রূপার কাছাকাছি ধরা হয়েছে
+  gold_bdt_per_gram: 21400,   // প্রায় — খাঁটি (২৪ ক্যারেট) সোনার কাছাকাছি ধরা হয়েছে
+  as_of: 'জুলাই ২০২৬ এর বাজারদর অনুযায়ী আনুমানিক হিসাব — সোনা-রূপার দাম প্রতিদিন ওঠানামা করে, তাই এটি শুধু ধারণা দেওয়ার জন্য, একদম নির্ভুল অঙ্ক নয়'
+};
+const bnDigits = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
+function toBn(n){ return String(n).replace(/[0-9]/g, d => bnDigits[d]); }
+function bnTaka(n){ return toBn(Math.round(n).toLocaleString('en-IN')) + ' টাকা'; }
+
+// নিসাব হিসাব (চুরি)
+const NISAB_HANAFI_GRAMS_SILVER = 30;      // প্রায় ১০ দিরহাম
+const NISAB_SHAFII_GRAMS_GOLD   = 1.0625;  // ¼ দিনার
+const nisabHanafiBDT = NISAB_HANAFI_GRAMS_SILVER * RATES.silver_bdt_per_gram;
+const nisabShafiiBDT = NISAB_SHAFII_GRAMS_GOLD * RATES.gold_bdt_per_gram;
+
+// দিয়াত আনুমানিক হিসাব (অনিচ্ছাকৃত হত্যা) — ঐতিহ্যগতভাবে ১০০ উট / ১০০০ স্বর্ণ দিনার (≈৪২৫০ গ্রাম সোনা) হিসেবে গণনা করা হয়
+const DIYAH_GRAMS_GOLD = 4250;
+const diyahBDT = DIYAH_GRAMS_GOLD * RATES.gold_bdt_per_gram;
+
+// ---------------- DATA ----------------
+const SINS = [
+  {
+    id:'shirk', name_bn:'শিরক', name_ar:'الشرك', category:'kabira', rights:'allah', severity:5,
+    evidence:[
+      {text:'নিশ্চয় আল্লাহ শিরককে ক্ষমা করেন না, এছাড়া অন্য যা কিছু তিনি যাকে ইচ্ছা ক্ষমা করেন।', src:'কুরআন ৪:৪৮'},
+      {text:'যে ব্যক্তি আল্লাহর সাথে শরীক করা অবস্থায় মারা যায়, সে জাহান্নামে প্রবেশ করবে।', src:'কুরআন ৫:৭২'}
+    ],
+    dunya:'শিরকের জন্য নির্দিষ্ট কোনো দুনিয়াবি হদ্দ শাস্তি নেই। (দ্রষ্টব্য: ইসলাম ত্যাগ/রিদ্দাহ শিরক থেকে পৃথক একটি ফিকহি বিষয়, যাতে মাযহাবভেদে ভিন্ন রায় আছে।)',
+    akhirah:'তওবা ছাড়া মৃত্যু হলে ক্ষমার অযোগ্য এবং চিরস্থায়ী জাহান্নামের ওয়াদা (৪:৪৮, ৫:৭২)।',
+    kaffarah:{ijma:'সকল মাযহাব একমত — নির্দিষ্ট কাফফারা নেই। প্রতিকার হলো অবিলম্বে আন্তরিক তওবা, নতুন করে শাহাদাহ পাঠ ও তাওহীদে দৃঢ় হওয়া।'},
+    huquq:false,
+    dua:{ar:'أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَأَسْتَغْفِرُهُ وَأَتُوبُ إِلَيْهِ', uccharan:'আশহাদু আল্লা ইলাহা ইল্লাল্লাহু ওয়া আস্তাগফিরুহু ওয়া আতূবু ইলাইহি', bn:'আমি সাক্ষ্য দিচ্ছি আল্লাহ ছাড়া কোনো উপাস্য নেই, আমি তাঁর কাছে ক্ষমা চাইছি ও তাঁর দিকে ফিরে যাচ্ছি।'},
+    reviewed:false
+  },
+  {
+    id:'sihr', name_bn:'জাদু/সিহর', name_ar:'السحر', category:'kabira', rights:'allah', severity:5,
+    evidence:[
+      {text:'ধ্বংসাত্মক সাত গুনাহর একটি হিসেবে জাদুকে গণনা করা হয়েছে।', src:'সহীহ বুখারী ২৭৬৬, সহীহ মুসলিম ৮৯'}
+    ],
+    dunya:'মাযহাবভেদে সুস্পষ্ট মতভেদ আছে — এটি সবচেয়ে ভালো উদাহরণ কেন এই এপে মাযহাব টগল দরকার।',
+    akhirah:'কুফরী উপাদানযুক্ত জাদু চর্চা ঈমান নষ্টকারী গুনাহ হিসেবে গণ্য।',
+    kaffarah:{
+      hanafi:'ইমাম আবু হানিফা (রহ.)-এর মত অনুযায়ী জাদুকরকে (যদি কুফরী পদ্ধতি ব্যবহার করে) হত্যা করা হবে — এটি ইজতিহাদি রায়, বাস্তবায়ন রাষ্ট্র/আদালতের এখতিয়ার, ব্যক্তি পর্যায়ে নয়।',
+      maliki:'ইমাম মালিক (রহ.)-এরও অনুরূপ কঠোর মত — জাদুকরকে হত্যার পক্ষে প্রসিদ্ধ রায়।',
+      shafii:'কুফরী উপাদান থাকলে রিদ্দাহ (ধর্মত্যাগ) হিসেবে গণ্য করে সে অনুযায়ী বিধান; কুফরী উপাদান না থাকলে তা’যীর (বিচারকের বিবেচনাধীন শাস্তি)।',
+      hanbali:'শাফেয়ীর কাছাকাছি — কুফরী উপাদান থাকা/না থাকার উপর নির্ভরশীল বিধান।'
+    },
+    huquq:false,
+    dua:{ar:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ', uccharan:'আল্লাহুম্মা ইন্নী আ‘ঊযু বিকা মিন শাররি মা সানা‘তু', bn:'হে আল্লাহ, আমি আমার কৃতকর্মের অনিষ্ট থেকে তোমার কাছে আশ্রয় চাই।'},
+    reviewed:false
+  },
+  {
+    id:'qatl', name_bn:'অন্যায় হত্যা', name_ar:'قتل النفس', category:'kabira', rights:'ibad', severity:5,
+    evidence:[
+      {text:'যে ব্যক্তি ইচ্ছাকৃতভাবে কোনো মুমিনকে হত্যা করবে, তার শাস্তি জাহান্নাম, যেখানে সে চিরকাল থাকবে।', src:'কুরআন ৪:৯৩'}
+    ],
+    dunya:'কিসাস (প্রাণের বিনিময়ে প্রাণ), অথবা নিহতের ওয়ারিসগণ ক্ষমা করলে দিয়াত (রক্তপণ) বা সম্পূর্ণ ক্ষমা — কুরআন ২:১৭৮।',
+    akhirah:'চিরস্থায়ী জাহান্নামের হুঁশিয়ারি, আল্লাহর গজব ও লা’নত (৪:৯৩)।',
+    kaffarah:{
+      hanafi:'হানাফী মাযহাবে কাফফারা (দাস মুক্তি/৬০ দিন রোজা) মূলত অনিচ্ছাকৃত ও অর্ধ-ইচ্ছাকৃত হত্যার জন্য ওয়াজিব ধরা হয়। সম্পূর্ণ ইচ্ছাকৃত হত্যায় এটি ওয়াজিব নয় — প্রধান বিধান কিসাস/দিয়াত, কাফফারা সেখানে মুস্তাহাব (উত্তম কাজ, আবশ্যক নয়)।',
+      shafii:`শাফেয়ী মাযহাবের প্রসিদ্ধ মত অনুযায়ী কাফফারা ইচ্ছাকৃত হত্যায়ও ওয়াজিব — কিসাস/দিয়াতের পাশাপাশি অতিরিক্ত কর্তব্য হিসেবে। দাস মুক্ত করতে অক্ষম হলে একটানা ৬০ দিন রোজা রাখতে হবে।`,
+      maliki:'মালেকী মাযহাবের প্রসিদ্ধ মত অনুযায়ী ইচ্ছাকৃত হত্যায় পৃথক কাফফারা ওয়াজিব নয় — কিসাস/দিয়াতই যথেষ্ট গণ্য হয়, হানাফী মতের কাছাকাছি অবস্থান।',
+      hanbali:'হাম্বলী মাযহাবেও ইচ্ছাকৃত হত্যায় কাফফারা ওয়াজিব বলে প্রসিদ্ধ অভিমত — শাফেয়ীর কাছাকাছি।'
+    },
+    diyah_note:`দিয়াতের ঐতিহ্যগত হিসাব ১০০ উট বা সমমূল্য ১০০০ স্বর্ণ দিনার (≈৪২৫০ গ্রাম সোনা) হিসেবে করা হয়, যা বর্তমান বাজারদরে আনুমানিক ${bnTaka(diyahBDT)}র কাছাকাছি — তবে দেশ, আদালত ও মাযহাবভেদে প্রকৃত হিসাবের পদ্ধতি ও পরিমাণ ভিন্ন হতে পারে, তাই এটি নিছক ধারণা দেওয়ার জন্য। এই খাতটি অন্য সবগুলোর চেয়ে বেশি ইজতিহাদি ও পরিস্থিতিনির্ভর — আলেম রিভিউ সবচেয়ে বেশি জরুরি এখানেই।`,
+    nisab_info:`হিসাবটি ${RATES.as_of}`,
+    huquq:true,
+    huquq_note:'এটি নিহত ব্যক্তির পরিবারের হক — শুধু আল্লাহর কাছে তওবায় এই হক মাফ হয় না। ওয়ারিসদের কাছে আত্মসমর্পণ/আইনি প্রক্রিয়া অনুসরণ আবশ্যক।',
+    dua:{ar:'رَبِّ إِنِّي ظَلَمْتُ نَفْسِي فَاغْفِرْ لِي', uccharan:'রব্বি ইন্নী জলামতু নাফসী ফাগফির লী', bn:'হে আমার রব, আমি নিজের উপর জুলুম করেছি, আমাকে ক্ষমা করো।'},
+    reviewed:false
+  },
+  {
+    id:'riba', name_bn:'সুদ', name_ar:'الربا', category:'kabira', rights:'ibad', severity:4,
+    evidence:[
+      {text:'যারা সুদ খায়, তারা কিয়ামতের দিন এমনভাবে দাঁড়াবে যেভাবে শয়তানের স্পর্শে পাগল ব্যক্তি দাঁড়ায়।', src:'কুরআন ২:২৭৫'},
+      {text:'যদি তোমরা তওবা করো, তবে তোমাদের আসল পুঁজি তোমাদেরই প্রাপ্য।', src:'কুরআন ২:২৭৯'}
+    ],
+    dunya:'নির্দিষ্ট হদ্দ শাস্তি নেই। আধুনিক রাষ্ট্রে সুদভিত্তিক লেনদেন নিয়ন্ত্রণ পৃথক আইনি বিষয়।',
+    akhirah:'আল্লাহ ও রাসূলের সাথে যুদ্ধ ঘোষণার শামিল বলে ঘোষিত (২:২৭৯), কুরআনে সবচেয়ে কঠোর ভাষায় সতর্কীকৃত গুনাহগুলোর একটি।',
+    kaffarah:{ijma:'সুদের মাধ্যমে অর্জিত বাড়তি অর্থ থেকে মুক্ত হওয়া আবশ্যক — যাকে থেকে নেওয়া হয়েছে তাকে ফেরত দেওয়া (শনাক্ত করা গেলে), না গেলে সেই পরিমাণ সওয়াবের নিয়ত ছাড়া সদকা করে দেওয়া, এবং ভবিষ্যতে সুদি লেনদেন সম্পূর্ণ বর্জন।'},
+    huquq:true,
+    huquq_note:'যাকে থেকে সুদ নেওয়া হয়েছে সে শনাক্তযোগ্য হলে তার হক — সরাসরি ফেরত দেওয়াই মূল করণীয়, শুধু সদকা যথেষ্ট নয়।',
+    dua:{ar:'اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ', uccharan:'আল্লাহুম্মাকফিনী বিহালালিকা ‘আন হারামিক', bn:'হে আল্লাহ, তোমার হারাম থেকে বাঁচিয়ে হালাল দিয়ে আমাকে পরিতৃপ্ত রাখো।'},
+    reviewed:false
+  },
+  {
+    id:'yatim', name_bn:'এতিমের সম্পদ ভক্ষণ', name_ar:'أكل مال اليتيم', category:'kabira', rights:'ibad', severity:4,
+    evidence:[
+      {text:'যারা অন্যায়ভাবে এতিমের সম্পদ ভক্ষণ করে, তারা প্রকৃতপক্ষে নিজেদের পেটে আগুন ভরে।', src:'কুরআন ৪:১০'}
+    ],
+    dunya:'সাধারণ চুরি/আত্মসাতের বিধানের আওতায় ফৌজদারি ও দেওয়ানি প্রতিকার প্রযোজ্য হতে পারে; নির্দিষ্ট আলাদা হদ্দ নেই।',
+    akhirah:'"পেটে আগুন ভরা" ও জাহান্নামের সতর্কতা (৪:১০)।',
+    kaffarah:{ijma:'ভুক্তভোগী এতিম প্রাপ্তবয়স্ক হওয়ার পর তাকে সম্পূর্ণ সম্পদ ফেরত দেওয়া আবশ্যক; পাশাপাশি আন্তরিক তওবা ও ইস্তিগফার।'},
+    huquq:true,
+    huquq_note:'এটি সরাসরি এতিমের হক — সম্পদ ফেরত না দিয়ে শুধু ইস্তিগফারে এই হক আদায় হয় না।',
+    dua:{ar:'رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ', uccharan:'রব্বিগফির লী ওয়া তুব ‘আলাইয়া ইন্নাকা আনতাত তাওয়াবুর রাহীম', bn:'হে আমার রব, আমাকে ক্ষমা করো ও আমার তওবা কবুল করো, নিশ্চয় তুমি তওবা কবুলকারী, পরম দয়ালু।'},
+    reviewed:false
+  },
+  {
+    id:'firar', name_bn:'যুদ্ধক্ষেত্র থেকে পলায়ন', name_ar:'الفرار من الزحف', category:'kabira', rights:'allah', severity:3,
+    evidence:[
+      {text:'যে ব্যক্তি সেদিন যুদ্ধক্ষেত্র থেকে পিঠ ফিরিয়ে পালাবে... সে আল্লাহর গজবে পতিত হবে।', src:'কুরআন ৮:১৫-১৬'}
+    ],
+    dunya:'নির্দিষ্ট হদ্দ নেই — সামরিক/রাষ্ট্রীয় শৃঙ্খলার বিষয় হিসেবে তা\'যীর শাস্তি রাষ্ট্রপ্রধানের এখতিয়ারে।',
+    akhirah:'আল্লাহর গজব ও জাহান্নামের সতর্কতা (৮:১৬), তবে কৌশলগত পশ্চাদপসরণ বা অন্য দলের সাথে যোগ দেওয়ার উদ্দেশ্যে সরে আসা এই হুকুমের বাইরে (৮:১৬-তেই উল্লেখিত ব্যতিক্রম)।',
+    kaffarah:{ijma:'নির্দিষ্ট কাফফারা বর্ণিত নেই — আন্তরিক তওবা ও ভবিষ্যতে দৃঢ়তার সংকল্প।'},
+    huquq:false,
+    dua:{ar:'رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا', uccharan:'রব্বানা আফরিগ ‘আলাইনা সবরান ওয়া সাব্বিত আকদামানা', bn:'হে আমাদের রব, আমাদের উপর ধৈর্য ঢেলে দাও এবং আমাদের পা দৃঢ় রাখো।'},
+    reviewed:false
+  },
+  {
+    id:'qadhf', name_bn:'সতী নারীর প্রতি মিথ্যা অপবাদ', name_ar:'قذف المحصنات', category:'kabira', rights:'ibad', severity:4,
+    evidence:[
+      {text:'যারা সতী-সাধ্বী নারীর প্রতি অপবাদ দেয়, অতঃপর চারজন সাক্ষী উপস্থিত করে না, তাদের আশিটি বেত্রাঘাত করো।', src:'কুরআন ২৪:৪'}
+    ],
+    dunya:'৮০টি বেত্রাঘাত (হদ্দ-এ-কাযফ) — কুরআন ২৪:৪ অনুযায়ী সুনির্দিষ্ট।',
+    akhirah:'দুনিয়া ও আখিরাতে অভিশপ্ত হওয়ার সতর্কতা (২৪:২৩)।',
+    kaffarah:{
+      hanafi:'হদ্দ কার্যকর হওয়ার পর অপবাদকারীর সাক্ষ্য চিরতরে অগ্রহণযোগ্য থাকে — পরবর্তী তওবা এই সাক্ষ্য-অযোগ্যতা রহিত করে না, এটিই প্রসিদ্ধ হানাফী মত।',
+      shafii:'সাক্ষ্য অযোগ্যতা তওবা ও ভালো আচরণের মাধ্যমে পুনরায় ফিরে আসতে পারে — এটি শাফেয়ী মাযহাবের প্রসিদ্ধ মত, ইমাম শাফেয়ীর কুরআন ২৪:৫ ("তবে যারা তওবা করে...") এর ব্যাখ্যার ভিত্তিতে।',
+      maliki:'শাফেয়ীর কাছাকাছি — তওবার মাধ্যমে সাক্ষ্য পুনর্বহালের সুযোগ স্বীকার করা হয়।',
+      hanbali:'শাফেয়ী/মালেকীর কাছাকাছি মত প্রসিদ্ধ।'
+    },
+    huquq:true,
+    huquq_note:'অপবাদগ্রস্ত ব্যক্তির কাছে ক্ষমা চাওয়া ও সম্মান পুনরুদ্ধারে যথাসাধ্য চেষ্টা করা আবশ্যক।',
+    dua:{ar:'اللَّهُمَّ اجْعَلْ لِسَانِي رَطْبًا بِذِكْرِكَ بَعِيدًا عَنِ الْكَذِبِ', uccharan:'আল্লাহুম্মাজ‘আল লিসানী রতবান বিযিকরিকা বা‘ঈদান ‘আনিল কাযিব', bn:'হে আল্লাহ, আমার জিহ্বাকে মিথ্যা থেকে দূরে রেখে তোমার স্মরণে সিক্ত রাখো।'},
+    reviewed:false
+  },
+  {
+    id:'khamr', name_bn:'মদ্যপান/নেশা', name_ar:'شرب الخمر', category:'kabira', rights:'allah', severity:4,
+    evidence:[
+      {text:'হে ঈমানদারগণ, মদ, জুয়া, মূর্তিপূজার বেদী ও ভাগ্য নির্ণয়ের শর — এসব শয়তানের নোংরা কাজ, এগুলো থেকে দূরে থাকো।', src:'কুরআন ৫:৯০'},
+      {text:'যে ব্যক্তি অভ্যাসগতভাবে মদ পান করে, আল্লাহ তার জন্য চল্লিশ দিন পর্যন্ত জান্নাতের পানীয় হারাম করে দেন।', src:'সহীহ মুসলিম ২০০৩'}
+    ],
+    dunya:'হদ্দ হিসেবে বেত্রাঘাত প্রতিষ্ঠিত, তবে সংখ্যা নিয়ে মাযহাবি ব্যাখ্যায় পার্থক্য আছে।',
+    akhirah:'অভ্যাসগত মদ্যপায়ীর জন্য ৪০ দিন জান্নাতের পানীয় নিষিদ্ধ হওয়ার সতর্কতা, এবং এটিকে "সকল অনিষ্টের চাবি" বলা হয়েছে।',
+    kaffarah:{
+      hanafi:'৮০ বেত্রাঘাত — উমর (রা.)-এর সাহাবাদের ইজমাভিত্তিক সিদ্ধান্তকে হদ্দ হিসেবে গ্রহণ করা হয়েছে।',
+      shafii:'মূল হদ্দ ৪০ বেত্রাঘাত (নবী সা. ও আবু বকর রা.-এর আমল অনুযায়ী); উমর (রা.) পরবর্তীতে যে অতিরিক্ত ৪০ যোগ করেছিলেন তা তা’যীর হিসেবে গণ্য, যা শাসকের সিদ্ধান্তসাপেক্ষ।',
+      maliki:'শাফেয়ীর কাছাকাছি — ৪০ মূল হদ্দ, অতিরিক্ত অংশ তা’যীর হিসেবে বিবেচিত।',
+      hanbali:'শাফেয়ী/মালেকীর অনুরূপ মত প্রসিদ্ধ, যদিও কিছু হাম্বলী ফকীহ হানাফী মতের কাছাকাছিও গেছেন।'
+    },
+    huquq:false,
+    dua:{ar:'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ', uccharan:'আল্লাহুম্মা ইন্নী আসআলুকাল ‘আফওয়া ওয়াল ‘আফিয়াহ', bn:'হে আল্লাহ, আমি তোমার কাছে ক্ষমা ও নিরাপত্তা প্রার্থনা করছি।'},
+    reviewed:false
+  },
+  {
+    id:'maysir', name_bn:'জুয়া', name_ar:'الميسر', category:'kabira', rights:'allah', severity:3,
+    evidence:[
+      {text:'মদ ও জুয়া শয়তানের কাজ, কাজেই এসব থেকে সম্পূর্ণ বেঁচে থাকো, যাতে তোমরা সফল হতে পারো।', src:'কুরআন ৫:৯০-৯১'}
+    ],
+    dunya:'নির্দিষ্ট হদ্দ নেই — রাষ্ট্র/বিচারকের বিবেচনাধীন তা’যীর শাস্তি প্রযোজ্য হতে পারে।',
+    akhirah:'মদের সাথে একই আয়াতে শয়তানের কাজ ও ঈমানদারদের পরস্পর শত্রুতা-বিদ্বেষ সৃষ্টির কারণ হিসেবে বর্ণিত (৫:৯১)।',
+    kaffarah:{ijma:'জুয়া থেকে অর্জিত অর্থ ভোগ না করে সদকা করে দেওয়া, সম্পূর্ণ বর্জনের সংকল্প, ও আন্তরিক তওবা।'},
+    huquq:false,
+    dua:{ar:'اللَّهُمَّ اهْدِنِي وَسَدِّدْنِي', uccharan:'আল্লাহুম্মাহদিনী ওয়া সাদ্দিদনী', bn:'হে আল্লাহ, আমাকে সঠিক পথ দেখাও এবং দৃঢ় রাখো।'},
+    reviewed:false
+  },
+  {
+    id:'zina', name_bn:'ব্যভিচার/যিনা', name_ar:'الزنا', category:'kabira', rights:'allah', severity:5,
+    evidence:[
+      {text:'ব্যভিচারের ধারে-কাছেও যেও না, নিশ্চয় এটা অশ্লীল কাজ এবং নিকৃষ্ট পথ।', src:'কুরআন ১৭:৩২'},
+      {text:'ব্যভিচারী নারী ও পুরুষ — উভয়কে একশত বেত্রাঘাত করো।', src:'কুরআন ২৪:২'}
+    ],
+    dunya:'অবিবাহিতদের জন্য ১০০ বেত্রাঘাত (২৪:২); বিবাহিতদের জন্য রজম/পাথর নিক্ষেপ (হাদিস দ্বারা প্রতিষ্ঠিত)।',
+    akhirah:'কবিরা গুনাহ হিসেবে বহু হাদিসে কঠোরভাবে সতর্ক করা হয়েছে, ঈমানের দুর্বলতার আলামত হিসেবেও বর্ণিত।',
+    kaffarah:{
+      hanafi:'বেত্রাঘাতের সাথে নির্বাসন হদ্দের আবশ্যকীয় অংশ নয় — তা শাসকের বিবেচনাধীন তা’যীর হতে পারে।',
+      shafii:'অবিবাহিতদের জন্য বেত্রাঘাতের পাশাপাশি এক বছরের নির্বাসন (তাগরীব)-ও ওয়াজিব বলে অভিমত।',
+      maliki:'পুরুষের জন্য নির্বাসন ওয়াজিব, তবে নারীর জন্য নিরাপত্তাজনিত কারণে নয় — এটি প্রসিদ্ধ মালেকী পার্থক্য।',
+      hanbali:'শাফেয়ীর কাছাকাছি — নির্বাসনকে হদ্দের অংশ হিসেবে গণ্য করা হয়।'
+    },
+    huquq:true,
+    huquq_note:'বিবাহিত হলে এটি স্বামী/স্ত্রীর প্রতি বিশ্বাসভঙ্গও বটে — শুধু আল্লাহর কাছে তওবাই যথেষ্ট মনে না করে সম্পর্কের ক্ষতি নিয়েও আন্তরিকভাবে ভাবা দরকার।',
+    dua:{ar:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْفَحْشَاءِ مَا ظَهَرَ مِنْهَا وَمَا بَطَنَ', uccharan:'আল্লাহুম্মা ইন্নী আ‘ঊযু বিকা মিনাল ফাহশা-ই মা জাহারা মিনহা ওয়া মা বাতান', bn:'হে আল্লাহ, আমি প্রকাশ্য ও গোপন সকল অশ্লীলতা থেকে তোমার আশ্রয় চাই।'},
+    reviewed:false
+  },
+  {
+    id:'sariqah', name_bn:'চুরি', name_ar:'السرقة', category:'kabira', rights:'ibad', severity:4,
+    evidence:[
+      {text:'চোর-পুরুষ ও চোর-নারী — উভয়ের হাত কেটে দাও, এটা তাদের কৃতকর্মের প্রতিফল।', src:'কুরআন ৫:৩৮'}
+    ],
+    dunya:`নিসাব (ন্যূনতম পরিমাণ) ছাড়িয়ে গেলে ও অন্যান্য শর্ত পূরণ হলে হাত কর্তন। নিসাবের কম মূল্যের জিনিস চুরি হলে হদ্দ প্রযোজ্য হয় না — তখন এটি বিচারকের বিবেচনাধীন তা'যীর শাস্তির (যেমন জরিমানা, কারাদণ্ড, শাসন) আওতাভুক্ত হতে পারে।`,
+    akhirah:'কবিরা গুনাহ, অন্যের অধিকার ক্ষুণ্ন করার জন্য বিশেষভাবে জবাবদিহিতার বিষয়।',
+    kaffarah:{
+      hanafi:`নিসাব ধরা হয় ১০ দিরহাম — প্রায় ৩০ গ্রাম রূপার সমমূল্য, বর্তমান বাজারদরে আনুমানিক ${bnTaka(nisabHanafiBDT)} বা তার বেশি মূল্যের জিনিস চুরি হলে হদ্দ প্রযোজ্য। এর কম হলে তা'যীর।`,
+      shafii:`নিসাব ধরা হয় ¼ দিনার (স্বর্ণ) — প্রায় সোয়া এক গ্রাম সোনার সমমূল্য, বর্তমান বাজারদরে আনুমানিক ${bnTaka(nisabShafiiBDT)} বা তার বেশি মূল্যের জিনিস চুরি হলে হদ্দ প্রযোজ্য — যা হানাফী নিসাবের চেয়ে বেশি অঙ্কের। এর কম হলে তা'যীর।`,
+      maliki:`শাফেয়ীর মতোই ¼ দিনার নিসাব (আনুমানিক ${bnTaka(nisabShafiiBDT)}) ধরা হয়, এর কম হলে তা'যীর।`,
+      hanbali:`শাফেয়ী/মালেকীর অনুরূপ ¼ দিনার নিসাব (আনুমানিক ${bnTaka(nisabShafiiBDT)}) প্রসিদ্ধ মত, এর কম হলে তা'যীর।`
+    },
+    nisab_info:`হিসাবটি ${RATES.as_of}`,
+    huquq:true,
+    huquq_note:'হদ্দ কার্যকর হোক বা না হোক (অর্থাৎ তা\'যীর হোক বা হদ্দ) — চুরিকৃত সম্পদ মালিককে ফেরত দেওয়ার দায়িত্ব শেষ হয়ে যায় না। মালিক শনাক্ত থাকলে ফেরত দেওয়া আবশ্যক।',
+    dua:{ar:'أَسْتَغْفِرُ اللَّهَ رَبِّي وَأَتُوبُ إِلَيْهِ', uccharan:'আস্তাগফিরুল্লাহা রব্বী ওয়া আতূবু ইলাইহি', bn:'আমি আমার রবের কাছে ক্ষমা প্রার্থনা করছি এবং তাঁর দিকে ফিরে যাচ্ছি।'},
+    reviewed:false
+  },
+  {
+    id:'uquq', name_bn:'মাতা-পিতার অবাধ্যতা', name_ar:'عقوق الوالدين', category:'kabira', rights:'ibad', severity:4, common:true,
+    evidence:[
+      {text:'রাসূলুল্লাহ (সা.) সবচেয়ে বড় গুনাহগুলোর কথা বলতে গিয়ে শিরকের পরপরই মাতা-পিতার অবাধ্যতার কথা উল্লেখ করেন।', src:'সহীহ বুখারী ৫৯৭৬, সহীহ মুসলিম ৮৭'}
+    ],
+    dunya:'নির্দিষ্ট হদ্দ নেই — এটি সম্পূর্ণভাবে বান্দার হকের অন্তর্ভুক্ত বিষয়।',
+    akhirah:'আলেমগণ প্রায় সর্বসম্মতভাবে এটিকে অন্যতম গুরুতর কবিরা গুনাহ হিসেবে গণ্য করেন।',
+    kaffarah:{ijma:'মাতা-পিতা জীবিত থাকলে সরাসরি ক্ষমা চাওয়া ও সদাচরণ শুরু করা; মৃত হলে তাদের জন্য দোয়া করা, তাদের ঋণ পরিশোধ করা, তাদের বন্ধুদের সাথে সদ্ব্যবহার করা এবং তাদের নামে সদকা করা।'},
+    huquq:true,
+    huquq_note:'এটি সরাসরি মাতা-পিতার হক — শুধু ইস্তিগফারে এই হক পূরণ হয় না, বাস্তবে সদাচরণে ফিরে যাওয়া জরুরি।',
+    dua:{ar:'رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا', uccharan:'রাব্বির হামহুমা কামা রব্বাইয়ানী সাগীরা', bn:'হে আমার রব, তাদের প্রতি দয়া করো যেমন তারা আমাকে শৈশবে লালন-পালন করেছেন।'},
+    reviewed:false
+  },
+  {
+    id:'shahadah_zur', name_bn:'মিথ্যা সাক্ষ্য', name_ar:'شهادة الزور', category:'kabira', rights:'ibad', severity:4,
+    evidence:[
+      {text:'রাসূলুল্লাহ (সা.) শিরক ও মাতা-পিতার অবাধ্যতার পরপরই মিথ্যা সাক্ষ্যের কথা উল্লেখ করে বারবার সতর্ক করেছিলেন, এমনকি হেলান দেওয়া অবস্থা থেকে উঠে বসেছিলেন — এতটাই গুরুত্ব দিয়ে।', src:'সহীহ বুখারী ২৬৫৪'}
+    ],
+    dunya:'নির্দিষ্ট হদ্দ নেই — বিচারকের বিবেচনাধীন তা’যীর শাস্তি প্রযোজ্য।',
+    akhirah:'কবিরা গুনাহ হিসেবে গণ্য, কারণ এর দ্বারা অন্যায়ভাবে কারো ক্ষতি বা অধিকার হরণ হতে পারে।',
+    kaffarah:{ijma:'যত দ্রুত সম্ভব প্রকৃত সত্য প্রকাশ করে সংশোধন করা, ক্ষতিগ্রস্ত ব্যক্তির অধিকার পুনরুদ্ধারে যথাসাধ্য চেষ্টা করা, এবং আন্তরিক তওবা।'},
+    huquq:true,
+    huquq_note:'মিথ্যা সাক্ষ্যের কারণে যার ক্ষতি হয়েছে তার হক জড়িত — সম্ভব হলে প্রকাশ্যে সংশোধন করা আবশ্যক।',
+    dua:{ar:'اللَّهُمَّ إِنِّي أَتُوبُ إِلَيْكَ مِنْ كُلِّ ذَنْبٍ أَذْنَبْتُهُ', uccharan:'আল্লাহুম্মা ইন্নী আতূবু ইলাইকা মিন কুল্লি যাম্বিন আযনাবতুহ', bn:'হে আল্লাহ, আমি যে গুনাহই করেছি তা থেকে তোমার কাছে তওবা করছি।'},
+    reviewed:false
+  },
+  {
+    id:'ghibah', name_bn:'গীবত', name_ar:'الغيبة', category:'kabira', rights:'ibad', severity:3, common:true,
+    evidence:[
+      {text:'তোমাদের কেউ কি তার মৃত ভাইয়ের গোশত খেতে পছন্দ করবে? তোমরা তো এটাকে ঘৃণাই করবে।', src:'কুরআন ৪৯:১২'}
+    ],
+    dunya:'নির্দিষ্ট হদ্দ নেই — সম্পূর্ণভাবে বান্দার হকের বিষয়।',
+    akhirah:'কুরআনে অত্যন্ত কঠোর উপমার মাধ্যমে নিষিদ্ধ; ইমাম যাহাবী ও অন্যান্য আলেমগণ একে কবিরা গুনাহর তালিকায় রেখেছেন।',
+    kaffarah:{ijma:'যার গীবত করা হয়েছে তাকে জানালে তার মনে আরও কষ্ট বা নতুন শত্রুতা তৈরির আশঙ্কা থাকলে — ইমাম নববী (রহ.)সহ অনেক ফকীহর অগ্রাধিকারপ্রাপ্ত মত হলো তাকে না জানিয়ে তার অনুপস্থিতিতে তার জন্য দোয়া ও প্রশংসা করা, নিজে ইস্তিগফার করা। প্রকাশ পেয়ে গেলে বা সরাসরি জানানো সহজ ও নিরাপদ হলে ক্ষমা চাওয়াই উত্তম।'},
+    huquq:true,
+    huquq_note:'যার গীবত করা হয়েছে তার সম্মান জড়িত — পরিস্থিতি বুঝে ক্ষমা চাওয়া বা তার জন্য দোয়া করা, দুটোর যেকোনোটা প্রযোজ্য হতে পারে।',
+    dua:{ar:'اللَّهُمَّ اغْفِرْ لِي وَلِمَنِ اغْتَبْتُهُ', uccharan:'আল্লাহুম্মাগফির লী ওয়া লিমানিগ তাবতুহ', bn:'হে আল্লাহ, আমাকে এবং যার গীবত করেছি তাকে ক্ষমা করো।'},
+    reviewed:false
+  },
+  {
+    id:'kadhib', name_bn:'মিথ্যা বলা', name_ar:'الكذب', category:'sagira', rights:'ibad', severity:2, common:true,
+    evidence:[
+      {text:'মুনাফিকের আলামত তিনটি — কথা বললে মিথ্যা বলে, ওয়াদা করলে ভঙ্গ করে, আমানত রাখলে খিয়ানত করে।', src:'সহীহ বুখারী ৩৩, সহীহ মুসলিম ৫৯'}
+    ],
+    dunya:'সাধারণ মিথ্যায় নির্দিষ্ট হদ্দ নেই। তবে মিথ্যা যদি আদালতে সাক্ষ্য/অপবাদ হিসেবে ব্যবহৃত হয়, তখন তা পৃথক ও অধিক গুরুতর গুনাহ (মিথ্যা সাক্ষ্য/কাযফ) হিসেবে গণ্য হয়।',
+    akhirah:'সাধারণ অবস্থায় সগিরা গুনাহ হিসেবে গণ্য, তবে অভ্যাসগত মিথ্যাবাদিতা মুনাফিকীর আলামত হিসেবে সতর্ক করা হয়েছে এবং ক্রমাগত অভ্যাসে থাকলে তা কবিরায় পরিণত হতে পারে।',
+    kaffarah:{ijma:'তওবা-ইস্তিগফার, যাকে মিথ্যা বলে ক্ষতিগ্রস্ত করা হয়েছে সম্ভব হলে সত্য জানানো, এবং সত্যবাদিতার অভ্যাস তৈরির চেষ্টা।'},
+    huquq:true,
+    huquq_note:'মিথ্যায় কারো ক্ষতি হলে বা প্রতারিত হলে সেটা বান্দার হকের সাথে সম্পর্কিত হয়ে যায়।',
+    dua:{ar:'اللَّهُمَّ اجْعَلْنِي مِنَ الصَّادِقِينَ وَتُبْ عَلَيَّ', uccharan:'আল্লাহুম্মাজ‘আলনী মিনাস সাদিকীন ওয়া তুব ‘আলাইয়া', bn:'হে আল্লাহ, আমাকে সত্যবাদীদের অন্তর্ভুক্ত করো এবং আমার তওবা কবুল করো।'},
+    reviewed:false
+  },
+  {
+    id:'nazar', name_bn:'দৃষ্টির হেফাজত না করা', name_ar:'غض البصر', category:'sagira', rights:'allah', severity:2, common:true,
+    evidence:[
+      {text:'মুমিন পুরুষদের বলে দাও, তারা যেন তাদের দৃষ্টি অবনত রাখে।', src:'কুরআন ২৪:৩০'},
+      {text:'চোখের ব্যভিচার হলো (নিষিদ্ধ দৃষ্টিতে) তাকানো।', src:'সহীহ বুখারী ৬২৪৩, সহীহ মুসলিম ২৬৫৭'}
+    ],
+    dunya:'নির্দিষ্ট হদ্দ নেই — সম্পূর্ণভাবে আল্লাহর হকের বিষয় ও ব্যক্তিগত আত্মসংযমের অভ্যাসের বিষয়।',
+    akhirah:'হাদিসে এটিকে "চোখের ব্যভিচার" বলা হয়েছে, যা বড় ব্যভিচারের দিকে পথ খুলে দিতে পারে বলে সতর্ক করা হয়েছে।',
+    kaffarah:{ijma:'তাৎক্ষণিকভাবে দৃষ্টি সরিয়ে নেওয়া, ইস্তিগফার করা, এবং যেসব পরিস্থিতি/মাধ্যম (যেমন নির্দিষ্ট কনটেন্ট) এই দৃষ্টির কারণ হয় তা থেকে সচেতনভাবে দূরে থাকা।'},
+    huquq:false,
+    dua:{ar:'اللَّهُمَّ إِنِّي أَسْأَلُكَ غَضَّ الْبَصَرِ وَحِفْظَ الْفَرْجِ', uccharan:'আল্লাহুম্মা ইন্নী আসআলুকা গদ্দাল বাসারি ওয়া হিফজাল ফারজ', bn:'হে আল্লাহ, আমি তোমার কাছে দৃষ্টি অবনত রাখা ও নিজেকে হেফাজত করার তাওফীক প্রার্থনা করছি।'},
+    reviewed:false
+  }
+];
+
+// ---------------- STATE / STORAGE ----------------
+const todayKey = () => 'log:' + new Date().toISOString().slice(0,10);
+let todayEntries = [];
+
+// এই ফাংশনগুলো localStorage ব্যবহার করে — GitHub Pages/WebView/APK-তে কাজ করবে।
+// Claude আর্টিফ্যাক্ট প্রিভিউতে localStorage ব্লক করা থাকতে পারে, তাই ব্যর্থ হলে সাময়িকভাবে মেমোরিতে রাখা হয় (শুধু এই সেশনের জন্য)।
+let memoryFallback = {};
+function storageGet(key){
+  try{ return localStorage.getItem(key); }catch(e){ return memoryFallback[key] ?? null; }
+}
+function storageSet(key, val){
+  try{ localStorage.setItem(key, val); }catch(e){ memoryFallback[key] = val; }
+}
+
+async function loadToday(){
+  try{
+    const raw = storageGet(todayKey());
+    todayEntries = raw ? JSON.parse(raw) : [];
+  }catch(e){ todayEntries = []; }
+  renderToday();
+}
+async function saveToday(){
+  try{ storageSet(todayKey(), JSON.stringify(todayEntries)); }
+  catch(e){ console.error('storage failed', e); }
+}
+
+function renderToday(){
+  const el = document.getElementById('todayList');
+  if(todayEntries.length === 0){
+    el.innerHTML = `<div class="empty-state">আজকের পাতা এখনও খালি। আলহামদুলিল্লাহ — অথবা এখনো ফিরে তাকানো হয়নি, দিনশেষে এক মুহূর্ত সময় নাও।</div>`;
+  }else{
+    el.innerHTML = todayEntries.map((e,i)=>{
+      const sin = SINS.find(s=>s.id===e.sinId);
+      return `<div class="entry-row">
+        <div style="flex:1;">
+          <div class="entry-name" onclick="editNote(${i})" style="cursor:pointer;">${sin.name_bn}</div>
+          <div class="entry-note ui-label" onclick="editNote(${i})" style="cursor:pointer;">${e.note ? e.note : '+ নোট লিখো'}</div>
+          <label class="return-check ui-label">
+            <input type="checkbox" ${e.returned?'checked':''} onchange="toggleReturned(${i})">
+            ইস্তিগফার/তওবা করেছি
+          </label>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:8px;">
+          <span class="entry-badge ${sin.category==='kabira'?'badge-kabira':'badge-sagira'} ui-label">${sin.category==='kabira'?'কবিরা':'সগিরা'}</span>
+          <button class="entry-remove" onclick="removeEntry(${i})">মুছুন</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  updateReturnArc();
+}
+
+function updateReturnArc(){
+  // "return" count = entries marked as istighfar-done
+  const doneCount = todayEntries.filter(e=>e.returned).length;
+  const total = todayEntries.length || 1;
+  const pct = todayEntries.length ? doneCount/total : 0;
+  const circumference = 163;
+  document.getElementById('returnArc').setAttribute('stroke-dashoffset', circumference - (circumference*pct));
+  document.getElementById('returnNum').textContent = doneCount;
+  document.getElementById('returnSub').textContent = `ইস্তিগফার/তওবা লগ করা হয়েছে ${doneCount} বার`;
+}
+
+function toggleReturned(i){
+  todayEntries[i].returned = !todayEntries[i].returned;
+  saveToday();
+  renderToday();
+}
+function editNote(i){
+  const current = todayEntries[i].note || '';
+  const note = prompt('সংক্ষেপে লিখো — কী হয়েছিল, কোথায়, কার সাথে (নিজের স্মরণের জন্য):', current);
+  if(note !== null){
+    todayEntries[i].note = note.trim();
+    saveToday();
+    renderToday();
+  }
+}
+function removeEntry(i){
+  todayEntries.splice(i,1);
+  saveToday();
+  renderToday();
+}
+
+// ---------------- SIN INDEX ----------------
+let currentFilter = 'all';
+function setFilter(f){
+  currentFilter = f;
+  document.querySelectorAll('.filter-tab').forEach(b=>{
+    b.classList.toggle('active', b.dataset.f === f);
+  });
+  renderIndex();
+}
+
+function renderIndex(){
+  const el = document.getElementById('sinIndex');
+  let list = SINS;
+  if(currentFilter === 'common') list = SINS.filter(s=>s.common);
+  else if(currentFilter === 'allah') list = SINS.filter(s=>s.rights === 'allah');
+  else if(currentFilter === 'ibad') list = SINS.filter(s=>s.rights === 'ibad');
+
+  if(list.length === 0){
+    el.innerHTML = `<div class="empty-state">এই ক্যাটাগরিতে এখনো কিছু যোগ করা হয়নি।</div>`;
+    return;
+  }
+  el.innerHTML = list.map(s=>`
+    <div class="fihrist-item" onclick="openSin('${s.id}')">
+      <div class="fihrist-left">
+        <div class="fihrist-name">${s.name_bn}</div>
+        <div class="fihrist-name-ar">${s.name_ar}</div>
+        <div class="fihrist-tags">
+          <span class="tag ${s.category==='kabira'?'tag-kabira':'tag-sagira'} ui-label">${s.category==='kabira'?'কবিরা':'সগিরা'}</span>
+          ${s.huquq ? '<span class="tag tag-huquq ui-label">বান্দার হক</span>' : ''}
+          ${s.common ? '<span class="tag tag-common ui-label">কমন</span>' : ''}
+        </div>
+      </div>
+      <div class="chevron">›</div>
+    </div>
+  `).join('');
+}
+
+// ---------------- SIN DETAIL MODAL ----------------
+let currentMadhab = 'hanafi';
+function openSin(id){
+  const s = SINS.find(x=>x.id===id);
+  currentMadhab = 'hanafi';
+  renderSinSheet(s);
+  document.getElementById('overlay').classList.add('open');
+}
+function closeSheet(){ document.getElementById('overlay').classList.remove('open'); }
+
+function renderSinSheet(s){
+  const hasMulti = s.kaffarah.hanafi || s.kaffarah.shafii || s.kaffarah.maliki || s.kaffarah.hanbali;
+  const kaffarahHtml = hasMulti
+    ? `<div class="madhab-toggle" id="madhabToggle">
+        ${['hanafi','shafii','maliki','hanbali'].map(m=>`
+          <button class="madhab-btn ${m===currentMadhab?'active':''} ui-label" onclick="switchMadhab('${s.id}','${m}')">${
+            m==='hanafi'?'হানাফী':m==='shafii'?'শাফেয়ী':m==='maliki'?'মালেকী':'হাম্বলী'
+          }</button>`).join('')}
+      </div>
+      <div class="kaffarah-box" id="kaffarahText">${s.kaffarah[currentMadhab] || 'এই মাযহাবের সুনির্দিষ্ট রায় এখনো যুক্ত করা হয়নি।'}</div>`
+    : `<div class="kaffarah-box">${s.kaffarah.ijma}</div>`;
+
+  document.getElementById('sheet').innerHTML = `
+    <div class="sheet-handle"></div>
+    <button class="close-x" onclick="closeSheet()">✕</button>
+    <h2><span class="ar">${s.name_ar}</span>${s.name_bn}</h2>
+    <div class="fihrist-tags">
+      <span class="tag ${s.category==='kabira'?'tag-kabira':'tag-sagira'} ui-label" style="color:#5b5142">${s.category==='kabira'?'কবিরা গুনাহ':'সগিরা গুনাহ'}</span>
+      ${s.huquq ? '<span class="tag ui-label" style="background:rgba(199,154,86,0.25); color:#8a6d3b">বান্দার হক জড়িত</span>' : ''}
+    </div>
+
+    <div class="block-label">কুরআন ও হাদিসের সূত্র</div>
+    ${s.evidence.map(e=>`<div class="evidence-item">${e.text}<div class="evidence-src ui-label">— ${e.src}</div></div>`).join('')}
+
+    <div class="block-label">দুনিয়াবি শাস্তি</div>
+    <div class="block-text">${s.dunya}</div>
+
+    <div class="block-label">আখিরাতের শাস্তি</div>
+    <div class="block-text">${s.akhirah}</div>
+
+    <div class="block-label">কাফফারা / প্রতিকার</div>
+    ${kaffarahHtml}
+    ${s.diyah_note ? `<div class="huquq-note" style="background:rgba(199,154,86,0.1); border-color:rgba(199,154,86,0.3); color:#8a6d3b;">💰 ${s.diyah_note}</div>` : ''}
+    ${s.nisab_info ? `<div class="huquq-note" style="background:rgba(199,154,86,0.1); border-color:rgba(199,154,86,0.3); color:#8a6d3b;">💰 ${s.nisab_info}</div>` : ''}
+    ${s.huquq ? `<div class="huquq-note">⚠️ ${s.huquq_note}</div>` : ''}
+
+    <div class="block-label">ইস্তিগফার</div>
+    <div class="dua-box">
+      <div class="dua-ar">${s.dua.ar}</div>
+      <div class="dua-uccharan ui-label">${s.dua.uccharan}</div>
+      <div class="dua-bn">${s.dua.bn}</div>
+    </div>
+
+    <button class="log-this-btn ui-label" onclick="logSin('${s.id}')">আজকের পাতায় যোগ করো</button>
+  `;
+}
+function switchMadhab(sinId, m){
+  currentMadhab = m;
+  const s = SINS.find(x=>x.id===sinId);
+  renderSinSheet(s);
+}
+
+function logSin(sinId){
+  todayEntries.push({sinId, note:'', returned:false, ts:Date.now()});
+  saveToday();
+  renderToday();
+  closeSheet();
+}
+
+function openPicker(){
+  // reuse the index list inside the sheet as a quick picker
+  document.getElementById('sheet').innerHTML = `
+    <div class="sheet-handle"></div>
+    <button class="close-x" onclick="closeSheet()">✕</button>
+    <h2 style="margin-bottom:12px;">কোনটা যোগ করবে?</h2>
+    <div class="fihrist">${SINS.map(s=>`
+      <div class="fihrist-item" onclick="logSin('${s.id}')">
+        <div class="fihrist-left">
+          <div class="fihrist-name">${s.name_bn}</div>
+          <div class="fihrist-tags">
+            <span class="tag ${s.category==='kabira'?'tag-kabira':'tag-sagira'} ui-label">${s.category==='kabira'?'কবিরা':'সগিরা'}</span>
+          </div>
+        </div>
+        <div class="chevron">+</div>
+      </div>`).join('')}
+    </div>
+  `;
+  document.getElementById('overlay').classList.add('open');
+}
+
+document.getElementById('overlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'overlay') closeSheet();
+});
+
+renderIndex();
+loadToday();
+</script>
+</body>
+</html>
