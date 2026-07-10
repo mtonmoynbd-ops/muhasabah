@@ -120,7 +120,22 @@
   }
   .section-title::after{content:''; flex:1; height:1px; background:linear-gradient(to right, rgba(217,185,120,0.4), transparent);}
 
-  /* ---------- Garden hero card ---------- */
+  /* ---------- Compact dashboard header (ছোট বৃক্ষ-উইজেট, উপরে ডানে) ---------- */
+  #view-dashboard section{ margin-top:10px; }
+  .dash-header{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .dash-header-left{ flex:1; min-width:0; padding-top:2px; }
+  .dash-greeting{ font-size:11px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.5px; }
+  .dash-state-label{ font-size:16px; font-weight:700; color:var(--ink); margin-top:2px; font-family:'Noto Serif Bengali', serif; }
+  .dash-sub{ font-size:10.5px; color:var(--ink-dim); margin-top:4px; line-height:1.5; }
+  .dash-tree-widget{
+    width:84px; height:90px; flex-shrink:0; border-radius:14px; overflow:hidden; cursor:pointer;
+    border:1px solid rgba(255,255,255,0.1); background:#0A1A13; box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  }
+  .dash-tree-widget .garden-scene{ width:100%; height:100%; border:none; border-radius:0; aspect-ratio:auto; }
+  .quote-card-compact{ padding:12px 16px; text-align:left; }
+  .quote-card-compact .quote-bn{ font-size:12px; color:var(--ink-dim); font-style:italic; }
+
+  /* ---------- Garden hero card (এখন শুধু sheet-এ বড় ভিউয়ের জন্য ব্যবহৃত) ---------- */
   .garden-card{
     background:var(--card); border:1px solid var(--card-line); border-radius:18px;
     padding:16px; box-shadow:0 10px 24px rgba(0,0,0,0.3);
@@ -197,18 +212,18 @@
   }
 
   /* ---------- Stat grid ---------- */
-  .stat-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:8px;}
+  .stat-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:6px;}
   .stat-card{
-    background:var(--card); border:1px solid var(--card-line); border-radius:14px;
-    padding:12px 4px; text-align:center; cursor:pointer;
+    background:var(--card); border:1px solid var(--card-line); border-radius:12px;
+    padding:9px 3px; text-align:center; cursor:pointer;
   }
   .stat-icon{
-    width:34px; height:34px; border-radius:50%; margin:0 auto 8px;
-    display:flex; align-items:center; justify-content:center; font-size:16px;
+    width:28px; height:28px; border-radius:50%; margin:0 auto 6px;
+    display:flex; align-items:center; justify-content:center; font-size:13px;
   }
-  .stat-label{font-size:10.5px; color:var(--ink-dim); line-height:1.3;}
-  .stat-value{font-size:19px; font-weight:700; color:var(--ink); margin:2px 0;}
-  .stat-unit{font-size:10px; color:var(--ink-dim);}
+  .stat-label{font-size:9.5px; color:var(--ink-dim); line-height:1.25;}
+  .stat-value{font-size:16px; font-weight:700; color:var(--ink); margin:2px 0;}
+  .stat-unit{font-size:9px; color:var(--ink-dim);}
 
   /* ---------- Position card ---------- */
   .position-card{
@@ -240,16 +255,16 @@
 
   /* ---------- CTA card ---------- */
   .cta-card{
-    display:flex; align-items:center; gap:14px;
+    display:flex; align-items:center; gap:12px;
     background:linear-gradient(135deg, rgba(74,222,128,0.14), rgba(74,222,128,0.04));
-    border:1px solid rgba(74,222,128,0.3); border-radius:16px;
-    padding:16px; cursor:pointer;
+    border:1px solid rgba(74,222,128,0.3); border-radius:14px;
+    padding:11px 14px; cursor:pointer;
   }
   .cta-plus{
-    width:38px; height:38px; border-radius:50%; background:var(--green-soft); color:var(--green);
-    display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0;
+    width:32px; height:32px; border-radius:50%; background:var(--green-soft); color:var(--green);
+    display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;
   }
-  .cta-title{font-size:14.5px; font-weight:700; color:var(--ink);}
+  .cta-title{font-size:13.5px; font-weight:700; color:var(--ink);}
   .cta-sub{font-size:12px; color:var(--ink-dim); margin-top:2px;}
   .cta-chevron{margin-left:auto; color:var(--green); font-size:18px;}
 
@@ -426,20 +441,19 @@
 
 <main>
   <div class="tab-view active" id="view-dashboard">
-    <section class="garden-card">
-      <div class="garden-head">
-        <span class="leaf-icon">🌳</span>
-        <div>
-          <div class="garden-title">ক্বালবের বৃক্ষ</div>
-          <div class="garden-sub" id="gardenSub">"একটি পবিত্র বাক্য একটি পবিত্র বৃক্ষের মতো, যার মূল সুদৃঢ় ও শাখা আকাশে বিস্তৃত" — কুরআন ১৪:২৪</div>
+    <section class="dash-header">
+      <div class="dash-header-left">
+        <div class="dash-greeting ui-label">ক্বালবের বৃক্ষ</div>
+        <div class="dash-state-label ui-label" id="gardenStateLabel">লোড হচ্ছে...</div>
+        <div class="dash-sub ui-label" id="gardenSub">"পবিত্র বাক্য পবিত্র বৃক্ষের মতো" — কুরআন ১৪:২৪</div>
+      </div>
+      <div class="dash-tree-widget" onclick="openTreeDetail()">
+        <div class="garden-scene" id="gardenScene">
+          <div class="garden-layer active" id="gardenLayerA"></div>
+          <div class="garden-layer" id="gardenLayerB"></div>
+          <div class="garden-flash" id="gardenFlash"></div>
         </div>
       </div>
-      <div class="garden-scene" id="gardenScene">
-        <div class="garden-layer active" id="gardenLayerA"></div>
-        <div class="garden-layer" id="gardenLayerB"></div>
-        <div class="garden-flash" id="gardenFlash"></div>
-      </div>
-      <div class="garden-state-label ui-label" id="gardenStateLabel"></div>
     </section>
 
     <section class="balance-row">
@@ -450,7 +464,7 @@
 
     <section class="stat-grid" id="statGrid"></section>
 
-    <section class="position-card">
+    <section class="position-card" style="display:none;">
       <div class="position-ring">
         <svg viewBox="0 0 64 64">
           <circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="6"/>
@@ -465,18 +479,14 @@
       </div>
     </section>
 
-    <section class="quote-card">
-      <div class="quote-mark">"</div>
-      <div class="quote-ar arabic">حَاسِبُوا أَنْفُسَكُمْ قَبْلَ أَنْ تُحَاسَبُوا</div>
-      <div class="quote-bn ui-label">তোমাদের হিসাব নেওয়ার আগে তোমরা নিজেদের হিসাব নাও।</div>
-      <div class="quote-src ui-label">— উমর ইবনুল খাত্তাব (রা.)</div>
+    <section class="quote-card quote-card-compact">
+      <div class="quote-bn ui-label">"তোমাদের হিসাব নেওয়ার আগে তোমরা নিজেদের হিসাব নাও।" — উমর (রা.)</div>
     </section>
 
     <section class="cta-card" onclick="openPicker()">
       <span class="cta-plus">+</span>
       <div>
         <div class="cta-title ui-label">আজকের এন্ট্রি যোগ করুন</div>
-        <div class="cta-sub ui-label">আপনার প্রতিদিনের মুহাসাবা লিপিবদ্ধ করুন</div>
       </div>
       <span class="cta-chevron">›</span>
     </section>
@@ -1314,7 +1324,9 @@ const BRANCH_SEGMENTS = [
   { d:'M147,178 Q168,192 188,206', w:5.5 },
   { d:'M188,206 Q206,212 222,216', w:3.5 },
   { d:'M157,142 Q162,122 165,106', w:3.8 },
-  { d:'M157,142 Q144,132 132,122', w:3 }
+  { d:'M157,142 Q144,132 132,122', w:3 },
+  { d:'M92,240 Q62,246 40,255',    w:4 },
+  { d:'M198,168 Q220,142 232,116', w:3.5 }
 ];
 // প্রতিটা ডগায় (twig tip) কয়েকটা আলাদা পাতা ফোটে — গোল ব্লবের বদলে সরু পাতার আকৃতি
 const TWIG_ENDPOINTS = {
@@ -1324,9 +1336,11 @@ const TWIG_ENDPOINTS = {
   rightEnd2: {x:228, y:190, angle:20},
   leftEnd2:  {x:72,  y:272, angle:150},
   rightEnd3: {x:222, y:216, angle:10},
-  apexEnd2:  {x:132, y:122, angle:-140}
+  apexEnd2:  {x:132, y:122, angle:-140},
+  leftEnd3:  {x:40,  y:255, angle:190},
+  rightEnd4: {x:232, y:116, angle:-45}
 };
-const LEAF_ORDER = ['apexEnd','rightEnd1','leftEnd1','rightEnd2','leftEnd2','rightEnd3','apexEnd2'];
+const LEAF_ORDER = ['apexEnd','rightEnd1','leftEnd1','rightEnd2','leftEnd2','rightEnd3','apexEnd2','rightEnd4','leftEnd3'];
 // একটা একক সরু, সূচালো পাতা (rotation দিয়ে দিক ঠিক করা হয়)
 function leafShape(x, y, rotDeg, size, color){
   return `<g transform="translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${rotDeg.toFixed(1)})">
@@ -1342,7 +1356,18 @@ function twigLeaves(x, y, angleDeg, color, scale){
     return leafShape(lx, ly, a+90, 13*scale, color);
   }).join('');
 }
-// ট্রাঙ্ক + শাখা + পাতা — এটাই দুই জায়গায় ব্যবহার হবে: বড় দৃশ্যে ও ছোট ন্যাভ-আইকনে
+// একটা ছোট ফুল (৪টা পাপড়ি + কেন্দ্র) — শুধু ভালো অবস্থায় ফোটে
+function blossom(x, y, scale, petalColor, centerColor){
+  const r = 3.2*scale, d = 4.2*scale;
+  return `<g>
+    <circle cx="${(x-d).toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${petalColor}"/>
+    <circle cx="${(x+d).toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${petalColor}"/>
+    <circle cx="${x.toFixed(1)}" cy="${(y-d).toFixed(1)}" r="${r.toFixed(1)}" fill="${petalColor}"/>
+    <circle cx="${x.toFixed(1)}" cy="${(y+d).toFixed(1)}" r="${r.toFixed(1)}" fill="${petalColor}"/>
+    <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(r*0.75).toFixed(1)}" fill="${centerColor}"/>
+  </g>`;
+}
+// ট্রাঙ্ক + শাখা + পাতা + ফুল — এটাই দুই জায়গায় ব্যবহার হবে: বড় দৃশ্যে ও ছোট ন্যাভ-আইকনে
 function drawBonsai(cfg){
   const branchesSvg = BRANCH_SEGMENTS.map(s =>
     `<path d="${s.d}" stroke="${cfg.trunkColor}" stroke-width="${s.w}" fill="none" stroke-linecap="round"/>`
@@ -1356,7 +1381,12 @@ function drawBonsai(cfg){
     const p = TWIG_ENDPOINTS[key];
     return `<circle cx="${p.x-4}" cy="${p.y+7}" r="3" fill="${cfg.fruitColor}"/>`;
   }).join('') : '';
-  return `<g class="tree-sway-branches" style="transform-origin:150px 180px;">${branchesSvg}${leavesSvg}${fruitSvg}</g>`;
+  const flowerCount = cfg.flowerCount || 0;
+  const flowersSvg = flowerCount > 0 ? activeLeaves.slice(0, flowerCount).map(key => {
+    const p = TWIG_ENDPOINTS[key];
+    return blossom(p.x + 9, p.y - 7, cfg.leafScale*0.85, cfg.flowerColor, cfg.flowerCenter || '#FCE8A8');
+  }).join('') : '';
+  return `<g class="tree-sway-branches" style="transform-origin:150px 180px;">${branchesSvg}${leavesSvg}${flowersSvg}${fruitSvg}</g>`;
 }
 function gardenPart(cfg){
   const bonsai = drawBonsai(cfg);
@@ -1384,32 +1414,35 @@ function gardenPart(cfg){
 const GARDEN_STATES = [
   { min:0,  max:15,  label:'সম্পূর্ণ ধ্বংস',
     cfg:{id:'s0', sky1:'#2a2422', sky2:'#171412', trunkColor:'#0d0b0a',
-      leafCount:0, leafColor:'#000', leafScale:1, showFruit:false,
+      leafCount:0, leafColor:'#000', leafScale:1, showFruit:false, flowerCount:0,
       moonColor:'#5a3a30', moonOpacity:0.5, showFire:true, showSparkle:false,
       potColor:'#4a4038', potRim:'#332c26'} },
   { min:15, max:30,  label:'অত্যন্ত শুষ্ক',
     cfg:{id:'s1', sky1:'#5c5248', sky2:'#3a332c', trunkColor:'#4a3f34',
-      leafCount:1, leafColor:'#8a7a52', leafScale:0.85, showFruit:false,
+      leafCount:1, leafColor:'#8a7a52', leafScale:0.8, showFruit:false, flowerCount:0,
       moonColor:'#8a8478', moonOpacity:0.55, showFire:false, showSparkle:false,
       potColor:'#6b6156', potRim:'#4a4238'} },
   { min:30, max:50,  label:'আশার সূচনা',
     cfg:{id:'s2', sky1:'#8a8478', sky2:'#5c574c', trunkColor:'#3a2e22',
-      leafCount:3, leafColor:'#7a9868', leafScale:0.95, showFruit:false,
+      leafCount:3, leafColor:'#7a9868', leafScale:0.9, showFruit:false, flowerCount:0,
       moonColor:'#c4bfa8', moonOpacity:0.6, showFire:false, showSparkle:false,
       potColor:'#a89c84', potRim:'#7a6f5a'} },
   { min:50, max:70,  label:'স্বাভাবিক',
     cfg:{id:'s3', sky1:'#7c8a80', sky2:'#4c5850', trunkColor:'#2a2016',
-      leafCount:5, leafColor:'#4d7a52', leafScale:1, showFruit:false,
+      leafCount:6, leafColor:'#4d7a52', leafScale:0.95, showFruit:false,
+      flowerCount:1, flowerColor:'#E8B4C8', flowerCenter:'#FCE8A8',
       moonColor:'#e8dfc0', moonOpacity:0.65, showFire:false, showSparkle:false,
       potColor:'#c9bea6', potRim:'#b8a986'} },
   { min:70, max:90,  label:'সুন্দর ও সবুজ',
     cfg:{id:'s4', sky1:'#6a8a76', sky2:'#3c5044', trunkColor:'#241a10',
-      leafCount:7, leafColor:'#3a8a52', leafScale:1.05, showFruit:true, fruitColor:'#d9534f',
+      leafCount:8, leafColor:'#3a8a52', leafScale:1.05, showFruit:true, fruitColor:'#d9534f',
+      flowerCount:3, flowerColor:'#F2A6C6', flowerCenter:'#FCE8A8',
       moonColor:'#f2d88a', moonOpacity:0.75, showFire:false, showSparkle:false,
       potColor:'#d4c9ac', potRim:'#b8a680'} },
   { min:90, max:101, label:'অত্যন্ত নির্মল',
     cfg:{id:'s5', sky1:'#4a7566', sky2:'#274038', trunkColor:'#1a120b',
-      leafCount:7, leafColor:'#2fae64', leafScale:1.1, showFruit:true, fruitColor:'#f2c14e',
+      leafCount:9, leafColor:'#2fae64', leafScale:1.1, showFruit:true, fruitColor:'#f2c14e',
+      flowerCount:6, flowerColor:'#FFFFFF', flowerCenter:'#F2C14E',
       moonColor:'#ffe9a0', moonOpacity:0.9, showFire:false, showSparkle:true,
       potColor:'#e0d4b4', potRim:'#c2ae82'} }
 ];
@@ -1418,7 +1451,7 @@ function gardenStateForScore(score){
 }
 function renderGarden(score){
   const state = gardenStateForScore(score);
-  document.getElementById('gardenStateLabel').textContent = `বর্তমান অবস্থা: ${state.label} (${toBn(score)}%)`;
+  document.getElementById('gardenStateLabel').textContent = `${state.label} · ${toBn(score)}%`;
   const layerA = document.getElementById('gardenLayerA');
   const layerB = document.getElementById('gardenLayerB');
   const activeLayer = layerA.classList.contains('active') ? layerA : layerB;
@@ -1437,6 +1470,20 @@ function updateNavTreeIcon(state){
   const sideIcon = document.getElementById('sidebarTreeIcon');
   if(navIcon) navIcon.innerHTML = iconSvg;
   if(sideIcon) sideIcon.innerHTML = iconSvg;
+}
+// ড্যাশবোর্ডের ছোট বৃক্ষ-উইজেটে ট্যাপ করলে বড় আকারে বিস্তারিত দেখায় (শিটে)
+function openTreeDetail(){
+  const score = computeGardenScore();
+  const state = gardenStateForScore(score);
+  document.getElementById('sheet').innerHTML = `
+    <div class="sheet-handle"></div>
+    <button class="close-x" onclick="closeSheet()">✕</button>
+    <h2 style="margin-bottom:6px;">ক্বালবের বৃক্ষ</h2>
+    <div class="block-text" style="margin-bottom:14px; font-style:italic;">"একটি পবিত্র বাক্য একটি পবিত্র বৃক্ষের মতো, যার মূল সুদৃঢ় ও শাখা আকাশে বিস্তৃত" — কুরআন ১৪:২৪</div>
+    <div style="border-radius:14px; overflow:hidden; border:1px solid rgba(18,48,46,0.15);">${gardenPart(state.cfg)}</div>
+    <div style="text-align:center; margin-top:12px; font-weight:700; color:#12302E; font-size:15px;">${state.label} — ${toBn(score)}%</div>
+  `;
+  document.getElementById('overlay').classList.add('open');
 }
 // টাইপ অনুযায়ী কী ধরনের কণা-অ্যানিমেশন উদ্যানে দেখানো হবে
 const FLASH_CONFIG = {
