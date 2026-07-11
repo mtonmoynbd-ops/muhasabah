@@ -377,6 +377,14 @@
   .tag-neglect{background:rgba(79,195,217,0.18); color:#6fc9e0;}
   .tag-neki{background:rgba(232,178,61,0.2); color:#e8c15e;}
   .chevron{color:var(--gold); font-size:18px;}
+  /* .sheet-এর ভেতরে (হালকা পার্চমেন্ট ব্যাকগ্রাউন্ড) .fihrist-item রেন্ডার হলে রঙ ওভাররাইড করা প্রয়োজন,
+     নাহলে ডার্ক-থিমের হালকা রঙের টেক্সট হালকা ব্যাকগ্রাউন্ডে অদৃশ্য হয়ে যায় */
+  .sheet .fihrist{border-top-color:rgba(18,48,46,0.15);}
+  .sheet .fihrist-item{border-bottom-color:rgba(18,48,46,0.12);}
+  .sheet .fihrist-item:hover{background:rgba(18,48,46,0.04);}
+  .sheet .fihrist-name{color:#12302E;}
+  .sheet .fihrist-name-ar{color:#A65D45;}
+  .sheet .chevron{color:#A65D45;}
 
   /* ---------- Modal (kept as a light manuscript page for contrast) ---------- */
   .overlay{position:fixed; inset:0; background:rgba(4,12,9,0.75); display:none; align-items:flex-end; justify-content:center; z-index:50;}
@@ -521,10 +529,11 @@
       <div class="quote-bn ui-label">"তোমাদের হিসাব নেওয়ার আগে তোমরা নিজেদের হিসাব নাও।" — উমর (রা.)</div>
     </section>
 
-    <section class="cta-card" onclick="openPicker()">
-      <span class="cta-plus">+</span>
+    <section class="cta-card" onclick="switchTab('entry')">
+      <span class="cta-plus">📿</span>
       <div>
-        <div class="cta-title ui-label">আজকের এন্ট্রি যোগ করুন</div>
+        <div class="cta-title ui-label" id="todaySummaryTitle">আজকের হিসাব লোড হচ্ছে...</div>
+        <div class="cta-sub ui-label">এন্ট্রি ট্যাবে গিয়ে চিপ থেকে যোগ করো</div>
       </div>
       <span class="cta-chevron">›</span>
     </section>
@@ -1396,6 +1405,16 @@ function renderDashboard(){
     </div>
   `).join('');
 
+  // ড্যাশবোর্ডের CTA কার্ডে আজকের সংক্ষিপ্ত হিসাব দেখায় (এন্ট্রি ট্যাবের শর্টকাট হিসেবে)
+  const hasanatToday = (todayStats.neki||0) + (todayStats.sadaqah||0) + (todayStats.istighfar||0);
+  const sayyiatToday = todayEntries.length;
+  const summaryEl = document.getElementById('todaySummaryTitle');
+  if(summaryEl){
+    summaryEl.textContent = (hasanatToday === 0 && sayyiatToday === 0)
+      ? 'আজ এখনো কিছু লগ করা হয়নি'
+      : `আজ ${toBn(hasanatToday)}টি হাসানাত, ${toBn(sayyiatToday)}টি সাইয়্যিআত`;
+  }
+
   // --- এখান থেকে সব সামগ্রিক (দীর্ঘমেয়াদি) স্কোরের উপর ভিত্তি করে, শুধু আজকের হিসাব নয় ---
   const score = computeGardenScore();       // 0-100, লাইফটাইম
   const ratio = 1 - (score/100);            // balance-bar-এ পজিশনের জন্য (0=পবিত্র দিকে, 1=গুনাহর দিকে)
@@ -1740,26 +1759,19 @@ function renderChipGrid(){
 }
 // সব সাইয়্যিআত ও হাসানাতের সম্পূর্ণ বিস্তারিত (সূত্র/ফজিলত/মাযহাব) একটা আলাদা ব্রাউজেবল পাতায়
 function openDetailBrowser(){
+  const isSin = entryMode === 'sin';
+  const items = isSin ? SINS : NEKI;
+  const openFn = isSin ? 'openSin' : 'openNeki';
+  const title = isSin ? '🔥 সাইয়্যিআতের বিস্তারিত ফিহরিস্ত' : '🌱 হাসানাতের বিস্তারিত ফিহরিস্ত';
   const html = `
     <div class="sheet-handle"></div>
     <button class="close-x" onclick="closeSheet()">✕</button>
-    <h2 style="margin-bottom:14px;">বিস্তারিত ফিহরিস্ত</h2>
-    <div class="block-label" style="margin-top:0;">🌱 হাসানাত (নেক আমল)</div>
-    <div class="fihrist">${NEKI.map(n => `
-      <div class="fihrist-item" onclick="openNeki('${n.id}')">
+    <h2 style="margin-bottom:14px;">${title}</h2>
+    <div class="fihrist">${items.map(x => `
+      <div class="fihrist-item" onclick="${openFn}('${x.id}')">
         <div class="fihrist-left">
-          <div class="fihrist-name">${n.name_bn}</div>
-          <div class="fihrist-name-ar">${n.name_ar}</div>
-        </div>
-        <div class="chevron">›</div>
-      </div>`).join('')}
-    </div>
-    <div class="block-label">🔥 সাইয়্যিআত (গুনাহ)</div>
-    <div class="fihrist">${SINS.map(s => `
-      <div class="fihrist-item" onclick="openSin('${s.id}')">
-        <div class="fihrist-left">
-          <div class="fihrist-name">${s.name_bn}</div>
-          <div class="fihrist-name-ar">${s.name_ar}</div>
+          <div class="fihrist-name">${x.name_bn}</div>
+          <div class="fihrist-name-ar">${x.name_ar}</div>
         </div>
         <div class="chevron">›</div>
       </div>`).join('')}
