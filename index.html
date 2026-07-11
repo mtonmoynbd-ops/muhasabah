@@ -88,6 +88,35 @@
   .sidebar-divider{ height:1px; background:var(--card-line); margin:8px 0; }
   .sidebar-footer{ padding:14px 18px; font-size:10.5px; color:var(--ink-dim); line-height:1.6; }
 
+  .app-toast{
+    position:fixed; bottom:88px; left:50%; transform:translateX(-50%) translateY(10px);
+    background:rgba(15,35,26,0.96); color:#EAF3EC; padding:10px 18px; border-radius:20px;
+    font-size:13px; opacity:0; pointer-events:none; transition:all 0.3s ease; z-index:70;
+    box-shadow:0 4px 14px rgba(0,0,0,0.35); border:1px solid rgba(74,222,128,0.25); white-space:nowrap;
+  }
+  .app-toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  /* ---------- Entry tab: সাইয়্যিআত/হাসানাত টগল ও চিপ ---------- */
+  .entry-toggle{ display:flex; gap:8px; }
+  .entry-toggle-btn{
+    flex:1; padding:11px; border-radius:12px; border:1px solid var(--card-line);
+    background:var(--card); color:var(--ink-dim); font-size:13.5px; font-weight:600; cursor:pointer;
+  }
+  .entry-toggle-btn.active[data-mode="sin"]{ background:rgba(240,86,61,0.18); color:#ff8a72; border-color:rgba(240,86,61,0.4); }
+  .entry-toggle-btn.active[data-mode="neki"]{ background:rgba(74,222,128,0.18); color:#7fe3a6; border-color:rgba(74,222,128,0.4); }
+  .chip-grid{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    padding:9px 14px; border-radius:20px; border:1px solid var(--card-line);
+    background:var(--card); color:var(--ink); font-size:12.5px; cursor:pointer; font-family:inherit;
+  }
+  .chip:active{ transform:scale(0.95); }
+  .chip-sin{ border-color:rgba(240,86,61,0.28); }
+  .chip-sin:active{ background:rgba(240,86,61,0.16); }
+  .chip-neki{ border-color:rgba(74,222,128,0.28); }
+  .chip-neki:active{ background:rgba(74,222,128,0.16); }
+  .insight-label{ font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:0.5px; margin:10px 0 4px; }
+  .insight-label:first-child{ margin-top:0; }
+
   .calendar-panel{
     max-width:640px; margin:0 auto; padding:0 16px;
     max-height:0; overflow:hidden; transition:max-height 0.35s ease;
@@ -280,7 +309,8 @@
     display:flex; flex-direction:column; align-items:center; gap:4px;
     font-size:10.5px; cursor:pointer; padding:4px 6px;
   }
-  .nav-item .nav-ic{font-size:19px;}
+  .nav-item .nav-ic{font-size:19px; display:flex; align-items:center; justify-content:center;}
+  .nav-item .nav-ic svg{width:21px; height:21px;}
   .nav-item.active{color:var(--green);}
   .nav-center .nav-ic{
     width:46px; height:46px; border-radius:50%; background:var(--green-soft);
@@ -389,7 +419,12 @@
 <div class="topbar">
   <button class="icon-btn" aria-label="মেনু" onclick="toggleSidebar()">☰</button>
   <h1>মুহাসাবা</h1>
-  <button class="icon-btn" aria-label="ক্যালেন্ডার" onclick="toggleCalendar()">📅</button>
+  <button class="icon-btn" aria-label="ক্যালেন্ডার" onclick="toggleCalendar()">
+    <svg viewBox="0 0 24 24" width="21" height="21" fill="currentColor" style="vertical-align:middle;">
+      <path d="M15.5 3c-5.2 0-9.5 4.3-9.5 9.5S10.3 22 15.5 22c1 0 1.9-.1 2.8-.4-3.6-1.3-6.2-4.8-6.2-9.1s2.6-7.8 6.2-9.1c-.9-.3-1.8-.4-2.8-.4Z"/>
+      <circle cx="19.5" cy="6.5" r="1.1"/>
+    </svg>
+  </button>
 </div>
 
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
@@ -413,7 +448,7 @@
 
   <div class="sidebar-section">
     <div class="sidebar-item ui-label" onclick="openGlossary(); toggleSidebar();">📖 গ্লোসারি</div>
-    <div class="sidebar-item ui-label" onclick="toggleSidebar(); toggleCalendar();">📅 ক্যালেন্ডার</div>
+    <div class="sidebar-item ui-label" onclick="toggleSidebar(); toggleCalendar();">☾ ক্যালেন্ডার</div>
   </div>
   <div class="sidebar-divider"></div>
 
@@ -444,7 +479,10 @@
     <section class="dash-header">
       <div class="dash-header-left">
         <div class="dash-greeting ui-label">ক্বালবের বৃক্ষ</div>
-        <div class="dash-state-label ui-label" id="gardenStateLabel">লোড হচ্ছে...</div>
+        <div style="display:flex; align-items:center; gap:5px;">
+          <div class="dash-state-label ui-label" id="gardenStateLabel">লোড হচ্ছে...</div>
+          <span class="info-ic" style="font-size:11px;" onclick="openGlossary('nafs_lawwamah')">ⓘ</span>
+        </div>
         <div class="dash-sub ui-label" id="gardenSub">"পবিত্র বাক্য পবিত্র বৃক্ষের মতো" — কুরআন ১৪:২৪</div>
       </div>
       <div class="dash-tree-widget" onclick="openTreeDetail()">
@@ -493,20 +531,22 @@
   </div>
 
   <div class="tab-view" id="view-entry">
-    <section>
-      <div class="section-title">হাসানাত ফিহরিস্ত (নেক আমল)</div>
-      <div class="fihrist" id="nekiIndex"></div>
+    <section class="entry-toggle">
+      <button class="entry-toggle-btn active" data-mode="sin" onclick="setEntryMode('sin')">🔥 সাইয়্যিআত</button>
+      <button class="entry-toggle-btn" data-mode="neki" onclick="setEntryMode('neki')">🌱 হাসানাত</button>
     </section>
 
     <section>
-      <div class="section-title">গুনাহর ফিহরিস্ত</div>
-      <div class="filter-tabs" id="filterTabs">
-        <button class="filter-tab active ui-label" data-f="all" onclick="setFilter('all')">সব</button>
-        <button class="filter-tab ui-label" data-f="common" onclick="setFilter('common')">দৈনন্দিন কমন</button>
-        <button class="filter-tab ui-label" data-f="allah" onclick="setFilter('allah')">হক্কুল্লাহ</button>
-        <button class="filter-tab ui-label" data-f="ibad" onclick="setFilter('ibad')">হক্কুল ইবাদ</button>
-      </div>
-      <div class="fihrist" id="sinIndex"></div>
+      <div class="chip-grid" id="quickChipGrid"></div>
+    </section>
+
+    <section>
+      <button class="add-btn ui-label" onclick="openDetailBrowser()">📖 বিস্তারিত পড়ুন (সূত্র, ফজিলত, মাযহাব)</button>
+    </section>
+
+    <section>
+      <div class="section-title">তোমার নিয়মিত অভ্যাস</div>
+      <div class="page-card" id="frequencyInsights"></div>
     </section>
 
     <section>
@@ -575,11 +615,46 @@
 <footer>ফতোয়া হিসেবে নয়, আত্মজিজ্ঞাসা ও স্মরণের উপকরণ হিসেবে ব্যবহার করুন।</footer>
 
 <nav class="bottom-nav">
-  <button class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard')"><span class="nav-ic">🏠</span><span>ড্যাশবোর্ড</span></button>
-  <button class="nav-item" data-tab="entry" onclick="switchTab('entry')"><span class="nav-ic">📋</span><span>এন্ট্রি</span></button>
+  <button class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
+    <span class="nav-ic">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2.5c-2.5 0-4.5 2.1-4.5 4.6 0 1.4.7 2.6 1.8 3.4v1H4v9h16v-9h-5.3v-1c1.1-.8 1.8-2 1.8-3.4 0-2.5-2-4.6-4.5-4.6Z"/>
+        <path d="M12 1.2v1.3M11 1.8h2"/>
+        <path d="M4 20h16M10.5 15.5v4.5h3v-4.5"/>
+      </svg>
+    </span>
+    <span>ড্যাশবোর্ড</span>
+  </button>
+  <button class="nav-item" data-tab="entry" onclick="switchTab('entry')">
+    <span class="nav-ic">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 20l1.6-6.2L15 4.4c1-1 2.5-1 3.5 0 1 1 1 2.5 0 3.5L9.1 17.4 4 20Z"/>
+        <path d="M12.7 6.7l3.6 3.6"/>
+      </svg>
+    </span>
+    <span>এন্ট্রি</span>
+  </button>
   <button class="nav-item nav-center" data-tab="garden" onclick="switchTab('garden')"><span class="nav-ic" id="navTreeIcon"></span><span>বৃক্ষ</span></button>
-  <button class="nav-item" data-tab="report" onclick="switchTab('report')"><span class="nav-ic">📊</span><span>রিপোর্ট</span></button>
-  <button class="nav-item" data-tab="profile" onclick="switchTab('profile')"><span class="nav-ic">👤</span><span>প্রোফাইল</span></button>
+  <button class="nav-item" data-tab="report" onclick="switchTab('report')">
+    <span class="nav-ic">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6.5 3c-1.4 0-2.5 1.1-2.5 2.5S5.1 8 6.5 8H7V3H6.5Z"/>
+        <path d="M7 3h10.5C18.9 3 20 4.1 20 5.5v11H7"/>
+        <path d="M18 16.5c1.4 0 2.5 1.1 2.5 2.5S19.4 21.5 18 21.5H7.5C6.1 21.5 5 20.4 5 19V8"/>
+        <path d="M9.5 7h6M9.5 10h6"/>
+      </svg>
+    </span>
+    <span>রিপোর্ট</span>
+  </button>
+  <button class="nav-item" data-tab="profile" onclick="switchTab('profile')">
+    <span class="nav-ic">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M14.5 3C9.8 3 6 6.8 6 11.5S9.8 20 14.5 20c.6 0 1.3-.1 1.9-.2-2.9-1.4-4.9-4.3-4.9-7.8s2-6.3 4.9-7.8c-.6-.1-1.3-.2-1.9-.2Z"/>
+        <path d="M18.3 5.6l.6 1.5 1.6.2-1.2 1 .4 1.6-1.4-.9-1.4.9.4-1.6-1.2-1 1.6-.2z"/>
+      </svg>
+    </span>
+    <span>প্রোফাইল</span>
+  </button>
 </nav>
 
 <div class="overlay" id="overlay"><div class="sheet" id="sheet"></div></div>
@@ -605,6 +680,9 @@ const diyahBDT = DIYAH_GRAMS_GOLD * RATES.gold_bdt_per_gram;
 // ---------------- DATA ----------------
 // ---------------- GLOSSARY (ইসলামি পরিভাষা) ----------------
 const GLOSSARY = [
+  { id:'nafs_ammarah', term_bn:'নফসে আম্মারা', term_ar:'النفس الأمارة', def:'কুরআনে বর্ণিত নফসের (প্রবৃত্তি/সত্তা) সর্বনিম্ন স্তর — "নিশ্চয় নফস মন্দ কাজের প্রতি প্ররোচনাদানকারী" (কুরআন ১২:৫৩)। এই স্তরে মানুষ প্রবৃত্তির তাড়নায় অবাধে গুনাহর দিকে ঝুঁকে পড়ে, তেমন প্রতিরোধ করে না।' },
+  { id:'nafs_lawwamah', term_bn:'নফসে লাওয়ামা', term_ar:'النفس اللوامة', def:'নফসের মধ্যম স্তর — কুরআনে আল্লাহ এই "তিরস্কারকারী সত্তার" শপথ করেছেন (কুরআন ৭৫:২)। এই স্তরে মানুষ গুনাহ করেও নিজেকে তিরস্কার করে, অনুতপ্ত হয়, সংশোধনের চেষ্টা করে — এটাই অধিকাংশ সচেতন মুমিনের স্বাভাবিক অবস্থা।' },
+  { id:'nafs_mutmainnah', term_bn:'নফসে মুতমাইন্না', term_ar:'النفس المطمئنة', def:'নফসের সর্বোচ্চ, প্রশান্ত স্তর — "হে প্রশান্ত নফস, তুমি তোমার রবের দিকে ফিরে এসো, সন্তুষ্ট হয়ে, সন্তোষভাজন হয়ে" (কুরআন ৮৯:২৭-২৮)। এই স্তরে অন্তর আল্লাহর স্মরণে প্রশান্ত থাকে, গুনাহর প্রতি আকর্ষণ দুর্বল হয়ে আসে।' },
   { id:'qalb', term_bn:'ক্বালব', term_ar:'القلب', def:'আধ্যাত্মিক অর্থে হৃদয় — ঈমান, নিয়ত ও আধ্যাত্মিক অবস্থার কেন্দ্র। নবী (সা.) বলেছেন, শরীরে একটি মাংসপিণ্ড আছে, তা সুস্থ থাকলে পুরো শরীর সুস্থ থাকে, নষ্ট হলে পুরো শরীর নষ্ট হয়ে যায় — জেনে রাখো, সেটাই হলো ক্বালব (হৃদয়)। — সহীহ বুখারী ৫২, সহীহ মুসলিম ১৫৯৯' },
   { id:'hadd', term_bn:'হদ্দ', term_ar:'الحد', def:'কুরআন বা হাদিসে সুনির্দিষ্টভাবে বর্ণিত শাস্তি, যার পরিমাণ ও ধরন বিচারক/শাসক বদলাতে পারেন না — যেমন চুরির জন্য হাত কর্তন বা ব্যভিচারের জন্য বেত্রাঘাত।' },
   { id:'tazir', term_bn:'তা\'যীর', term_ar:'التعزير', def:'যেসব গুনাহর জন্য কুরআন-হাদিসে সুনির্দিষ্ট শাস্তির পরিমাণ বলা নেই, সেখানে বিচারক বা রাষ্ট্রপ্রধানের বিবেচনাধীন শাস্তি — পরিস্থিতি অনুযায়ী কম-বেশি হতে পারে।' },
@@ -876,6 +954,46 @@ const SINS = [
     dua:{ar:'اللَّهُمَّ إِنِّي أَسْأَلُكَ غَضَّ الْبَصَرِ وَحِفْظَ الْفَرْجِ', uccharan:'আল্লাহুম্মা ইন্নী আসআলুকা গদ্দাল বাসারি ওয়া হিফজাল ফারজ', bn:'হে আল্লাহ, আমি তোমার কাছে দৃষ্টি অবনত রাখা ও নিজেকে হেফাজত করার তাওফীক প্রার্থনা করছি।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
     remedy:'none',
     reviewed:false
+  },
+  {
+    id:'gali', name_bn:'গালি দেওয়া', name_ar:'السباب', category:'sagira', rights:'ibad', severity:3, common:true,
+    evidence:[{text:'মুসলিমকে গালি দেওয়া সীমালঙ্ঘন (ফিসক), আর তার সাথে লড়াই করা কুফর।', src:'সহীহ বুখারী ৪৮, সহীহ মুসলিম ৬৪'}],
+    dunya:'নির্দিষ্ট হদ্দ নেই — বিচারকের বিবেচনাধীন তা\'যীর শাস্তি প্রযোজ্য হতে পারে।',
+    akhirah:'হাদিসে এটাকে "ফিসক" (গুরুতর সীমালঙ্ঘন) বলা হয়েছে — সাধারণ সগিরা গুনাহর চেয়ে ভারী গুরুত্ব বহন করে।',
+    kaffarah:{ijma:'যাকে গালি দেওয়া হয়েছে তার কাছে ক্ষমা চাওয়া, এবং আন্তরিক তওবা ও ইস্তিগফার।'},
+    huquq:true, huquq_note:'যাকে গালি দেওয়া হয়েছে তার সম্মান জড়িত — ক্ষমা চাওয়া আবশ্যক।',
+    dua:{ar:'اللَّهُمَّ اجْعَلْنِي مِمَّنْ يَكْظِمُ غَيْظَهُ', uccharan:'আল্লাহুম্মাজ‘আলনী মিম্মাই ইয়াকযিমু গাইজাহ', bn:'হে আল্লাহ, আমাকে তাদের অন্তর্ভুক্ত করো যারা রাগ সংবরণ করে।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
+    remedy:'waajib', reviewed:false
+  },
+  {
+    id:'jhogra', name_bn:'ঝগড়া-বিবাদ করা', name_ar:'الخصام', category:'sagira', rights:'ibad', severity:3, common:true,
+    evidence:[{text:'আল্লাহর কাছে সবচেয়ে ঘৃণিত ব্যক্তি সেই, যে সবচেয়ে বেশি ঝগড়াটে।', src:'সহীহ বুখারী ২৪৫৭, সহীহ মুসলিম ২৬৬৮'}],
+    dunya:'নির্দিষ্ট হদ্দ নেই।',
+    akhirah:'আল্লাহর সবচেয়ে অপ্রিয় বান্দাদের একজন হওয়ার সতর্কতা এসেছে।',
+    kaffarah:{ijma:'সম্পর্ক মেরামত করা, প্রয়োজনে ক্ষমা চাওয়া, এবং অহেতুক বিতর্ক এড়িয়ে চলার সংকল্প।'},
+    huquq:true, huquq_note:'যার সাথে ঝগড়া হয়েছে তার সাথে সম্পর্ক মেরামত করা উচিত।',
+    dua:{ar:'رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ وَأَنْ أَعْمَلَ صَالِحًا', uccharan:'রব্বি আওযি‘নী আন আশকুরা নি‘মাতাকা ওয়া আন আ‘মালা সালিহা', bn:'হে আমার রব, আমাকে তাওফিক দাও যেন কৃতজ্ঞতা প্রকাশ করি ও সৎকাজ করি।', src:'কুরআন ২৭:১৯ (নেয়ামত ও সৎকর্মের দোয়া, প্রসঙ্গোপযোগী)'},
+    remedy:'waajib', reviewed:false
+  },
+  {
+    id:'tacchilyo', name_bn:'উপহাস/তাচ্ছিল্য করা', name_ar:'السخرية', category:'sagira', rights:'ibad', severity:3, common:true,
+    evidence:[{text:'হে ঈমানদারগণ, কোনো সম্প্রদায় যেন অন্য কোনো সম্প্রদায়কে উপহাস না করে, হতে পারে তারা উপহাসকারীদের চেয়ে উত্তম।', src:'কুরআন ৪৯:১১'}],
+    dunya:'নির্দিষ্ট হদ্দ নেই।',
+    akhirah:'কুরআনে সরাসরি নিষেধ করা হয়েছে, একই আয়াতে নারীদের একে অপরকে উপহাস না করারও নির্দেশ এসেছে।',
+    kaffarah:{ijma:'যাকে উপহাস করা হয়েছে তার কাছে ক্ষমা চাওয়া এবং আন্তরিক তওবা।'},
+    huquq:true, huquq_note:'উপহাসের শিকার ব্যক্তির সম্মান জড়িত।',
+    dua:{ar:'اللَّهُمَّ اجْعَلْنِي مِنَ الْمُتَوَاضِعِينَ', uccharan:'আল্লাহুম্মাজ‘আলনী মিনাল মুতাওয়াদি‘ঈন', bn:'হে আল্লাহ, আমাকে বিনয়ীদের অন্তর্ভুক্ত করো।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
+    remedy:'waajib', reviewed:false
+  },
+  {
+    id:'wada_bhongo', name_bn:'ওয়াদা ভঙ্গ করা', name_ar:'إخلاف الوعد', category:'sagira', rights:'ibad', severity:3, common:true,
+    evidence:[{text:'মুনাফিকের আলামত তিনটি — কথা বললে মিথ্যা বলে, ওয়াদা করলে ভঙ্গ করে, আমানত রাখলে খিয়ানত করে।', src:'সহীহ বুখারী ৩৩, সহীহ মুসলিম ৫৯'}],
+    dunya:'নির্দিষ্ট হদ্দ নেই।',
+    akhirah:'অভ্যাসগতভাবে ওয়াদা ভঙ্গ করা মুনাফিকীর আলামত হিসেবে সতর্ক করা হয়েছে।',
+    kaffarah:{ijma:'যতটা সম্ভব ওয়াদা পূরণের চেষ্টা করা, অপারগ হলে সংশ্লিষ্ট ব্যক্তির কাছে ক্ষমা চাওয়া, এবং ভবিষ্যতে সতর্ক থাকা।'},
+    huquq:true, huquq_note:'যার সাথে ওয়াদা করা হয়েছিল তার হক জড়িত।',
+    dua:{ar:'اللَّهُمَّ إِنِّي أَتُوبُ إِلَيْكَ مِنْ خُلْفِ الْوَعْدِ', uccharan:'আল্লাহুম্মা ইন্নী আতূবু ইলাইকা মিন খুলফিল ওয়া‘দ', bn:'হে আল্লাহ, আমি ওয়াদা ভঙ্গ থেকে তোমার কাছে তওবা করছি।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
+    remedy:'waajib', reviewed:false
   }
 ];
 
@@ -1087,6 +1205,35 @@ const NEKI = [
       hanbali:'হাম্বলী মাযহাব শাফেয়ী-মালেকীর কাছাকাছি — নির্দিষ্ট সংখ্যা বাধ্যতামূলক নয়।'
     },
     reviewed:false
+  },
+  {
+    id:'salaam', name_bn:'সালাম বিনিময় করা', name_ar:'إفشاء السلام', category:'akhlaq',
+    evidence:[{text:'তোমরা ঈমান না আনা পর্যন্ত জান্নাতে প্রবেশ করবে না, আর একে অপরকে ভালো না বাসা পর্যন্ত পূর্ণ ঈমানদার হবে না। আমি কি তোমাদের এমন কিছু বলে দেব না, যা করলে তোমরা একে অপরকে ভালোবাসবে? তোমরা নিজেদের মধ্যে সালাম ছড়িয়ে দাও।', src:'সহীহ মুসলিম ৫৪'}],
+    fazilat:'সালাম বিনিময় শুধু সৌজন্য নয়, বরং মুমিনদের মাঝে ভালোবাসা বৃদ্ধির একটি কার্যকর মাধ্যম হিসেবে বর্ণিত হয়েছে।',
+    erases:'এই হাদিসে সরাসরি গুনাহ মোচনের কথা বলা হয়নি, বরং মুমিনদের মাঝে ভালোবাসা বৃদ্ধির কথা বলা হয়েছে।',
+    madhab:null,
+    reviewed:false
+  },
+  {
+    id:'nafl_ibadah', name_bn:'নফল ইবাদত', name_ar:'النوافل', category:'nafl',
+    evidence:[{text:'আমার বান্দা ফরয আদায়ের মাধ্যমে যেভাবে আমার নৈকট্য অর্জন করে তার চেয়ে প্রিয় কিছু দিয়ে সে আমার নৈকট্য অর্জন করে না, আর সে নফল আমলের মাধ্যমে আমার নৈকট্য অর্জন করতেই থাকে, এমনকি আমি তাকে ভালোবেসে ফেলি।', src:'সহীহ বুখারী ৬৫০২'}],
+    fazilat:'নফল ইবাদতের মাধ্যমে আল্লাহর ভালোবাসা অর্জনের প্রতিশ্রুতি — একই হাদিসে এরপর বলা হয়েছে, আল্লাহ তখন সেই বান্দার প্রতিটি কাজে রূপকভাবে সাহায্যকারী হয়ে যান।',
+    erases:'এই হাদিসে সরাসরি গুনাহ মোচনের কথা বলা হয়নি, বরং আল্লাহর নৈকট্য ও ভালোবাসা অর্জনের কথা বলা হয়েছে।',
+    madhab:{
+      hanafi:'বিতর ও চাশতের মতো কিছু নফলকে হানাফী মাযহাবে বিশেষভাবে গুরুত্ব দেওয়া হয় (বিতর সেখানে ওয়াজিব পর্যায়ে)।',
+      shafii:'শাফেয়ী মাযহাবে সব নফল নামাজই সুন্নত/মুস্তাহাব পর্যায়ে গণ্য, বিতরসহ।',
+      maliki:'মালেকী মাযহাবেও নফলগুলো সুন্নত পর্যায়ে, হানাফীর বিতর-ওয়াজিব অবস্থান থেকে ভিন্ন।',
+      hanbali:'হাম্বলী মাযহাবেও শাফেয়ী-মালেকীর কাছাকাছি অবস্থান।'
+    },
+    reviewed:false
+  },
+  {
+    id:'visit_sick', name_bn:'অসুস্থ ব্যক্তিকে দেখতে যাওয়া', name_ar:'عيادة المريض', category:'akhlaq',
+    evidence:[{text:'যে ব্যক্তি অসুস্থকে দেখতে যায়, সে যেন জান্নাতের ফল-বাগানে থাকে, যতক্ষণ না সে ফিরে আসে।', src:'সহীহ মুসলিম ২৫৬৮'}],
+    fazilat:'অসুস্থ দেখতে যাওয়াকে মুসলিমের উপর মুসলিমের অধিকারগুলোর একটি হিসেবে গণ্য করা হয়েছে।',
+    erases:'এই হাদিসে সরাসরি গুনাহ মোচনের কথা বলা হয়নি, বরং জান্নাতি সাওয়াবের উপমা দেওয়া হয়েছে।',
+    madhab:null,
+    reviewed:false
   }
 ];
 
@@ -1105,13 +1252,16 @@ function storageSet(key, val){ try{ localStorage.setItem(key, val); }catch(e){ m
 // ---------------- LONG-TERM (CUMULATIVE) SPIRITUAL SCORE ----------------
 // এটা কোনো দিনভিত্তিক রিসেট হয় না — সামগ্রিক আধ্যাত্মিক অবস্থার প্রতিফলন, উদ্যানের স্কোর এখান থেকেই আসে।
 const CUMULATIVE_KEY = 'gardenCumulativeV1';
-let cumulative = { neki:0, sadaqah:0, tawbah:0, istighfar:0, quranMinutes:0, kabira:0, sagira:0, repeats:0, faraidhPenalty:0 };
+const CUMULATIVE_DEFAULT = () => ({ neki:0, sadaqah:0, tawbah:0, istighfar:0, quranMinutes:0, kabira:0, sagira:0, repeats:0, faraidhPenalty:0, sinFreq:{}, nekiFreq:{} });
+let cumulative = CUMULATIVE_DEFAULT();
 function loadCumulative(){
   try{
     const raw = storageGet(CUMULATIVE_KEY);
-    cumulative = raw ? JSON.parse(raw) : { neki:0, sadaqah:0, tawbah:0, istighfar:0, quranMinutes:0, kabira:0, sagira:0, repeats:0, faraidhPenalty:0 };
+    cumulative = raw ? JSON.parse(raw) : CUMULATIVE_DEFAULT();
     if(cumulative.faraidhPenalty === undefined) cumulative.faraidhPenalty = 0; // পুরনো ডেটার জন্য মাইগ্রেশন
-  }catch(e){ cumulative = { neki:0, sadaqah:0, tawbah:0, istighfar:0, quranMinutes:0, kabira:0, sagira:0, repeats:0, faraidhPenalty:0 }; }
+    if(!cumulative.sinFreq) cumulative.sinFreq = {};
+    if(!cumulative.nekiFreq) cumulative.nekiFreq = {};
+  }catch(e){ cumulative = CUMULATIVE_DEFAULT(); }
 }
 function saveCumulative(){ storageSet(CUMULATIVE_KEY, JSON.stringify(cumulative)); }
 
@@ -1412,34 +1562,34 @@ function gardenPart(cfg){
   </svg>`;
 }
 const GARDEN_STATES = [
-  { min:0,  max:15,  label:'সম্পূর্ণ ধ্বংস',
+  { min:0,  max:15,  label:'সম্পূর্ণ ধ্বংস', nafs:'নফসে আম্মারা প্রবল',
     cfg:{id:'s0', sky1:'#2a2422', sky2:'#171412', trunkColor:'#0d0b0a',
       leafCount:0, leafColor:'#000', leafScale:1, showFruit:false, flowerCount:0,
       moonColor:'#5a3a30', moonOpacity:0.5, showFire:true, showSparkle:false,
       potColor:'#4a4038', potRim:'#332c26'} },
-  { min:15, max:30,  label:'অত্যন্ত শুষ্ক',
+  { min:15, max:30,  label:'অত্যন্ত শুষ্ক', nafs:'নফসে আম্মারার দিকে ঝোঁক',
     cfg:{id:'s1', sky1:'#5c5248', sky2:'#3a332c', trunkColor:'#4a3f34',
       leafCount:1, leafColor:'#8a7a52', leafScale:0.8, showFruit:false, flowerCount:0,
       moonColor:'#8a8478', moonOpacity:0.55, showFire:false, showSparkle:false,
       potColor:'#6b6156', potRim:'#4a4238'} },
-  { min:30, max:50,  label:'আশার সূচনা',
+  { min:30, max:50,  label:'আশার সূচনা', nafs:'নফসে লাওয়ামার সূচনা',
     cfg:{id:'s2', sky1:'#8a8478', sky2:'#5c574c', trunkColor:'#3a2e22',
       leafCount:3, leafColor:'#7a9868', leafScale:0.9, showFruit:false, flowerCount:0,
       moonColor:'#c4bfa8', moonOpacity:0.6, showFire:false, showSparkle:false,
       potColor:'#a89c84', potRim:'#7a6f5a'} },
-  { min:50, max:70,  label:'স্বাভাবিক',
+  { min:50, max:70,  label:'স্বাভাবিক', nafs:'নফসে লাওয়ামা',
     cfg:{id:'s3', sky1:'#7c8a80', sky2:'#4c5850', trunkColor:'#2a2016',
       leafCount:6, leafColor:'#4d7a52', leafScale:0.95, showFruit:false,
       flowerCount:1, flowerColor:'#E8B4C8', flowerCenter:'#FCE8A8',
       moonColor:'#e8dfc0', moonOpacity:0.65, showFire:false, showSparkle:false,
       potColor:'#c9bea6', potRim:'#b8a986'} },
-  { min:70, max:90,  label:'সুন্দর ও সবুজ',
+  { min:70, max:90,  label:'সুন্দর ও সবুজ', nafs:'লাওয়ামা থেকে মুতমাইন্নার পথে',
     cfg:{id:'s4', sky1:'#6a8a76', sky2:'#3c5044', trunkColor:'#241a10',
       leafCount:8, leafColor:'#3a8a52', leafScale:1.05, showFruit:true, fruitColor:'#d9534f',
       flowerCount:3, flowerColor:'#F2A6C6', flowerCenter:'#FCE8A8',
       moonColor:'#f2d88a', moonOpacity:0.75, showFire:false, showSparkle:false,
       potColor:'#d4c9ac', potRim:'#b8a680'} },
-  { min:90, max:101, label:'অত্যন্ত নির্মল',
+  { min:90, max:101, label:'অত্যন্ত নির্মল', nafs:'নফসে মুতমাইন্না',
     cfg:{id:'s5', sky1:'#4a7566', sky2:'#274038', trunkColor:'#1a120b',
       leafCount:9, leafColor:'#2fae64', leafScale:1.1, showFruit:true, fruitColor:'#f2c14e',
       flowerCount:6, flowerColor:'#FFFFFF', flowerCenter:'#F2C14E',
@@ -1451,7 +1601,7 @@ function gardenStateForScore(score){
 }
 function renderGarden(score){
   const state = gardenStateForScore(score);
-  document.getElementById('gardenStateLabel').textContent = `${state.label} · ${toBn(score)}%`;
+  document.getElementById('gardenStateLabel').textContent = state.nafs;
   const layerA = document.getElementById('gardenLayerA');
   const layerB = document.getElementById('gardenLayerB');
   const activeLayer = layerA.classList.contains('active') ? layerA : layerB;
@@ -1481,7 +1631,8 @@ function openTreeDetail(){
     <h2 style="margin-bottom:6px;">ক্বালবের বৃক্ষ</h2>
     <div class="block-text" style="margin-bottom:14px; font-style:italic;">"একটি পবিত্র বাক্য একটি পবিত্র বৃক্ষের মতো, যার মূল সুদৃঢ় ও শাখা আকাশে বিস্তৃত" — কুরআন ১৪:২৪</div>
     <div style="border-radius:14px; overflow:hidden; border:1px solid rgba(18,48,46,0.15);">${gardenPart(state.cfg)}</div>
-    <div style="text-align:center; margin-top:12px; font-weight:700; color:#12302E; font-size:15px;">${state.label} — ${toBn(score)}%</div>
+    <div style="text-align:center; margin-top:12px; font-weight:700; color:#12302E; font-size:15px;">${state.nafs}</div>
+    <div style="text-align:center; margin-top:2px; color:#7a6a4d; font-size:12px;">${state.label}</div>
   `;
   document.getElementById('overlay').classList.add('open');
 }
@@ -1545,6 +1696,7 @@ function setFilter(f){
 }
 function renderIndex(){
   const el = document.getElementById('sinIndex');
+  if(!el) return;
   let list = SINS;
   if(currentFilter === 'common') list = SINS.filter(s=>s.common);
   else if(currentFilter === 'allah') list = SINS.filter(s=>s.rights === 'allah');
@@ -1570,7 +1722,81 @@ function renderIndex(){
   `).join('');
 }
 
-// ---------------- হাসানাত ফিহরিস্ত (NEKI INDEX ও ডিটেইল শিট) ----------------
+// ---------------- চিপ-ভিত্তিক দ্রুত এন্ট্রি (এক ট্যাপেই যোগ) ----------------
+let entryMode = 'sin';
+function setEntryMode(mode){
+  entryMode = mode;
+  document.querySelectorAll('.entry-toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+  renderChipGrid();
+}
+function renderChipGrid(){
+  const el = document.getElementById('quickChipGrid');
+  if(!el) return;
+  if(entryMode === 'sin'){
+    el.innerHTML = SINS.map(s => `<button class="chip chip-sin" onclick="logSin('${s.id}')">${s.name_bn}</button>`).join('');
+  }else{
+    el.innerHTML = NEKI.map(n => `<button class="chip chip-neki" onclick="logNeki('${n.id}')">${n.name_bn}</button>`).join('');
+  }
+}
+// সব সাইয়্যিআত ও হাসানাতের সম্পূর্ণ বিস্তারিত (সূত্র/ফজিলত/মাযহাব) একটা আলাদা ব্রাউজেবল পাতায়
+function openDetailBrowser(){
+  const html = `
+    <div class="sheet-handle"></div>
+    <button class="close-x" onclick="closeSheet()">✕</button>
+    <h2 style="margin-bottom:14px;">বিস্তারিত ফিহরিস্ত</h2>
+    <div class="block-label" style="margin-top:0;">🌱 হাসানাত (নেক আমল)</div>
+    <div class="fihrist">${NEKI.map(n => `
+      <div class="fihrist-item" onclick="openNeki('${n.id}')">
+        <div class="fihrist-left">
+          <div class="fihrist-name">${n.name_bn}</div>
+          <div class="fihrist-name-ar">${n.name_ar}</div>
+        </div>
+        <div class="chevron">›</div>
+      </div>`).join('')}
+    </div>
+    <div class="block-label">🔥 সাইয়্যিআত (গুনাহ)</div>
+    <div class="fihrist">${SINS.map(s => `
+      <div class="fihrist-item" onclick="openSin('${s.id}')">
+        <div class="fihrist-left">
+          <div class="fihrist-name">${s.name_bn}</div>
+          <div class="fihrist-name-ar">${s.name_ar}</div>
+        </div>
+        <div class="chevron">›</div>
+      </div>`).join('')}
+    </div>
+  `;
+  document.getElementById('sheet').innerHTML = html;
+  document.getElementById('overlay').classList.add('open');
+}
+// কোন সাইয়্যিআত/হাসানাত ব্যক্তি সবচেয়ে বেশি করে তার ইনসাইট
+function renderFrequencyInsights(){
+  const el = document.getElementById('frequencyInsights');
+  if(!el) return;
+  const topSins = Object.entries(cumulative.sinFreq || {}).sort((a,b) => b[1]-a[1]).slice(0, 3);
+  const topNeki = Object.entries(cumulative.nekiFreq || {}).sort((a,b) => b[1]-a[1]).slice(0, 3);
+  if(topSins.length === 0 && topNeki.length === 0){
+    el.innerHTML = `<div class="empty-state">এখনো যথেষ্ট ডেটা জমা হয়নি — কিছুদিন ব্যবহারের পর এখানে তোমার প্যাটার্ন দেখা যাবে।</div>`;
+    return;
+  }
+  let html = '';
+  if(topNeki.length){
+    html += `<div class="insight-label ui-label">🟢 সবচেয়ে বেশি করা হাসানাত</div>`;
+    html += topNeki.map(([id,count]) => {
+      const n = NEKI.find(x=>x.id===id);
+      return `<div class="entry-row"><div class="entry-name ui-label" style="font-size:13.5px;">${n ? n.name_bn : id}</div><div class="entry-name">${toBn(count)} বার</div></div>`;
+    }).join('');
+  }
+  if(topSins.length){
+    html += `<div class="insight-label ui-label">🔴 সবচেয়ে বেশি করা সাইয়্যিআত</div>`;
+    html += topSins.map(([id,count]) => {
+      const s = SINS.find(x=>x.id===id);
+      return `<div class="entry-row"><div class="entry-name ui-label" style="font-size:13.5px;">${s ? s.name_bn : id}</div><div class="entry-name">${toBn(count)} বার</div></div>`;
+    }).join('');
+  }
+  el.innerHTML = html;
+}
+
+
 const NEKI_CATEGORY_LABELS = { faraidh:'ফরয', nafl:'নফল', sadaqah:'দান-সদকা', dhikr:'জিকির', akhlaq:'আখলাক', ilm:'ইলম/কুরআন' };
 function renderNekiIndex(){
   const el = document.getElementById('nekiIndex');
@@ -1634,12 +1860,17 @@ function switchMadhabNeki(nekiId, m){
   renderNekiSheet(n);
 }
 function logNeki(id){
+  const n = NEKI.find(x=>x.id===id);
+  const bumpFreq = () => { cumulative.nekiFreq[id] = (cumulative.nekiFreq[id] || 0) + 1; };
   // প্রতিটা হাসানাত আইটেম তার সঠিক ড্যাশবোর্ড কাউন্টারে যোগ হয় — সব কিছু আর জেনেরিক "নেক আমল"-এ যায় না
   if(id === 'sadaqah'){
     todayStats.sadaqah = (todayStats.sadaqah || 0) + 1;
     cumulative.sadaqah = (cumulative.sadaqah || 0) + 1;
+    bumpFreq();
     saveStats(); saveCumulative(); renderDashboard();
+    if(document.getElementById('quickChipGrid')) renderFrequencyInsights();
     showGardenFlash('sadaqah');
+    showToast(`${n.name_bn} যোগ হলো`);
     closeSheet();
     return;
   }
@@ -1648,8 +1879,11 @@ function logNeki(id){
       if(mins > 0){
         todayStats.quran = (todayStats.quran || 0) + mins;
         cumulative.quranMinutes = (cumulative.quranMinutes || 0) + mins;
+        bumpFreq();
         saveStats(); saveCumulative(); renderDashboard();
+        if(document.getElementById('quickChipGrid')) renderFrequencyInsights();
         showGardenFlash('quran');
+        showToast(`${n.name_bn} যোগ হলো`);
       }
     };
     openNumberDialog('আজ কত মিনিট কুরআন তিলাওয়াত করলে যোগ করতে চাও?', 10);
@@ -1658,16 +1892,22 @@ function logNeki(id){
   if(id === 'tawbah_istighfar'){
     todayStats.istighfar = (todayStats.istighfar || 0) + 1;
     cumulative.istighfar = (cumulative.istighfar || 0) + 1;
+    bumpFreq();
     saveStats(); saveCumulative(); renderDashboard();
+    if(document.getElementById('quickChipGrid')) renderFrequencyInsights();
     showGardenFlash('istighfar');
+    showToast(`${n.name_bn} যোগ হলো`);
     closeSheet();
     return;
   }
-  // বাকি সব আইটেম (সালাত, অজু, রোজা, পিতামাতার সদাচরণ, তাসবীহ, হজ্জ, কষ্ট দূর করা, এতিমের দায়িত্ব, জুমা) — সাধারণ "নেক আমল"
+  // বাকি সব আইটেম — সাধারণ "নেক আমল"
   todayStats.neki = (todayStats.neki || 0) + 1;
   cumulative.neki = (cumulative.neki || 0) + 1;
+  bumpFreq();
   saveStats(); saveCumulative(); renderDashboard();
+  if(document.getElementById('quickChipGrid')) renderFrequencyInsights();
   showGardenFlash('neki');
+  showToast(`${n.name_bn} যোগ হলো`);
   closeSheet();
 }
 
@@ -1684,6 +1924,22 @@ function closeSheet(){ document.getElementById('overlay').classList.remove('open
 // ---------------- কাস্টম নাম্বার ইনপুট ডায়ালগ ----------------
 // নেটিভ prompt() অনেক WebView/ব্রাউজারে ঠিকমতো কাজ করে না বা দেখায় না — তাই অ্যাপের নিজস্ব ডিজাইনে ইনপুট নেওয়া হয়
 let _numberDialogCallback = null;
+// ---------------- টোস্ট নোটিফিকেশন (চিপে ট্যাপ করলে দ্রুত কনফার্মেশন) ----------------
+let _toastTimer = null;
+function showToast(msg){
+  let toast = document.getElementById('appToast');
+  if(!toast){
+    toast = document.createElement('div');
+    toast.id = 'appToast';
+    toast.className = 'app-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = '✓ ' + msg;
+  toast.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(()=>toast.classList.remove('show'), 1600);
+}
+
 function openNumberDialog(title, currentValue){
   document.getElementById('sheet').innerHTML = `
     <div class="sheet-handle"></div>
@@ -1809,10 +2065,13 @@ function logSin(sinId){
 
   if(sin.category === 'kabira') cumulative.kabira++; else cumulative.sagira++;
   if(alreadyLoggedToday) cumulative.repeats++; // একই দিনে একই গুনাহ বারবার হলে অতিরিক্ত পেনাল্টি
+  cumulative.sinFreq[sinId] = (cumulative.sinFreq[sinId] || 0) + 1; // কোন গুনাহ কতবার হয়েছে তার ট্র্যাকিং
   saveCumulative();
 
   renderToday();
+  if(document.getElementById('quickChipGrid')) renderFrequencyInsights();
   showGardenFlash('sin');
+  showToast(`${sin.name_bn} যোগ হলো`);
   closeSheet();
 }
 
@@ -1970,6 +2229,7 @@ function switchTab(tab){
   document.querySelectorAll('.tab-view').forEach(v => v.classList.toggle('active', v.id === 'view-' + tab));
   document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   if(tab === 'report') renderReport();
+  if(tab === 'entry'){ renderChipGrid(); renderFrequencyInsights(); }
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
@@ -2044,7 +2304,7 @@ function renderReport(){
   const score = computeGardenScore();
   const state = gardenStateForScore(score);
   const rows = [
-    { label:'বর্তমান আধ্যাত্মিক স্কোর', value: toBn(score) + '%', sub: state.label },
+    { label:'বর্তমান আধ্যাত্মিক অবস্থা', value: state.nafs, sub: state.label },
     { label:'মোট নেক আমল', value: toBn(cumulative.neki) + ' টি' },
     { label:'মোট দান-সদকা', value: toBn(cumulative.sadaqah) + ' বার' },
     { label:'মোট তওবা/ইস্তিগফার (এন্ট্রি থেকে)', value: toBn(cumulative.tawbah) + ' বার' },
@@ -2073,7 +2333,7 @@ function resetAllData(){
   todayEntries = [];
   todayObligations = [];
   todayStats = { neki:0, sadaqah:0, istighfar:0, quran:0, kaffarah:0 };
-  cumulative = { neki:0, sadaqah:0, tawbah:0, istighfar:0, quranMinutes:0, kabira:0, sagira:0, repeats:0, faraidhPenalty:0 };
+  cumulative = CUMULATIVE_DEFAULT();
   saveToday();
   saveObligations();
   saveStats();
@@ -2189,6 +2449,7 @@ function renderCalendar(){
 
 renderIndex();
 renderNekiIndex();
+renderChipGrid();
 loadToday();
 </script>
 </body>
