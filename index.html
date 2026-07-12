@@ -158,20 +158,36 @@
   .section-title::after{content:''; flex:1; height:1px; background:linear-gradient(to right, rgba(217,185,120,0.4), transparent);}
 
   /* ---------- Dashboard hero: ফুল-ওয়াইড বৃক্ষ ব্যাকগ্রাউন্ড, বামে টেক্সট ওভারলে ---------- */
-  #view-dashboard section{ margin-top:10px; }
+  #view-dashboard section{ margin-top:9px; }
   .dash-hero{
-    position:relative; width:100%; height:150px; border-radius:16px; overflow:hidden; cursor:pointer;
+    position:relative; width:100%; height:175px; border-radius:16px; overflow:hidden; cursor:pointer;
     border:1px solid rgba(255,255,255,0.1); box-shadow:0 6px 16px rgba(0,0,0,0.3); background:var(--card);
   }
+  .dash-hero-scrim{
+    position:absolute; inset:0; z-index:1;
+    background:linear-gradient(90deg, rgba(6,16,11,0.88) 0%, rgba(6,16,11,0.55) 45%, rgba(6,16,11,0.05) 78%);
+  }
   .dash-hero-overlay{
-    position:relative; z-index:2; height:100%; max-width:62%; padding:14px 16px;
+    position:relative; z-index:2; height:100%; max-width:66%; padding:14px 16px;
     display:flex; flex-direction:column; justify-content:center;
   }
-  .dash-greeting{ font-size:11px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.5px; }
-  .dash-state-label{ font-size:16px; font-weight:700; color:var(--ink); margin-top:2px; font-family:'Noto Serif Bengali', serif; }
-  .dash-sub{ font-size:10.5px; color:var(--ink-dim); margin-top:5px; line-height:1.55; }
-  .quote-card-compact{ padding:12px 16px; text-align:left; }
-  .quote-card-compact .quote-bn{ font-size:12px; color:var(--ink-dim); font-style:italic; }
+  .dash-greeting{ font-size:11px; color:rgba(234,243,236,0.7); text-transform:uppercase; letter-spacing:0.5px; }
+  .dash-state-label{ font-size:17px; font-weight:700; color:#fff; margin-top:2px; font-family:'Noto Serif Bengali', serif; }
+  .dash-sub{ font-size:11px; color:rgba(234,243,236,0.85); margin-top:6px; line-height:1.6; }
+
+  .dual-btn-row{ display:flex; gap:8px; }
+  .dual-btn{
+    flex:1; padding:11px 8px; border-radius:12px; border:1px solid var(--card-line);
+    background:var(--card); font-size:12.5px; font-weight:600; cursor:pointer; font-family:inherit;
+  }
+  .dual-btn-neki{ color:#7fe3a6; border-color:rgba(74,222,128,0.3); }
+  .dual-btn-sin{ color:#ff8a72; border-color:rgba(240,86,61,0.3); }
+  .cta-card-duas{
+    background:linear-gradient(135deg, rgba(217,185,120,0.16), rgba(217,185,120,0.04));
+    border-color:rgba(217,185,120,0.3);
+  }
+  .cta-card-duas .cta-plus{ background:rgba(217,185,120,0.2); color:var(--gold); }
+  .cta-card-duas .cta-chevron{ color:var(--gold); }
 
   /* ---------- Garden hero card (এখন শুধু sheet-এ বড় ভিউয়ের জন্য ব্যবহৃত) ---------- */
   .garden-card{
@@ -428,6 +444,9 @@
   .reviewed-note{margin-top:16px; font-size:11px; color:#8a6d3b; background:rgba(199,154,86,0.12); padding:8px 12px; border-radius:8px; line-height:1.6;}
 
   footer{text-align:center; margin-top:30px; padding:0 20px 20px; font-size:11px; color:rgba(234,243,236,0.35); line-height:1.8;}
+  .umar-strip{ text-align:center; padding:2px 24px 10px; }
+  .umar-strip .arabic{ font-size:14px; color:var(--green); line-height:1.6; }
+  .umar-strip .ui-label{ font-size:10.5px; color:var(--ink-dim); margin-top:3px; line-height:1.5; }
 </style>
 </head>
 <body>
@@ -441,6 +460,11 @@
       <circle cx="19.5" cy="6.5" r="1.1"/>
     </svg>
   </button>
+</div>
+
+<div class="umar-strip">
+  <div class="arabic">حَاسِبُوا أَنْفُسَكُمْ قَبْلَ أَنْ تُحَاسَبُوا</div>
+  <div class="ui-label">"তোমাদের হিসাব নেওয়ার আগে তোমরা নিজেদের হিসাব নাও" — উমর ইবনুল খাত্তাব (রা.)</div>
 </div>
 
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
@@ -500,13 +524,14 @@
         <div class="garden-layer" id="gardenLayerB"></div>
         <div class="garden-flash" id="gardenFlash"></div>
       </div>
+      <div class="dash-hero-scrim"></div>
       <div class="dash-hero-overlay">
         <div class="dash-greeting ui-label">নফসের বৃক্ষ</div>
         <div style="display:flex; align-items:center; gap:5px;">
           <div class="dash-state-label ui-label" id="gardenStateLabel">লোড হচ্ছে...</div>
-          <span class="info-ic" style="font-size:11px;" onclick="event.stopPropagation(); openGlossary('nafs_lawwamah')">ⓘ</span>
+          <span class="info-ic" style="font-size:11px; color:#fff;" onclick="event.stopPropagation(); openGlossary('nafs_lawwamah')">ⓘ</span>
         </div>
-        <div class="dash-sub ui-label" id="gardenSub">"নিশ্চয় সে সফল হয়েছে যে নিজেকে পরিশুদ্ধ করেছে" — কুরআন ৯১:৯</div>
+        <div class="dash-sub ui-label" id="gardenSub">লোড হচ্ছে...</div>
       </div>
     </section>
 
@@ -533,15 +558,24 @@
       </div>
     </section>
 
-    <section class="quote-card quote-card-compact">
-      <div class="quote-bn ui-label">"তোমাদের হিসাব নেওয়ার আগে তোমরা নিজেদের হিসাব নাও।" — উমর (রা.)</div>
-    </section>
-
     <section class="cta-card" onclick="switchTab('entry')">
       <span class="cta-plus">📿</span>
       <div>
         <div class="cta-title ui-label" id="todaySummaryTitle">আজকের হিসাব লোড হচ্ছে...</div>
-        <div class="cta-sub ui-label">এন্ট্রি ট্যাবে গিয়ে চিপ থেকে যোগ করো</div>
+      </div>
+      <span class="cta-chevron">›</span>
+    </section>
+
+    <section class="dual-btn-row">
+      <button class="dual-btn dual-btn-neki ui-label" onclick="openDetailBrowser('neki')">🌱 হাসানাত ফিহরিস্ত</button>
+      <button class="dual-btn dual-btn-sin ui-label" onclick="openDetailBrowser('sin')">🔥 সাইয়্যিআত ফিহরিস্ত</button>
+    </section>
+
+    <section class="cta-card cta-card-duas" onclick="openPowerfulDuas()">
+      <span class="cta-plus">🤲</span>
+      <div>
+        <div class="cta-title ui-label">শক্তিশালী দোয়া</div>
+        <div class="cta-sub ui-label">দরুদ, ইস্তিগফার, দোয়া ইউনুস ও আরও</div>
       </div>
       <span class="cta-chevron">›</span>
     </section>
@@ -692,6 +726,72 @@ const diyahBDT = DIYAH_GRAMS_GOLD * RATES.gold_bdt_per_gram;
 
 // ---------------- DATA ----------------
 // ---------------- GLOSSARY (ইসলামি পরিভাষা) ----------------
+// ---------------- শক্তিশালী দোয়া (যথেষ্ট/অব্যর্থ দোয়া) ----------------
+// প্রতিটা এখানে সহীহ বা হাসান হিসেবে গৃহীত হাদিস/কুরআন থেকে, সব সূত্র সার্চ করে যাচাই করা
+const POWERFUL_DUAS = [
+  {
+    id:'ayatul_kursi', name_bn:'আয়াতুল কুরসি', name_ar:'آية الكرسي',
+    ar:'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ',
+    bn:'আল্লাহ, তিনি ছাড়া কোনো (সত্য) উপাস্য নেই, তিনি চিরঞ্জীব, সর্বসত্তার ধারক। তন্দ্রা তাঁকে স্পর্শ করে না, নিদ্রাও না। আসমান ও জমিনে যা কিছু আছে সব তাঁরই।',
+    fazilat:'রাসূল (সা.) নিজেই একে কুরআনের সর্বশ্রেষ্ঠ আয়াত বলে ঘোষণা করেছেন। প্রতি ওয়াক্ত ফরয নামাজের পর পড়লে মৃত্যু ছাড়া জান্নাতে প্রবেশে আর কিছু বাধা থাকে না বলে বর্ণিত হয়েছে।',
+    src:'কুরআন ২:২৫৫; ফজিলত — সহীহ মুসলিম ৮১০ (সর্বশ্রেষ্ঠ আয়াত), সুনানে নাসাঈ (আততরগীব, সহীহ সনদে) — প্রতি নামাজের পর পাঠের ফজিলত'
+  },
+  {
+    id:'baqarah_last2', name_bn:'সূরা বাকারার শেষ দুই আয়াত', name_ar:'آخر آيتين من سورة البقرة',
+    ar:'آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ...',
+    bn:'রাসূল তার প্রতি যা অবতীর্ণ হয়েছে তাতে ঈমান এনেছেন, আর মুমিনগণও। প্রত্যেকে ঈমান এনেছে আল্লাহ, তাঁর ফেরেশতাগণ, তাঁর কিতাবসমূহ ও তাঁর রাসূলগণের প্রতি...',
+    fazilat:'রাসূল (সা.) বলেছেন, যে রাতে এই দুই আয়াত পড়বে, তা তার জন্য যথেষ্ট হয়ে যাবে। "যথেষ্ট" (كَفَتَاهُ) শব্দটি হাদিসে সরাসরি ব্যবহৃত হয়েছে।',
+    src:'কুরআন ২:২৮৫-২৮৬; সহীহ বুখারী ৫০০৯, সহীহ মুসলিম ৮০৭'
+  },
+  {
+    id:'dua_yunus', name_bn:'দোয়া ইউনুস', name_ar:'دعاء يونس',
+    ar:'لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ',
+    bn:'তুমি ছাড়া কোনো (সত্য) উপাস্য নেই, তুমি পবিত্র, নিশ্চয় আমি জালিমদের (নিজের উপর জুলুমকারীদের) অন্তর্ভুক্ত ছিলাম।',
+    fazilat:'ইউনুস (আ.) মাছের পেটে অন্ধকারের মধ্যে এই দোয়া করেছিলেন। রাসূল (সা.) বলেছেন, কোনো মুসলিম কোনো বিষয়ে এই দোয়া দিয়ে আল্লাহর কাছে চাইলে আল্লাহ তা কবুল করেন।',
+    src:'কুরআন ২১:৮৭; জামি আত-তিরমিযী ৩৫০৫ (হাসান, আলবানী)'
+  },
+  {
+    id:'hasbunallah', name_bn:'হাসবুনাল্লাহু ওয়া নি\'মাল ওয়াকীল', name_ar:'حسبنا الله ونعم الوكيل',
+    ar:'حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ',
+    bn:'আল্লাহই আমাদের জন্য যথেষ্ট, আর তিনিই উত্তম কর্মবিধায়ক।',
+    fazilat:'ইবরাহীম (আ.) যখন আগুনে নিক্ষিপ্ত হচ্ছিলেন তখন এই বাক্য বলেছিলেন। মুমিনরাও শত্রুদের বিশাল বাহিনীর সংবাদ শুনে একই বাক্যে আল্লাহর উপর ভরসা প্রকাশ করেছিলেন এবং আল্লাহ তাদের হেফাজত করেছিলেন।',
+    src:'কুরআন ৩:১৭৩ (এবং ইবরাহীম আ.-এর প্রসঙ্গে ২১:৬৯-এর সাথে সম্পর্কিত বর্ণনা, সহীহ বুখারী ৪৫৬৩)'
+  },
+  {
+    id:'sayyidul_istighfar', name_bn:'সাইয়িদুল ইস্তিগফার', name_ar:'سيد الاستغفار',
+    ar:'اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ',
+    bn:'হে আল্লাহ, তুমি আমার রব, তুমি ছাড়া কোনো উপাস্য নেই। তুমি আমাকে সৃষ্টি করেছ, আমি তোমার বান্দা, আর আমি যথাসাধ্য তোমার প্রতিশ্রুতি ও ওয়াদার উপর আছি...',
+    fazilat:'রাসূল (সা.) বলেছেন, যে ব্যক্তি দৃঢ় বিশ্বাসের সাথে দিনে এই দোয়া পড়ে সেদিন সন্ধ্যার আগে মারা গেলে সে জান্নাতি; আর যে রাতে পড়ে সকালের আগে মারা গেলে সেও জান্নাতি।',
+    src:'সহীহ বুখারী ৬৩০৬'
+  },
+  {
+    id:'durood_ibrahim', name_bn:'দরুদ ইবরাহীম', name_ar:'الصلاة الإبراهيمية',
+    ar:'اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَىٰ إِبْرَاهِيمَ وَعَلَىٰ آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ',
+    bn:'হে আল্লাহ, মুহাম্মদ ও মুহাম্মদের পরিবারের উপর রহমত বর্ষণ করো, যেমন তুমি ইবরাহীম ও ইবরাহীমের পরিবারের উপর রহমত বর্ষণ করেছিলে। নিশ্চয় তুমি প্রশংসিত, মহিমান্বিত।',
+    fazilat:'সাহাবীদের প্রশ্নের জবাবে রাসূল (সা.) নিজে এই শব্দগুলো শিখিয়েছিলেন — তাশাহহুদে পঠিত সবচেয়ে প্রামাণ্য দরুদ। একবার দরুদ পড়লে আল্লাহ দশবার রহমত বর্ষণ করেন বলে বর্ণিত হয়েছে।',
+    src:'সহীহ বুখারী ৩৩৭০, সহীহ মুসলিম ৪০৬'
+  }
+];
+function openPowerfulDuas(){
+  const html = `
+    <div class="sheet-handle"></div>
+    <button class="close-x" onclick="closeSheet()">✕</button>
+    <h2 style="margin-bottom:4px;">শক্তিশালী দোয়া</h2>
+    <div class="block-text" style="margin-bottom:16px; font-size:12.5px;">মুমিনের জন্য যথেষ্ট, সহীহ/হাসান সূত্রে বর্ণিত কয়েকটি শক্তিশালী দোয়া ও আয়াত।</div>
+    ${POWERFUL_DUAS.map(d => `
+      <div class="block-label" style="margin-top:16px;">${d.name_bn} <span class="ar" style="font-size:12px; color:#A65D45;">${d.name_ar}</span></div>
+      <div class="dua-box">
+        <div class="dua-ar">${d.ar}</div>
+        <div class="dua-bn">${d.bn}</div>
+      </div>
+      <div class="block-text" style="margin-top:6px; font-size:13px;">${d.fazilat}</div>
+      <div class="evidence-src ui-label" style="margin-top:3px;">সূত্র: ${d.src}</div>
+    `).join('')}
+  `;
+  document.getElementById('sheet').innerHTML = html;
+  document.getElementById('overlay').classList.add('open');
+}
+
 const GLOSSARY = [
   { id:'nafs_ammarah', term_bn:'নফসে আম্মারা', term_ar:'النفس الأمارة', def:'কুরআনে বর্ণিত নফসের (প্রবৃত্তি/সত্তা) সর্বনিম্ন স্তর — "নিশ্চয় নফস মন্দ কাজের প্রতি প্ররোচনাদানকারী" (কুরআন ১২:৫৩)। এই স্তরে মানুষ প্রবৃত্তির তাড়নায় অবাধে গুনাহর দিকে ঝুঁকে পড়ে, তেমন প্রতিরোধ করে না।' },
   { id:'nafs_lawwamah', term_bn:'নফসে লাওয়ামা', term_ar:'النفس اللوامة', def:'নফসের মধ্যম স্তর — কুরআনে আল্লাহ এই "তিরস্কারকারী সত্তার" শপথ করেছেন (কুরআন ৭৫:২)। এই স্তরে মানুষ গুনাহ করেও নিজেকে তিরস্কার করে, অনুতপ্ত হয়, সংশোধনের চেষ্টা করে — এটাই অধিকাংশ সচেতন মুমিনের স্বাভাবিক অবস্থা।' },
@@ -1584,34 +1684,40 @@ function gardenPart(cfg, preserveAspect){
     <ellipse cx="150" cy="294" rx="56" ry="6.5" fill="${cfg.trunkColor}" opacity="0.55"/>
   </svg>`;
 }
+// তিন নফসের জন্য কুরআনের নির্দিষ্ট আয়াত — বৃক্ষের অবস্থান অনুযায়ী কোনটা দেখাবে তা ঠিক করে
+const NAFS_VERSES = {
+  ammarah:   { bn:'"নিশ্চয় নফস মন্দ কাজের প্রতি অত্যন্ত প্ররোচনাদানকারী, তবে আমার রব যার প্রতি দয়া করেন তা ভিন্ন কথা।"', src:'কুরআন ১২:৫৩' },
+  lawwamah:  { bn:'"আর আমি শপথ করি তিরস্কারকারী নফসের।"', src:'কুরআন ৭৫:২' },
+  mutmainnah:{ bn:'"হে প্রশান্ত নফস, তুমি তোমার রবের দিকে ফিরে এসো, সন্তুষ্ট হয়ে, সন্তোষভাজন হয়ে।"', src:'কুরআন ৮৯:২৭-২৮' }
+};
 const GARDEN_STATES = [
-  { min:0,  max:15,  label:'সম্পূর্ণ ধ্বংস', nafs:'নফসে আম্মারা প্রবল',
+  { min:0,  max:15,  label:'সম্পূর্ণ ধ্বংস', nafs:'নফসে আম্মারা প্রবল', nafsGroup:'ammarah',
     cfg:{id:'s0', sky1:'#2a2422', sky2:'#171412', trunkColor:'#0d0b0a',
       leafCount:0, leafColor:'#000', leafScale:1, showFruit:false, flowerCount:0,
       moonColor:'#5a3a30', moonOpacity:0.22, showFire:true, showSparkle:false,
       potColor:'#4a4038', potRim:'#332c26'} },
-  { min:15, max:30,  label:'অত্যন্ত শুষ্ক', nafs:'নফসে আম্মারা',
+  { min:15, max:30,  label:'অত্যন্ত শুষ্ক', nafs:'নফসে আম্মারা', nafsGroup:'ammarah',
     cfg:{id:'s1', sky1:'#5c5248', sky2:'#3a332c', trunkColor:'#4a3f34',
       leafCount:0, leafColor:'#000', leafScale:0.8, showFruit:false, flowerCount:0,
       moonColor:'#8a8478', moonOpacity:0.3, showFire:false, showSparkle:false,
       potColor:'#6b6156', potRim:'#4a4238'} },
-  { min:30, max:50,  label:'আশার সূচনা', nafs:'নফসে লাওয়ামার সূচনা',
+  { min:30, max:50,  label:'আশার সূচনা', nafs:'নফসে লাওয়ামার সূচনা', nafsGroup:'lawwamah',
     cfg:{id:'s2', sky1:'#8a8478', sky2:'#5c574c', trunkColor:'#3a2e22',
       leafCount:3, leafColor:'#7a9868', leafScale:0.9, showFruit:false, flowerCount:0,
       moonColor:'#c4bfa8', moonOpacity:0.55, showFire:false, showSparkle:false,
       potColor:'#a89c84', potRim:'#7a6f5a'} },
-  { min:50, max:70,  label:'স্বাভাবিক', nafs:'নফসে লাওয়ামা',
+  { min:50, max:70,  label:'স্বাভাবিক', nafs:'নফসে লাওয়ামা', nafsGroup:'lawwamah',
     cfg:{id:'s3', sky1:'#7c8a80', sky2:'#4c5850', trunkColor:'#2a2016',
       leafCount:7, leafColor:'#4d7a52', leafScale:0.95, showFruit:false, flowerCount:0,
       moonColor:'#e8dfc0', moonOpacity:0.68, showFire:false, showSparkle:false,
       potColor:'#c9bea6', potRim:'#b8a986'} },
-  { min:70, max:90,  label:'সুন্দর ও সবুজ', nafs:'নফসে মুতমাইন্নার সূচনা',
+  { min:70, max:90,  label:'সুন্দর ও সবুজ', nafs:'নফসে মুতমাইন্নার সূচনা', nafsGroup:'mutmainnah',
     cfg:{id:'s4', sky1:'#6a8a76', sky2:'#3c5044', trunkColor:'#241a10',
       leafCount:9, leafColor:'#3a8a52', leafScale:1.05, showFruit:true, fruitColor:'#d9534f',
       flowerCount:4, flowerColor:'#F2A6C6', flowerCenter:'#FCE8A8',
       moonColor:'#f2d88a', moonOpacity:0.8, showFire:false, showSparkle:false,
       potColor:'#d4c9ac', potRim:'#b8a680'} },
-  { min:90, max:101, label:'অত্যন্ত নির্মল', nafs:'নফসে মুতমাইন্না',
+  { min:90, max:101, label:'অত্যন্ত নির্মল', nafs:'নফসে মুতমাইন্না', nafsGroup:'mutmainnah',
     cfg:{id:'s5', sky1:'#4a7566', sky2:'#274038', trunkColor:'#1a120b',
       leafCount:9, leafColor:'#2fae64', leafScale:1.1, showFruit:true, fruitColor:'#f2c14e',
       flowerCount:9, flowerColor:'#FFFFFF', flowerCenter:'#F2C14E',
@@ -1624,13 +1730,15 @@ function gardenStateForScore(score){
 function renderGarden(score){
   const state = gardenStateForScore(score);
   document.getElementById('gardenStateLabel').textContent = state.nafs;
+  const verse = NAFS_VERSES[state.nafsGroup];
+  document.getElementById('gardenSub').textContent = `${verse.bn} — ${verse.src}`;
   const layerA = document.getElementById('gardenLayerA');
   const layerB = document.getElementById('gardenLayerB');
   const activeLayer = layerA.classList.contains('active') ? layerA : layerB;
   const inactiveLayer = activeLayer === layerA ? layerB : layerA;
   updateNavTreeIcon(state); // ন্যাভ-বার ও সাইডবারের ছোট আইকনটাও গাছের বর্তমান অবস্থার সাথে সিঙ্কে রাখা হয়
   if(activeLayer.dataset.state === state.label) return; // অবস্থা বদলায়নি, রি-রেন্ডার দরকার নেই
-  inactiveLayer.innerHTML = gardenPart(state.cfg, 'xMaxYMid meet');
+  inactiveLayer.innerHTML = gardenPart(state.cfg, 'xMidYMid slice');
   inactiveLayer.dataset.state = state.label;
   inactiveLayer.classList.add('active');
   activeLayer.classList.remove('active');
