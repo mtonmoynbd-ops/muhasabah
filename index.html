@@ -123,6 +123,50 @@
   .chip-neki{ border-color:rgba(74,222,128,0.28); }
   .chip-neki:active{ background:rgba(74,222,128,0.16); }
   .insight-label{ font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:0.5px; margin:10px 0 4px; }
+
+  /* ---------- ফুল পেজ (ফিহরিস্ত/দোয়া) ---------- */
+  .fullpage-header{ padding:14px 0 4px; }
+  .fullpage-back{
+    background:none; border:none; color:var(--gold); font-size:13.5px; font-weight:600; cursor:pointer; padding:6px 0;
+  }
+  .accordion-list{ display:flex; flex-direction:column; gap:8px; }
+  .accordion-item{
+    background:var(--card); border:1px solid var(--card-line); border-radius:14px; overflow:hidden;
+  }
+  .accordion-header{
+    display:flex; align-items:center; justify-content:space-between; padding:14px 16px; cursor:pointer;
+  }
+  .accordion-title{ font-size:15px; font-weight:600; color:var(--ink); }
+  .accordion-title-ar{ font-family:'Amiri', serif; font-size:13px; color:var(--gold-soft); direction:rtl; margin-top:2px; }
+  .accordion-caret{ color:var(--gold); font-size:14px; transition:transform 0.25s ease; flex-shrink:0; margin-left:8px; }
+  .accordion-item.open > .accordion-header .accordion-caret{ transform:rotate(180deg); }
+  .accordion-body{ max-height:0; overflow:hidden; transition:max-height 0.3s ease; }
+  .accordion-item.open > .accordion-body{ max-height:3000px; }
+  .accordion-body-inner{ padding:0 16px 16px; border-top:1px solid var(--card-line); padding-top:12px; }
+  .accordion-body-inner .block-label{ color:var(--gold); margin-top:12px; }
+  .accordion-body-inner .block-label:first-child{ margin-top:0; }
+  .accordion-body-inner .block-text{ color:var(--ink-dim); font-size:13px; line-height:1.7; }
+  .accordion-body-inner .evidence-item{ color:var(--ink-dim); font-size:12.5px; line-height:1.7; margin-bottom:6px; padding-left:10px; border-left:2px solid var(--gold); }
+  .accordion-body-inner .evidence-src{ color:var(--ink-dim); opacity:0.75; font-size:10.5px; }
+  .sub-accordion{ margin-top:10px; border:1px solid var(--card-line); border-radius:10px; overflow:hidden; }
+  .sub-accordion-header{
+    display:flex; align-items:center; justify-content:space-between; padding:10px 12px; cursor:pointer;
+    font-size:12.5px; font-weight:600; color:var(--gold-soft); background:rgba(217,185,120,0.06);
+  }
+  .sub-accordion-body{ max-height:0; overflow:hidden; transition:max-height 0.3s ease; padding:0 12px; }
+  .sub-accordion.open .sub-accordion-body{ max-height:2000px; padding:10px 12px; }
+  .sub-accordion .madhab-toggle{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; }
+  .sub-accordion .madhab-btn{
+    font-size:11px; padding:5px 10px; border-radius:12px; border:1px solid var(--card-line);
+    background:none; color:var(--ink-dim); cursor:pointer;
+  }
+  .sub-accordion .madhab-btn.active{ background:var(--gold); color:var(--bg); border-color:var(--gold); }
+  .sub-accordion .remedy-badge{ font-size:11.5px; color:var(--ink-dim); background:rgba(217,185,120,0.08); border:1px solid var(--card-line); border-radius:8px; padding:8px 10px; margin-bottom:8px; }
+  .sub-accordion .kaffarah-text{ font-size:12.5px; color:var(--ink-dim); line-height:1.7; }
+  .sub-accordion .dua-box-inline{ background:var(--bg-2); border-radius:10px; padding:12px; text-align:center; margin-top:4px; }
+  .sub-accordion .dua-ar-inline{ font-family:'Amiri', serif; font-size:17px; color:var(--gold-soft); direction:rtl; line-height:1.8; }
+  .sub-accordion .dua-bn-inline{ font-size:11.5px; color:var(--ink-dim); margin-top:6px; }
+  .sub-accordion .dua-src-inline{ font-size:10px; color:var(--ink-dim); opacity:0.7; margin-top:6px; }
   .insight-label:first-child{ margin-top:0; }
 
   .calendar-panel{
@@ -158,9 +202,16 @@
   .section-title::after{content:''; flex:1; height:1px; background:linear-gradient(to right, rgba(217,185,120,0.4), transparent);}
 
   /* ---------- Dashboard hero: ফুল-ওয়াইড বৃক্ষ ব্যাকগ্রাউন্ড, বামে টেক্সট ওভারলে ---------- */
-  #view-dashboard section{ margin-top:9px; }
+  /* dvh (dynamic viewport height) ব্যবহার করা হয়েছে যাতে মোবাইল ব্রাউজারের অ্যাড্রেস-বার দেখা/লুকানো সত্ত্বেও
+     ড্যাশবোর্ড সবসময় স্ক্রিনে ফিট থাকে, কোনো স্ক্রলবার ছাড়াই */
+  #view-dashboard.active{
+    display:flex; flex-direction:column; gap:8px;
+    height:calc(100dvh - 175px); min-height:400px; overflow:hidden;
+  }
+  #view-dashboard.active section{ margin-top:0; flex-shrink:0; }
   .dash-hero{
-    position:relative; width:100%; height:175px; border-radius:16px; overflow:hidden; cursor:pointer;
+    position:relative; width:100%; height:120px; flex-shrink:1; min-height:85px;
+    border-radius:16px; overflow:hidden; cursor:pointer;
     border:1px solid rgba(255,255,255,0.1); box-shadow:0 6px 16px rgba(0,0,0,0.3); background:var(--card);
   }
   .dash-hero-scrim{
@@ -168,12 +219,12 @@
     background:linear-gradient(90deg, rgba(6,16,11,0.88) 0%, rgba(6,16,11,0.55) 45%, rgba(6,16,11,0.05) 78%);
   }
   .dash-hero-overlay{
-    position:relative; z-index:2; height:100%; max-width:66%; padding:14px 16px;
+    position:relative; z-index:2; height:100%; max-width:66%; padding:12px 16px;
     display:flex; flex-direction:column; justify-content:center;
   }
-  .dash-greeting{ font-size:11px; color:rgba(234,243,236,0.7); text-transform:uppercase; letter-spacing:0.5px; }
-  .dash-state-label{ font-size:17px; font-weight:700; color:#fff; margin-top:2px; font-family:'Noto Serif Bengali', serif; }
-  .dash-sub{ font-size:11px; color:rgba(234,243,236,0.85); margin-top:6px; line-height:1.6; }
+  .dash-greeting{ font-size:10.5px; color:rgba(234,243,236,0.7); text-transform:uppercase; letter-spacing:0.5px; }
+  .dash-state-label{ font-size:16px; font-weight:700; color:#fff; margin-top:2px; font-family:'Noto Serif Bengali', serif; }
+  .dash-sub{ font-size:10.5px; color:rgba(234,243,236,0.85); margin-top:5px; line-height:1.5; }
 
   .dual-btn-row{ display:flex; gap:8px; }
   .dual-btn{
@@ -267,16 +318,17 @@
   /* ---------- Stat grid ---------- */
   .stat-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:6px;}
   .stat-card{
-    background:var(--card); border:1px solid var(--card-line); border-radius:12px;
-    padding:9px 3px; text-align:center; cursor:pointer;
+    background:var(--card); border:1px solid var(--card-line); border-radius:16px;
+    aspect-ratio:1; padding:6px 2px; text-align:center; cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
   }
   .stat-icon{
-    width:28px; height:28px; border-radius:50%; margin:0 auto 6px;
-    display:flex; align-items:center; justify-content:center; font-size:13px;
+    width:22px; height:22px; border-radius:50%; margin:0 auto 4px;
+    display:flex; align-items:center; justify-content:center; font-size:11px;
   }
-  .stat-label{font-size:9.5px; color:var(--ink-dim); line-height:1.25;}
-  .stat-value{font-size:16px; font-weight:700; color:var(--ink); margin:2px 0;}
-  .stat-unit{font-size:9px; color:var(--ink-dim);}
+  .stat-label{font-size:8.5px; color:var(--ink-dim); line-height:1.15;}
+  .stat-value{font-size:14px; font-weight:700; color:var(--ink); margin:1px 0;}
+  .stat-unit{font-size:8px; color:var(--ink-dim);}
 
   /* ---------- Position card ---------- */
   .position-card{
@@ -447,6 +499,7 @@
   .umar-strip{ text-align:center; padding:2px 24px 10px; }
   .umar-strip .arabic{ font-size:14px; color:var(--green); line-height:1.6; }
   .umar-strip .ui-label{ font-size:10.5px; color:var(--ink-dim); margin-top:3px; line-height:1.5; }
+  .umar-strip .umar-name{ white-space:nowrap; margin-top:2px; }
 </style>
 </head>
 <body>
@@ -464,7 +517,8 @@
 
 <div class="umar-strip">
   <div class="arabic">حَاسِبُوا أَنْفُسَكُمْ قَبْلَ أَنْ تُحَاسَبُوا</div>
-  <div class="ui-label">"তোমাদের হিসাব নেওয়ার আগে তোমরা নিজেদের হিসাব নাও" — উমর ইবনুল খাত্তাব (রা.)</div>
+  <div class="ui-label">"তোমাদের হিসাব নেওয়ার আগে তোমরা নিজেদের হিসাব নাও"</div>
+  <div class="ui-label umar-name">— উমর ইবনুল খাত্তাব (রা.)</div>
 </div>
 
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
@@ -488,8 +542,8 @@
 
   <div class="sidebar-section">
     <div class="sidebar-item ui-label" onclick="openGlossary(); toggleSidebar();">📖 গ্লোসারি</div>
-    <div class="sidebar-item ui-label" onclick="openDetailBrowser('neki'); toggleSidebar();">🌱 হাসানাত বিস্তারিত</div>
-    <div class="sidebar-item ui-label" onclick="openDetailBrowser('sin'); toggleSidebar();">🔥 সাইয়্যিআত বিস্তারিত</div>
+    <div class="sidebar-item ui-label" onclick="openFihristPage('neki'); toggleSidebar();">🌱 হাসানাত বিস্তারিত</div>
+    <div class="sidebar-item ui-label" onclick="openFihristPage('sin'); toggleSidebar();">🔥 সাইয়্যিআত বিস্তারিত</div>
     <div class="sidebar-item ui-label" onclick="toggleSidebar(); toggleCalendar();">☾ ক্যালেন্ডার</div>
   </div>
   <div class="sidebar-divider"></div>
@@ -567,11 +621,11 @@
     </section>
 
     <section class="dual-btn-row">
-      <button class="dual-btn dual-btn-neki ui-label" onclick="openDetailBrowser('neki')">🌱 হাসানাত ফিহরিস্ত</button>
-      <button class="dual-btn dual-btn-sin ui-label" onclick="openDetailBrowser('sin')">🔥 সাইয়্যিআত ফিহরিস্ত</button>
+      <button class="dual-btn dual-btn-neki ui-label" onclick="openFihristPage('neki')">🌱 হাসানাত ফিহরিস্ত</button>
+      <button class="dual-btn dual-btn-sin ui-label" onclick="openFihristPage('sin')">🔥 সাইয়্যিআত ফিহরিস্ত</button>
     </section>
 
-    <section class="cta-card cta-card-duas" onclick="openPowerfulDuas()">
+    <section class="cta-card cta-card-duas" onclick="openDuasPage()">
       <span class="cta-plus">🤲</span>
       <div>
         <div class="cta-title ui-label">শক্তিশালী দোয়া</div>
@@ -657,21 +711,35 @@
       </div>
     </section>
   </div>
+
+  <div class="tab-view" id="view-fihrist">
+    <div class="fullpage-header">
+      <button class="fullpage-back" onclick="closeFullPage()">← ফিরে যাও</button>
+    </div>
+    <section class="entry-toggle">
+      <button class="entry-toggle-btn active" data-fmode="neki" onclick="setFihristPageMode('neki')">🌱 হাসানাত</button>
+      <button class="entry-toggle-btn" data-fmode="sin" onclick="setFihristPageMode('sin')">🔥 সাইয়্যিআত</button>
+    </section>
+    <section>
+      <div class="accordion-list" id="fihristPageList"></div>
+    </section>
+  </div>
+
+  <div class="tab-view" id="view-duas">
+    <div class="fullpage-header">
+      <button class="fullpage-back" onclick="closeFullPage()">← ফিরে যাও</button>
+    </div>
+    <section>
+      <div class="section-title">শক্তিশালী দোয়া</div>
+      <div class="ui-label" style="font-size:12px; color:var(--ink-dim); margin-bottom:12px;">মুমিনের জন্য যথেষ্ট, সহীহ/হাসান সূত্রে বর্ণিত কয়েকটি শক্তিশালী দোয়া ও আয়াত — প্রতিটায় ট্যাপ করলে বিস্তারিত দেখাবে।</div>
+      <div class="accordion-list" id="duasPageList"></div>
+    </section>
+  </div>
 </main>
 
 <footer>ফতোয়া হিসেবে নয়, আত্মজিজ্ঞাসা ও স্মরণের উপকরণ হিসেবে ব্যবহার করুন।</footer>
 
 <nav class="bottom-nav">
-  <button class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
-    <span class="nav-ic">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2.5c-2.5 0-4.5 2.1-4.5 4.6 0 1.4.7 2.6 1.8 3.4v1H4v9h16v-9h-5.3v-1c1.1-.8 1.8-2 1.8-3.4 0-2.5-2-4.6-4.5-4.6Z"/>
-        <path d="M12 1.2v1.3M11 1.8h2"/>
-        <path d="M4 20h16M10.5 15.5v4.5h3v-4.5"/>
-      </svg>
-    </span>
-    <span>ড্যাশবোর্ড</span>
-  </button>
   <button class="nav-item" data-tab="entry" onclick="switchTab('entry')">
     <span class="nav-ic">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -681,7 +749,17 @@
     </span>
     <span>এন্ট্রি</span>
   </button>
-  <button class="nav-item nav-center" data-tab="garden" onclick="switchTab('garden')"><span class="nav-ic" id="navTreeIcon"></span><span>বৃক্ষ</span></button>
+  <button class="nav-item" data-tab="garden" onclick="switchTab('garden')"><span class="nav-ic" id="navTreeIcon"></span><span>বৃক্ষ</span></button>
+  <button class="nav-item nav-center active" data-tab="dashboard" onclick="switchTab('dashboard')">
+    <span class="nav-ic">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2.5c-2.5 0-4.5 2.1-4.5 4.6 0 1.4.7 2.6 1.8 3.4v1H4v9h16v-9h-5.3v-1c1.1-.8 1.8-2 1.8-3.4 0-2.5-2-4.6-4.5-4.6Z"/>
+        <path d="M12 1.2v1.3M11 1.8h2"/>
+        <path d="M4 20h16M10.5 15.5v4.5h3v-4.5"/>
+      </svg>
+    </span>
+    <span>ড্যাশবোর্ড</span>
+  </button>
   <button class="nav-item" data-tab="report" onclick="switchTab('report')">
     <span class="nav-ic">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -772,24 +850,70 @@ const POWERFUL_DUAS = [
     src:'সহীহ বুখারী ৩৩৭০, সহীহ মুসলিম ৪০৬'
   }
 ];
-function openPowerfulDuas(){
-  const html = `
-    <div class="sheet-handle"></div>
-    <button class="close-x" onclick="closeSheet()">✕</button>
-    <h2 style="margin-bottom:4px;">শক্তিশালী দোয়া</h2>
-    <div class="block-text" style="margin-bottom:16px; font-size:12.5px;">মুমিনের জন্য যথেষ্ট, সহীহ/হাসান সূত্রে বর্ণিত কয়েকটি শক্তিশালী দোয়া ও আয়াত।</div>
-    ${POWERFUL_DUAS.map(d => `
-      <div class="block-label" style="margin-top:16px;">${d.name_bn} <span class="ar" style="font-size:12px; color:#A65D45;">${d.name_ar}</span></div>
-      <div class="dua-box">
-        <div class="dua-ar">${d.ar}</div>
-        <div class="dua-bn">${d.bn}</div>
+// ---------------- ফুল-পেজ নেভিগেশন (ফিহরিস্ত/দোয়া) ----------------
+let previousTabBeforeFullPage = 'dashboard';
+function openFullPage(pageId){
+  document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + pageId).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  window.scrollTo({top:0});
+}
+function closeFullPage(){
+  switchTab(previousTabBeforeFullPage);
+}
+function rememberTabAndOpen(pageId){
+  const activeTab = document.querySelector('.nav-item.active');
+  if(activeTab) previousTabBeforeFullPage = activeTab.dataset.tab;
+  openFullPage(pageId);
+}
+
+// ---------------- অ্যাকর্ডিয়ন (ক্লিকে এক্সপ্যান্ড/কোলাপ্স) ----------------
+let openAccordions = new Set();
+function toggleAccordion(id){
+  if(openAccordions.has(id)) openAccordions.delete(id); else openAccordions.add(id);
+  applyAccordionStates();
+}
+function applyAccordionStates(){
+  document.querySelectorAll('.accordion-item[data-acc-id], .sub-accordion[data-acc-id]').forEach(el => {
+    el.classList.toggle('open', openAccordions.has(el.dataset.accId));
+  });
+}
+
+// ---------------- শক্তিশালী দোয়া (ফুল পেজ, অ্যাকর্ডিয়ন) ----------------
+function openDuasPage(){
+  rememberTabAndOpen('duas');
+  renderDuasPage();
+}
+function renderDuasPage(){
+  const el = document.getElementById('duasPageList');
+  el.innerHTML = POWERFUL_DUAS.map(d => {
+    const accId = 'dua_' + d.id;
+    return `
+    <div class="accordion-item" data-acc-id="${accId}">
+      <div class="accordion-header" onclick="toggleAccordion('${accId}')">
+        <div>
+          <div class="accordion-title">${d.name_bn}</div>
+          <div class="accordion-title-ar">${d.name_ar}</div>
+        </div>
+        <span class="accordion-caret">▾</span>
       </div>
-      <div class="block-text" style="margin-top:6px; font-size:13px;">${d.fazilat}</div>
-      <div class="evidence-src ui-label" style="margin-top:3px;">সূত্র: ${d.src}</div>
-    `).join('')}
-  `;
-  document.getElementById('sheet').innerHTML = html;
-  document.getElementById('overlay').classList.add('open');
+      <div class="accordion-body">
+        <div class="accordion-body-inner">
+          <div class="sub-accordion open" style="margin-top:0;">
+            <div class="sub-accordion-body" style="max-height:2000px; padding:12px;">
+              <div class="dua-box-inline">
+                <div class="dua-ar-inline">${d.ar}</div>
+                <div class="dua-bn-inline">${d.bn}</div>
+              </div>
+              <div class="block-text" style="margin-top:10px;">${d.fazilat}</div>
+              <div class="evidence-src" style="margin-top:6px;">সূত্র: ${d.src}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  applyAccordionStates();
 }
 
 const GLOSSARY = [
@@ -1661,15 +1785,15 @@ function drawBonsai(cfg){
   }).join('') : '';
   return `<g class="tree-sway-branches" style="transform-origin:150px 180px;">${branchesSvg}${leavesSvg}${flowersSvg}${fruitSvg}</g>`;
 }
-function gardenPart(cfg, preserveAspect){
+function gardenPart(cfg, preserveAspect, viewBoxOverride){
   const bonsai = drawBonsai(cfg);
-  return `<svg viewBox="0 0 300 320" preserveAspectRatio="${preserveAspect || 'xMidYMid meet'}" xmlns="http://www.w3.org/2000/svg">
+  return `<svg viewBox="${viewBoxOverride || '0 0 300 320'}" preserveAspectRatio="${preserveAspect || 'xMidYMid meet'}" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="sky-${cfg.id}" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stop-color="${cfg.sky1}"/><stop offset="1" stop-color="${cfg.sky2}"/>
       </linearGradient>
     </defs>
-    <rect width="300" height="320" fill="url(#sky-${cfg.id})"/>
+    <rect x="-50" y="-50" width="400" height="420" fill="url(#sky-${cfg.id})"/>
     ${cfg.showSparkle ? `<circle cx="235" cy="55" r="58" fill="${cfg.moonColor}" opacity="0.14"/>` : ''}
     <circle cx="235" cy="55" r="42" fill="${cfg.moonColor}" opacity="${cfg.moonOpacity}"/>
     ${bonsai}
@@ -1738,7 +1862,7 @@ function renderGarden(score){
   const inactiveLayer = activeLayer === layerA ? layerB : layerA;
   updateNavTreeIcon(state); // ন্যাভ-বার ও সাইডবারের ছোট আইকনটাও গাছের বর্তমান অবস্থার সাথে সিঙ্কে রাখা হয়
   if(activeLayer.dataset.state === state.label) return; // অবস্থা বদলায়নি, রি-রেন্ডার দরকার নেই
-  inactiveLayer.innerHTML = gardenPart(state.cfg, 'xMidYMid slice');
+  inactiveLayer.innerHTML = gardenPart(state.cfg, 'xMidYMid slice', '0 88 300 145');
   inactiveLayer.dataset.state = state.label;
   inactiveLayer.classList.add('active');
   activeLayer.classList.remove('active');
@@ -1869,28 +1993,120 @@ function renderChipGrid(){
   }
 }
 // সব সাইয়্যিআত ও হাসানাতের সম্পূর্ণ বিস্তারিত (সূত্র/ফজিলত/মাযহাব) একটা আলাদা ব্রাউজেবল পাতায়
-function openDetailBrowser(mode){
-  const isSin = mode === 'sin';
-  const items = isSin ? SINS : NEKI;
-  const openFn = isSin ? 'openSin' : 'openNeki';
-  const title = isSin ? '🔥 সাইয়্যিআতের বিস্তারিত ফিহরিস্ত' : '🌱 হাসানাতের বিস্তারিত ফিহরিস্ত';
-  const html = `
-    <div class="sheet-handle"></div>
-    <button class="close-x" onclick="closeSheet()">✕</button>
-    <h2 style="margin-bottom:14px;">${title}</h2>
-    <div class="fihrist">${items.map(x => `
-      <div class="fihrist-item" onclick="${openFn}('${x.id}')">
-        <div class="fihrist-left">
-          <div class="fihrist-name">${x.name_bn}</div>
-          <div class="fihrist-name-ar">${x.name_ar}</div>
-        </div>
-        <div class="chevron">›</div>
-      </div>`).join('')}
-    </div>
-  `;
-  document.getElementById('sheet').innerHTML = html;
-  document.getElementById('overlay').classList.add('open');
+// ---------------- বিস্তারিত ফিহরিস্ত (ফুল পেজ, অ্যাকর্ডিয়ন) ----------------
+let fihristPageMode = 'neki';
+let accordionMadhab = {};
+function openFihristPage(mode){
+  fihristPageMode = mode;
+  rememberTabAndOpen('fihrist');
+  document.querySelectorAll('#view-fihrist .entry-toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.fmode === mode));
+  renderFihristPage();
 }
+function setFihristPageMode(mode){
+  fihristPageMode = mode;
+  document.querySelectorAll('#view-fihrist .entry-toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.fmode === mode));
+  renderFihristPage();
+}
+function renderFihristPage(){
+  const isSin = fihristPageMode === 'sin';
+  const items = isSin ? SINS : NEKI;
+  document.getElementById('fihristPageList').innerHTML = items.map(x => renderFihristAccordionItem(x, isSin)).join('');
+  applyAccordionStates();
+}
+function renderFihristAccordionItem(x, isSin){
+  const accId = (isSin ? 'sin_' : 'neki_') + x.id;
+  const hasMulti = isSin
+    ? (x.kaffarah.hanafi || x.kaffarah.shafii || x.kaffarah.maliki || x.kaffarah.hanbali)
+    : (x.madhab && (x.madhab.hanafi || x.madhab.shafii || x.madhab.maliki || x.madhab.hanbali));
+  const selMadhab = accordionMadhab[accId] || 'hanafi';
+  const madhabLabel = m => m==='hanafi'?'হানাফী':m==='shafii'?'শাফেয়ী':m==='maliki'?'মালেকী':'হাম্বলী';
+  const madhabButtons = () => ['hanafi','shafii','maliki','hanbali'].map(m =>
+    `<button class="madhab-btn ${m===selMadhab?'active':''}" onclick="event.stopPropagation(); switchAccordionMadhab('${accId}','${m}')">${madhabLabel(m)}</button>`
+  ).join('');
+
+  let kaffarahSubHtml = '';
+  if(isSin){
+    const remedy = REMEDY_LABELS[x.remedy] || REMEDY_LABELS.none;
+    const kaffarahBody = hasMulti
+      ? `<div class="madhab-toggle">${madhabButtons()}</div><div class="kaffarah-text">${x.kaffarah[selMadhab] || 'এই মাযহাবের বিস্তারিত এখনো যুক্ত করা হয়নি।'}</div>`
+      : `<div class="kaffarah-text">${x.kaffarah.ijma}</div>`;
+    kaffarahSubHtml = `
+      <div class="sub-accordion" data-acc-id="${accId}_kaf">
+        <div class="sub-accordion-header" onclick="toggleAccordion('${accId}_kaf')"><span>কাফফারা/প্রতিকার বিস্তারিত</span><span>▾</span></div>
+        <div class="sub-accordion-body">
+          <div class="remedy-badge">${remedy.dot} ${remedy.text}</div>
+          ${kaffarahBody}
+          ${x.diyah_note ? `<div class="remedy-badge">💰 ${x.diyah_note}</div>` : ''}
+          ${x.nisab_info ? `<div class="remedy-badge">💰 ${x.nisab_info}</div>` : ''}
+          ${x.huquq ? `<div class="remedy-badge">⚠️ ${x.huquq_note}</div>` : ''}
+        </div>
+      </div>`;
+  }else if(hasMulti){
+    kaffarahSubHtml = `
+      <div class="sub-accordion" data-acc-id="${accId}_kaf">
+        <div class="sub-accordion-header" onclick="toggleAccordion('${accId}_kaf')"><span>মাযহাবভেদে বিস্তারিত</span><span>▾</span></div>
+        <div class="sub-accordion-body">
+          <div class="madhab-toggle">${madhabButtons()}</div>
+          <div class="kaffarah-text">${x.madhab[selMadhab] || 'এই মাযহাবের বিস্তারিত এখনো যুক্ত করা হয়নি।'}</div>
+        </div>
+      </div>`;
+  }
+
+  const duaSubHtml = x.dua ? `
+    <div class="sub-accordion" data-acc-id="${accId}_dua">
+      <div class="sub-accordion-header" onclick="toggleAccordion('${accId}_dua')"><span>${isSin ? 'ইস্তিগফার' : 'দোয়া'}</span><span>▾</span></div>
+      <div class="sub-accordion-body">
+        <div class="dua-box-inline">
+          <div class="dua-ar-inline">${x.dua.ar}</div>
+          <div class="dua-bn-inline">${x.dua.uccharan ? x.dua.uccharan + '<br>' : ''}${x.dua.bn}</div>
+          <div class="dua-src-inline">সূত্র: ${x.dua.src}</div>
+        </div>
+      </div>
+    </div>` : '';
+
+  const bodyMainHtml = isSin
+    ? `<div class="block-label" style="margin-top:0;">কুরআন ও হাদিসের সূত্র</div>
+       ${x.evidence.map(e=>`<div class="evidence-item">${e.text}<div class="evidence-src">— ${e.src}</div></div>`).join('')}
+       <div class="block-label">দুনিয়াবি দিক</div>
+       <div class="block-text">${x.dunya}</div>
+       <div class="block-label">আখিরাতের দিক</div>
+       <div class="block-text">${x.akhirah}</div>`
+    : `<div class="block-label" style="margin-top:0;">কুরআন ও হাদিসের সূত্র</div>
+       ${x.evidence.map(e=>`<div class="evidence-item">${e.text}<div class="evidence-src">— ${e.src}</div></div>`).join('')}
+       <div class="block-label">ফজিলত ও প্রতিদান</div>
+       <div class="block-text">${x.fazilat}</div>
+       <div class="block-label">কোন গুনাহ মিটিয়ে দেয়?</div>
+       <div class="block-text">${x.erases}</div>`;
+
+  const tagHtml = isSin
+    ? `<span class="tag ${x.category==='kabira'?'tag-kabira':'tag-sagira'}">${x.category==='kabira'?'কবিরা':'সগিরা'}</span>${x.huquq ? '<span class="tag tag-huquq">বান্দার হক</span>' : ''}`
+    : `<span class="tag tag-neki">${NEKI_CATEGORY_LABELS[x.category] || x.category}</span>`;
+
+  return `
+    <div class="accordion-item" data-acc-id="${accId}">
+      <div class="accordion-header" onclick="toggleAccordion('${accId}')">
+        <div>
+          <div class="accordion-title">${x.name_bn}</div>
+          <div class="accordion-title-ar">${x.name_ar}</div>
+          <div class="fihrist-tags" style="margin-top:5px;">${tagHtml}</div>
+        </div>
+        <span class="accordion-caret">▾</span>
+      </div>
+      <div class="accordion-body">
+        <div class="accordion-body-inner">
+          ${bodyMainHtml}
+          ${kaffarahSubHtml}
+          ${duaSubHtml}
+        </div>
+      </div>
+    </div>`;
+}
+function switchAccordionMadhab(accId, m){
+  accordionMadhab[accId] = m;
+  renderFihristPage();
+}
+
+
 // কোন সাইয়্যিআত/হাসানাত ব্যক্তি সবচেয়ে বেশি করে তার ইনসাইট
 function renderFrequencyInsights(){
   const el = document.getElementById('frequencyInsights');
