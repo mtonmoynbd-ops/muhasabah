@@ -7,386 +7,261 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Bengali:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  /* ============================================================
-     Redesigned UI (visual only — no logic, IDs, or class names changed)
-     ============================================================ */
   :root{
-    --bg:#07130E;
-    --bg-2:#0C1E17;
-    --bg-3:#0F2A20;
-    --card:#132E23;
-    --card-2:#173628;
-    --card-line:rgba(255,255,255,0.08);
-    --card-line-strong:rgba(255,255,255,0.14);
-    --ink:#ECF5EE;
-    --ink-dim:#9CB4A7;
-    --ink-mute:#6D8578;
-    --gold:#E1BE7E;
-    --gold-soft:#F0D6A2;
-    --gold-deep:#B8944D;
+    --bg:#0A1A13;
+    --bg-2:#0E2118;
+    --card:#132A1F;
+    --card-line:rgba(255,255,255,0.07);
+    --ink:#EAF3EC;
+    --ink-dim:#9FB6A9;
+    --gold:#D9B978;
+    --gold-soft:#E9CD9A;
     --green:#4ADE80;
-    --green-2:#22C55E;
-    --green-soft:rgba(74,222,128,0.18);
-    --green-ring:rgba(74,222,128,0.35);
+    --green-soft:#2F6B45;
     --red:#F0563D;
-    --red-soft:rgba(240,86,61,0.18);
     --amber:#E8B23D;
     --teal:#4FC3D9;
     --purple:#B48CD9;
     --clay:#C98F7B;
-    --shadow-sm:0 1px 2px rgba(0,0,0,0.35);
-    --shadow-md:0 6px 18px rgba(0,0,0,0.35), 0 1px 2px rgba(0,0,0,0.25);
-    --shadow-lg:0 20px 48px -12px rgba(0,0,0,0.55), 0 4px 12px rgba(0,0,0,0.3);
-    --grad-gold:linear-gradient(135deg,#F0D6A2 0%,#D9B978 45%,#B8944D 100%);
-    --grad-green:linear-gradient(135deg,rgba(74,222,128,0.22),rgba(74,222,128,0.06));
-    --grad-red:linear-gradient(135deg,rgba(240,86,61,0.22),rgba(240,86,61,0.06));
-    --grad-surface:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0));
-    --ease-out:cubic-bezier(.2,.7,.2,1);
-    --radius-sm:10px;
-    --radius:14px;
-    --radius-lg:18px;
-    --radius-xl:22px;
   }
-  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   button, .fihrist-item, .stat-card, .cta-card, .nav-item, .sidebar-item, .cal-day, .cal-arrow, .icon-btn, .filter-tab, .madhab-btn, .info-ic{
     -webkit-tap-highlight-color:transparent; outline:none; user-select:none; -webkit-user-select:none;
   }
-  html, body{ overscroll-behavior-y:none; }
   body{
     margin:0;
+    overflow-x:hidden;
     background:var(--bg);
     background-image:
-      radial-gradient(1200px 600px at 10% -10%, rgba(74,222,128,0.09), transparent 55%),
-      radial-gradient(900px 500px at 95% 15%, rgba(225,190,126,0.08), transparent 55%),
-      radial-gradient(700px 500px at 50% 110%, rgba(79,195,217,0.05), transparent 55%);
-    background-attachment:fixed;
+      radial-gradient(circle at 15% 0%, rgba(74,222,128,0.06), transparent 40%),
+      radial-gradient(circle at 90% 20%, rgba(217,185,120,0.05), transparent 45%);
     color:var(--ink);
-    font-family:'Noto Sans Bengali', system-ui, -apple-system, sans-serif;
-    font-feature-settings:"ss01","cv11";
-    -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
+    font-family:'Noto Sans Bengali', sans-serif;
     min-height:100vh;
-    padding-bottom:96px;
-    line-height:1.55;
+    padding-bottom:88px;
   }
-  .arabic{font-family:'Amiri', serif; font-weight:400;}
+  .arabic{font-family:'Amiri', serif;}
   .ui-label{font-family:'Noto Sans Bengali', sans-serif;}
-
-  ::selection{ background:rgba(225,190,126,0.35); color:#0b1a13;}
-  ::-webkit-scrollbar{ width:8px; height:8px;}
-  ::-webkit-scrollbar-thumb{ background:rgba(255,255,255,0.08); border-radius:8px;}
-  ::-webkit-scrollbar-thumb:hover{ background:rgba(255,255,255,0.15);}
 
   /* ---------- Top bar ---------- */
   .topbar{
     display:flex; align-items:center; justify-content:space-between;
-    padding:18px 20px 10px; max-width:960px; margin:0 auto;
-    position:sticky; top:0; z-index:30;
-    background:linear-gradient(to bottom, rgba(7,19,14,0.9), rgba(7,19,14,0.55) 70%, transparent);
-    backdrop-filter:blur(14px) saturate(140%);
-    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    padding:18px 18px 8px;
   }
   .icon-btn{
-    background:rgba(255,255,255,0.04); border:1px solid var(--card-line);
-    color:var(--gold-soft); font-size:18px;
-    width:38px; height:38px; border-radius:12px;
-    display:inline-flex; align-items:center; justify-content:center;
-    cursor:pointer; line-height:1; transition:all .2s var(--ease-out);
+    background:none; border:none; color:var(--gold-soft); font-size:20px;
+    padding:6px; cursor:pointer; line-height:1;
   }
-  .icon-btn:hover{ background:rgba(255,255,255,0.08); color:var(--gold); transform:translateY(-1px); }
-  .icon-btn:active{ transform:scale(.94); }
   .topbar h1{
-    font-family:'Noto Serif Bengali', serif; font-size:20px;
-    background:var(--grad-gold); -webkit-background-clip:text; background-clip:text; color:transparent;
-    margin:0; letter-spacing:1px; font-weight:700;
+    font-family:'Noto Serif Bengali', serif; font-size:20px; color:var(--gold);
+    margin:0; letter-spacing:0.5px;
   }
 
-  main{max-width:960px; margin:0 auto; padding:0 18px;}
-  .tab-view{display:none; animation:fadeUp .35s var(--ease-out);}
+  main{max-width:640px; margin:0 auto; padding:0 16px; overflow-x:hidden;}
+  .tab-view{display:none;}
   .tab-view.active{display:block;}
-  @keyframes fadeUp{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
-  section{margin-top:20px;}
+  section{margin-top:18px;}
 
+  /* ---------- Calendar (collapsible) ---------- */
   /* ---------- Sidebar drawer ---------- */
   .sidebar-overlay{
-    position:fixed; inset:0; background:rgba(0,0,0,0.55);
-    backdrop-filter:blur(2px);
-    opacity:0; pointer-events:none; transition:opacity .3s var(--ease-out); z-index:60;
+    position:fixed; inset:0; background:rgba(0,0,0,0.5);
+    opacity:0; pointer-events:none; transition:opacity 0.3s ease; z-index:60;
   }
   .sidebar-overlay.open{ opacity:1; pointer-events:auto; }
   .sidebar-drawer{
-    position:fixed; top:0; left:0; bottom:0; width:80%; max-width:320px;
-    background:linear-gradient(180deg, var(--bg-3), var(--bg-2));
-    border-right:1px solid var(--card-line);
-    box-shadow:24px 0 60px rgba(0,0,0,0.5);
-    transform:translateX(-105%); transition:transform .35s var(--ease-out); z-index:61;
-    overflow-y:auto; padding:22px 0;
+    position:fixed; top:0; left:0; bottom:0; width:78%; max-width:300px;
+    background:var(--bg-2); border-right:1px solid var(--card-line);
+    transform:translateX(-105%); transition:transform 0.3s ease; z-index:61;
+    overflow-y:auto; padding:20px 0;
   }
   .sidebar-drawer.open{ transform:translateX(0); }
   .sidebar-header{
-    display:flex; align-items:center; gap:12px; padding:0 20px 18px;
-    border-bottom:1px solid var(--card-line); margin-bottom:12px;
+    display:flex; align-items:center; gap:10px; padding:0 18px 16px;
+    border-bottom:1px solid var(--card-line); margin-bottom:10px;
   }
-  .sidebar-section{ padding:6px 0; }
+  .sidebar-section{ padding:4px 0; }
   .sidebar-item{
-    padding:13px 20px; font-size:14px; color:var(--ink); cursor:pointer;
-    display:flex; align-items:center; gap:12px;
-    border-left:2px solid transparent; transition:background .2s, border-color .2s, color .2s;
+    padding:12px 18px; font-size:14px; color:var(--ink); cursor:pointer;
+    display:flex; align-items:center; gap:10px;
   }
-  .sidebar-item:hover{ background:rgba(255,255,255,0.04); }
-  .sidebar-item:active{ background:rgba(255,255,255,0.08); border-left-color:var(--gold); color:var(--gold-soft); }
-  .sidebar-divider{ height:1px; background:var(--card-line); margin:10px 0; }
-  .sidebar-footer{ padding:14px 20px; font-size:10.5px; color:var(--ink-mute); line-height:1.7; }
+  .sidebar-item:active{ background:rgba(255,255,255,0.06); }
+  .sidebar-divider{ height:1px; background:var(--card-line); margin:8px 0; }
+  .sidebar-footer{ padding:14px 18px; font-size:10.5px; color:var(--ink-dim); line-height:1.6; }
 
   .app-toast{
-    position:fixed; bottom:104px; left:50%; transform:translateX(-50%) translateY(10px);
-    background:linear-gradient(135deg,rgba(15,42,32,0.98),rgba(19,54,41,0.98));
-    color:#EAF3EC; padding:11px 20px; border-radius:999px;
-    font-size:13px; font-weight:500; opacity:0; pointer-events:none;
-    transition:all .35s var(--ease-out); z-index:70;
-    box-shadow:0 10px 30px rgba(0,0,0,0.45), 0 0 0 1px rgba(74,222,128,0.28) inset;
-    white-space:nowrap;
+    position:fixed; bottom:88px; left:50%; transform:translateX(-50%) translateY(10px);
+    background:rgba(15,35,26,0.96); color:#EAF3EC; padding:10px 18px; border-radius:20px;
+    font-size:13px; opacity:0; pointer-events:none; transition:all 0.3s ease; z-index:70;
+    box-shadow:0 4px 14px rgba(0,0,0,0.35); border:1px solid rgba(74,222,128,0.25); white-space:nowrap;
   }
   .app-toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
 
-  /* ---------- Entry tab ---------- */
+  /* ---------- Entry tab: সাইয়্যিআত/হাসানাত টগল ও চিপ (নিচে অ্যাংকর করা, থাম্ব-রিচের জন্য) ---------- */
   #view-entry.active{
     display:flex; flex-direction:column; justify-content:flex-end;
     min-height:calc(100vh - 230px); padding-bottom:6px;
   }
   .entry-top-hint{
-    text-align:center; color:var(--ink-dim); font-size:13px; padding:24px 12px; line-height:1.7;
+    text-align:center; color:var(--ink-dim); font-size:12.5px; padding:20px 10px;
   }
-  .entry-bottom-block{ display:flex; flex-direction:column; gap:14px; }
-  .entry-toggle{
-    display:flex; gap:6px; padding:4px;
-    background:var(--card); border:1px solid var(--card-line);
-    border-radius:14px;
-  }
+  .entry-bottom-block{ display:flex; flex-direction:column; gap:12px; }
+  .entry-toggle{ display:flex; gap:8px; }
   .entry-toggle-btn{
-    flex:1; padding:12px; border-radius:10px; border:1px solid transparent;
-    background:transparent; color:var(--ink-dim); font-size:14px; font-weight:600; cursor:pointer;
-    transition:all .25s var(--ease-out); font-family:inherit;
+    flex:1; padding:13px; border-radius:12px; border:1px solid var(--card-line);
+    background:var(--card); color:var(--ink-dim); font-size:14px; font-weight:600; cursor:pointer;
   }
-  .entry-toggle-btn:hover{ color:var(--ink); }
-  .entry-toggle-btn.active[data-mode="sin"]{
-    background:var(--grad-red); color:#ffb0a1; border-color:rgba(240,86,61,0.4);
-    box-shadow:0 4px 14px rgba(240,86,61,0.18);
-  }
-  .entry-toggle-btn.active[data-mode="neki"]{
-    background:var(--grad-green); color:#a8f0c4; border-color:rgba(74,222,128,0.42);
-    box-shadow:0 4px 14px rgba(74,222,128,0.18);
-  }
-  .chip-grid{ display:flex; flex-wrap:wrap; gap:9px; padding-bottom:6px; }
+  .entry-toggle-btn.active[data-mode="sin"]{ background:rgba(240,86,61,0.18); color:#ff8a72; border-color:rgba(240,86,61,0.4); }
+  .entry-toggle-btn.active[data-mode="neki"]{ background:rgba(74,222,128,0.18); color:#7fe3a6; border-color:rgba(74,222,128,0.4); }
+  .chip-grid{ display:flex; flex-wrap:wrap; gap:9px; padding-bottom:4px; }
   .chip{
-    padding:10px 16px; border-radius:999px; border:1px solid var(--card-line);
+    padding:10px 15px; border-radius:20px; border:1px solid var(--card-line);
     background:var(--card); color:var(--ink); font-size:13px; cursor:pointer; font-family:inherit;
-    transition:transform .15s var(--ease-out), background .2s, border-color .2s, box-shadow .2s;
   }
-  .chip:hover{ background:var(--card-2); border-color:var(--card-line-strong); transform:translateY(-1px); }
   .chip:active{ transform:scale(0.95); }
-  .chip-sin{ border-color:rgba(240,86,61,0.3); }
-  .chip-sin:hover{ background:rgba(240,86,61,0.10); box-shadow:0 4px 12px rgba(240,86,61,0.12); }
-  .chip-sin:active{ background:rgba(240,86,61,0.20); }
-  .chip-neki{ border-color:rgba(74,222,128,0.32); }
-  .chip-neki:hover{ background:rgba(74,222,128,0.10); box-shadow:0 4px 12px rgba(74,222,128,0.14); }
-  .chip-neki:active{ background:rgba(74,222,128,0.22); }
-  .insight-label{
-    font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:1.4px;
-    margin:12px 0 6px; font-weight:600;
-  }
+  .chip-sin{ border-color:rgba(240,86,61,0.28); }
+  .chip-sin:active{ background:rgba(240,86,61,0.16); }
+  .chip-neki{ border-color:rgba(74,222,128,0.28); }
+  .chip-neki:active{ background:rgba(74,222,128,0.16); }
+  .insight-label{ font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:0.5px; margin:10px 0 4px; }
 
-  /* ---------- Full pages (fihrist / duas) ---------- */
-  .fullpage-header{ padding:16px 0 6px; }
+  /* ---------- ফুল পেজ (ফিহরিস্ত/দোয়া) ---------- */
+  .fullpage-header{ padding:14px 0 4px; }
   .fullpage-back{
-    background:rgba(225,190,126,0.08); border:1px solid rgba(225,190,126,0.25);
-    color:var(--gold); font-size:13.5px; font-weight:600; cursor:pointer;
-    padding:8px 14px; border-radius:999px; transition:all .2s var(--ease-out);
+    background:none; border:none; color:var(--gold); font-size:13.5px; font-weight:600; cursor:pointer; padding:6px 0;
   }
-  .fullpage-back:hover{ background:rgba(225,190,126,0.15); }
-  .accordion-list{ display:flex; flex-direction:column; gap:10px; }
+  .accordion-list{ display:flex; flex-direction:column; gap:8px; }
   .accordion-item{
-    background:linear-gradient(180deg, var(--card), var(--card-2));
-    border:1px solid var(--card-line); border-radius:var(--radius); overflow:hidden;
-    transition:border-color .25s, box-shadow .25s, transform .2s;
-  }
-  .accordion-item:hover{ border-color:var(--card-line-strong); }
-  .accordion-item.open{
-    border-color:rgba(225,190,126,0.35);
-    box-shadow:var(--shadow-md);
+    background:var(--card); border:1px solid var(--card-line); border-radius:14px; overflow:hidden;
   }
   .accordion-header{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:15px 18px; cursor:pointer; gap:12px;
+    display:flex; align-items:center; justify-content:space-between; padding:14px 16px; cursor:pointer;
   }
   .accordion-title{ font-size:15px; font-weight:600; color:var(--ink); }
-  .accordion-title-ar{ font-family:'Amiri', serif; font-size:14px; color:var(--gold-soft); direction:rtl; margin-top:3px; }
-  .accordion-caret{ color:var(--gold); font-size:14px; transition:transform .3s var(--ease-out); flex-shrink:0; }
+  .accordion-title-ar{ font-family:'Amiri', serif; font-size:13px; color:var(--gold-soft); direction:rtl; margin-top:2px; }
+  .accordion-caret{ color:var(--gold); font-size:14px; transition:transform 0.25s ease; flex-shrink:0; margin-left:8px; }
   .accordion-item.open > .accordion-header .accordion-caret{ transform:rotate(180deg); }
-  .accordion-body{ max-height:0; overflow:hidden; transition:max-height .35s var(--ease-out); }
-  .accordion-item.open > .accordion-body{ max-height:3200px; }
-  .accordion-body-inner{ padding:0 18px 18px; border-top:1px solid var(--card-line); padding-top:14px; }
-  .accordion-body-inner .block-label{ color:var(--gold); margin-top:14px; letter-spacing:1.2px; font-weight:600; }
+  .accordion-body{ max-height:0; overflow:hidden; transition:max-height 0.3s ease; }
+  .accordion-item.open > .accordion-body{ max-height:4000px; }
+  /* এক্সপ্যান্ড করলে হালকা পার্চমেন্ট প্যালেটে বদলে যায় — দীর্ঘ উদ্ধৃতি/সূত্র পড়তে বেশি আরামদায়ক */
+  .accordion-body-inner{
+    background:#F3ECDD; color:#12302E;
+    padding:14px 16px 16px; border-top:1px solid rgba(18,48,46,0.1);
+  }
+  .accordion-body-inner .block-label{ color:#A65D45; margin-top:12px; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; font-weight:600; }
   .accordion-body-inner .block-label:first-child{ margin-top:0; }
-  .accordion-body-inner .block-text{ color:var(--ink-dim); font-size:13.5px; line-height:1.75; }
-  .accordion-body-inner .evidence-item{
-    color:var(--ink-dim); font-size:12.5px; line-height:1.75; margin-bottom:8px;
-    padding:8px 12px; border-left:3px solid var(--gold);
-    background:rgba(225,190,126,0.05); border-radius:0 8px 8px 0;
-  }
-  .accordion-body-inner .evidence-src{ color:var(--ink-mute); font-size:10.5px; }
-  .sub-accordion{ margin-top:12px; border:1px solid var(--card-line); border-radius:12px; overflow:hidden; background:rgba(0,0,0,0.15); }
+  .accordion-body-inner .block-text{ color:#3a3226; font-size:13px; line-height:1.75; font-family:'Noto Serif Bengali', serif; }
+  .accordion-body-inner .evidence-item{ color:#3a3226; font-size:12.5px; line-height:1.75; margin-bottom:6px; padding-left:10px; border-left:2px solid #C79A56; font-family:'Noto Serif Bengali', serif; }
+  .accordion-body-inner .evidence-src{ color:#7a6a4d; opacity:1; font-size:10.5px; }
+  .accordion-body-inner .fihrist-tags{ margin-top:5px; }
+  .sub-accordion{ margin-top:10px; border:1px solid rgba(18,48,46,0.15); border-radius:10px; overflow:hidden; }
   .sub-accordion-header{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:11px 14px; cursor:pointer;
-    font-size:12.5px; font-weight:600; color:var(--gold-soft);
-    background:linear-gradient(90deg, rgba(225,190,126,0.08), rgba(225,190,126,0.02));
+    display:flex; align-items:center; justify-content:space-between; padding:10px 12px; cursor:pointer;
+    font-size:12.5px; font-weight:600; color:#A65D45; background:rgba(199,154,86,0.1);
   }
-  .sub-accordion-body{ max-height:0; overflow:hidden; transition:max-height .3s var(--ease-out); padding:0 14px; }
-  .sub-accordion.open .sub-accordion-body{ max-height:2200px; padding:12px 14px; }
-  .sub-accordion .madhab-toggle{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; }
+  .sub-accordion-body{ max-height:0; overflow:hidden; transition:max-height 0.3s ease; padding:0 12px; }
+  .sub-accordion.open .sub-accordion-body{ max-height:2000px; padding:10px 12px; }
+  .sub-accordion .madhab-toggle{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:8px; }
   .sub-accordion .madhab-btn{
-    font-size:11px; padding:6px 12px; border-radius:999px; border:1px solid var(--card-line);
-    background:transparent; color:var(--ink-dim); cursor:pointer; transition:all .2s;
+    font-size:11px; padding:5px 10px; border-radius:12px; border:1px solid rgba(18,48,46,0.2);
+    background:none; color:#5b5142; cursor:pointer; font-family:inherit;
   }
-  .sub-accordion .madhab-btn:hover{ color:var(--ink); border-color:var(--card-line-strong); }
-  .sub-accordion .madhab-btn.active{
-    background:var(--grad-gold); color:#0b1a13; border-color:transparent; font-weight:600;
-  }
-  .sub-accordion .remedy-badge{
-    font-size:12px; color:var(--ink-dim);
-    background:rgba(225,190,126,0.08); border:1px solid rgba(225,190,126,0.18);
-    border-radius:10px; padding:9px 12px; margin-bottom:10px; line-height:1.6;
-  }
-  .sub-accordion .kaffarah-text{ font-size:12.5px; color:var(--ink-dim); line-height:1.75; }
-  .sub-accordion .dua-box-inline{
-    background:linear-gradient(180deg,#0A1E16,#08170F);
-    border:1px solid rgba(225,190,126,0.18);
-    border-radius:12px; padding:14px; text-align:center; margin-top:6px;
-  }
-  .sub-accordion .dua-ar-inline{ font-family:'Amiri', serif; font-size:18px; color:var(--gold-soft); direction:rtl; line-height:1.9; }
-  .sub-accordion .dua-bn-inline{ font-size:12px; color:var(--ink-dim); margin-top:8px; line-height:1.6; }
-  .sub-accordion .dua-src-inline{ font-size:10px; color:var(--ink-mute); margin-top:8px; }
+  .sub-accordion .madhab-btn.active{ background:#12302E; color:#E4C98A; border-color:#12302E; }
+  .sub-accordion .remedy-badge{ font-size:11.5px; color:#5b5142; background:rgba(166,93,69,0.08); border:1px solid rgba(166,93,69,0.2); border-radius:8px; padding:8px 10px; margin-bottom:8px; }
+  .sub-accordion .kaffarah-text{ font-size:12.5px; color:#3a3226; line-height:1.75; font-family:'Noto Serif Bengali', serif; }
+  .sub-accordion .dua-box-inline{ background:#12302E; border-radius:10px; padding:12px; text-align:center; margin-top:4px; }
+  .sub-accordion .dua-ar-inline{ font-family:'Amiri', serif; font-size:17px; color:#E4C98A; direction:rtl; line-height:1.85; }
+  .sub-accordion .dua-uccharan-inline{ font-size:11px; color:#E4C98A; margin-top:6px; font-style:italic; opacity:0.9; }
+  .sub-accordion .dua-bn-inline{ font-size:11.5px; color:#E7DDC7; margin-top:6px; }
+  .sub-accordion .dua-src-inline{ font-size:10px; color:#E4C98A; opacity:0.75; margin-top:6px; }
   .insight-label:first-child{ margin-top:0; }
 
-  /* ---------- Calendar ---------- */
   .calendar-panel{
-    max-width:960px; margin:0 auto; padding:0 18px;
-    max-height:0; overflow:hidden; transition:max-height .4s var(--ease-out);
+    max-width:640px; margin:0 auto; padding:0 16px;
+    max-height:0; overflow:hidden; transition:max-height 0.35s ease;
   }
-  .calendar-panel.open{ max-height:460px; }
-  .calendar-nav{
-    display:flex; align-items:center; justify-content:space-between; padding:12px 6px;
-  }
-  .cal-arrow{
-    background:rgba(255,255,255,0.04); border:1px solid var(--card-line);
-    color:var(--gold); font-size:16px; cursor:pointer;
-    width:34px; height:34px; border-radius:10px;
-    display:inline-flex; align-items:center; justify-content:center;
-    transition:all .2s var(--ease-out);
-  }
-  .cal-arrow:hover{ background:rgba(225,190,126,0.12); }
-  .cal-month-label{ font-size:15px; font-weight:600; color:var(--ink); letter-spacing:.3px; }
-  .calendar-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:5px; }
-  .cal-weekday{ text-align:center; font-size:10.5px; color:var(--ink-mute); padding-bottom:6px; letter-spacing:.5px; text-transform:uppercase; }
+  .calendar-panel.open{ max-height:420px; }
+  .calendar-nav{ display:flex; align-items:center; justify-content:space-between; padding:10px 4px; }
+  .cal-arrow{ background:none; border:none; color:var(--gold); font-size:20px; cursor:pointer; padding:4px 10px; }
+  .cal-month-label{ font-size:14px; font-weight:600; color:var(--ink); }
+  .calendar-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+  .cal-weekday{ text-align:center; font-size:10.5px; color:var(--ink-dim); padding-bottom:4px; }
   .cal-day{
     aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    border-radius:10px; font-size:12px; color:var(--ink);
-    background:var(--card); border:1px solid var(--card-line);
-    transition:transform .15s var(--ease-out), background .2s, border-color .2s;
+    border-radius:8px; font-size:11.5px; color:var(--ink); background:var(--card); border:1px solid var(--card-line);
   }
-  .cal-day:hover{ background:var(--card-2); border-color:var(--card-line-strong); transform:translateY(-1px); }
   .cal-day.empty{ background:transparent; border:none; }
   .cal-day .dot{ font-size:8px; margin-top:2px; }
-  .cal-day.today{
-    border-color:var(--green); border-width:2px;
-    background:linear-gradient(180deg, rgba(74,222,128,0.14), var(--card));
-    box-shadow:0 0 0 3px rgba(74,222,128,0.14);
-  }
+  .cal-day.today{ border-color:var(--green); border-width:2px; }
   .calendar-legend{
-    display:flex; flex-wrap:wrap; gap:10px; font-size:10.5px; color:var(--ink-dim); padding:12px 4px 4px;
+    display:flex; flex-wrap:wrap; gap:10px; font-size:10.5px; color:var(--ink-dim); padding:10px 4px 4px;
   }
   .chart-legend{
     display:flex; gap:16px; font-size:11px; color:var(--ink-dim); justify-content:center; margin-top:10px;
   }
   .donut-legend{
-    display:flex; justify-content:center; gap:20px; font-size:12px; color:var(--ink); margin-top:14px;
+    display:flex; justify-content:center; gap:18px; font-size:12px; color:var(--ink); margin-top:12px;
   }
   .section-title{
-    font-size:12px; letter-spacing:2px; text-transform:uppercase;
-    color:var(--gold); display:flex; align-items:center; gap:12px; margin-bottom:14px; font-weight:600;
+    font-size:13px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:14px;
   }
-  .section-title::after{
-    content:''; flex:1; height:1px;
-    background:linear-gradient(to right, rgba(225,190,126,0.35), transparent);
-  }
+  .section-title::after{content:''; flex:1; height:1px; background:linear-gradient(to right, rgba(217,185,120,0.4), transparent);}
 
-  /* ---------- Dashboard hero ---------- */
+  /* ---------- Dashboard hero: ফুল-ওয়াইড বৃক্ষ ব্যাকগ্রাউন্ড, বামে টেক্সট ওভারলে ---------- */
+  /* dvh (dynamic viewport height) ব্যবহার করা হয়েছে যাতে মোবাইল ব্রাউজারের অ্যাড্রেস-বার দেখা/লুকানো সত্ত্বেও
+     ড্যাশবোর্ড সবসময় স্ক্রিনে ফিট থাকে, কোনো স্ক্রলবার ছাড়াই */
   #view-dashboard.active{
-    display:flex; flex-direction:column; gap:12px;
-    height:calc(100dvh - 175px); min-height:420px; overflow:hidden;
+    display:flex; flex-direction:column; gap:6px;
+    height:calc(100dvh - 195px); min-height:380px; max-width:100%; overflow:hidden;
   }
-  #view-dashboard.active section{ margin-top:0; flex-shrink:0; }
+  #view-dashboard.active section{ margin-top:0; flex-shrink:0; min-width:0; }
   .dash-hero{
-    position:relative; width:100%; height:130px; flex-shrink:1; min-height:90px;
-    border-radius:var(--radius-lg); overflow:hidden; cursor:pointer;
-    border:1px solid var(--card-line-strong);
-    box-shadow:var(--shadow-lg);
-    background:linear-gradient(135deg,#0B1F17,#08150F);
-    transition:transform .3s var(--ease-out), box-shadow .3s;
+    position:relative; width:100%; height:110px; flex-shrink:1; min-height:70px;
+    border-radius:16px; overflow:hidden; cursor:pointer;
+    border:1px solid rgba(255,255,255,0.1); box-shadow:0 6px 16px rgba(0,0,0,0.3); background:var(--card);
   }
-  .dash-hero:hover{ transform:translateY(-2px); box-shadow:0 24px 60px -10px rgba(0,0,0,0.6); }
   .dash-hero-scrim{
     position:absolute; inset:0; z-index:1;
-    background:
-      linear-gradient(90deg, rgba(6,16,11,0.92) 0%, rgba(6,16,11,0.6) 45%, rgba(6,16,11,0.05) 80%),
-      linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.35));
+    background:linear-gradient(90deg, rgba(6,16,11,0.88) 0%, rgba(6,16,11,0.55) 45%, rgba(6,16,11,0.05) 78%);
   }
   .dash-hero-overlay{
-    position:relative; z-index:2; height:100%; max-width:66%; padding:14px 18px;
+    position:relative; z-index:2; height:100%; max-width:66%; padding:12px 16px;
     display:flex; flex-direction:column; justify-content:center;
   }
-  .dash-greeting{
-    font-size:10.5px; color:rgba(234,243,236,0.75);
-    text-transform:uppercase; letter-spacing:1.4px; font-weight:500;
-  }
-  .dash-state-label{
-    font-size:17px; font-weight:700; color:#fff; margin-top:4px;
-    font-family:'Noto Serif Bengali', serif; letter-spacing:.2px;
-  }
-  .dash-sub{ font-size:11px; color:rgba(234,243,236,0.85); margin-top:6px; line-height:1.55; }
+  .dash-greeting{ font-size:10.5px; color:rgba(234,243,236,0.7); text-transform:uppercase; letter-spacing:0.5px; }
+  .dash-state-label{ font-size:16px; font-weight:700; color:#fff; margin-top:2px; font-family:'Noto Serif Bengali', serif; }
+  .dash-sub{ font-size:10.5px; color:rgba(234,243,236,0.85); margin-top:5px; line-height:1.5; }
 
-  .dual-btn-row{ display:flex; gap:10px; }
+  .dual-btn-row{ display:flex; gap:8px; }
   .dual-btn{
-    flex:1; padding:12px 10px; border-radius:12px; border:1px solid var(--card-line);
+    flex:1; padding:11px 8px; border-radius:12px; border:1px solid var(--card-line);
     background:var(--card); font-size:12.5px; font-weight:600; cursor:pointer; font-family:inherit;
-    transition:transform .15s var(--ease-out), background .2s, border-color .2s, box-shadow .2s;
   }
-  .dual-btn:hover{ transform:translateY(-1px); }
-  .dual-btn:active{ transform:scale(.97); }
-  .dual-btn-neki{ color:#9deabb; border-color:rgba(74,222,128,0.32); background:var(--grad-green); }
-  .dual-btn-neki:hover{ box-shadow:0 6px 16px rgba(74,222,128,0.18); }
-  .dual-btn-sin{ color:#ffab99; border-color:rgba(240,86,61,0.32); background:var(--grad-red); }
-  .dual-btn-sin:hover{ box-shadow:0 6px 16px rgba(240,86,61,0.18); }
+  .dual-btn-neki{ color:#7fe3a6; border-color:rgba(74,222,128,0.3); }
+  .dual-btn-sin{ color:#ff8a72; border-color:rgba(240,86,61,0.3); }
   .cta-card-duas{
-    background:linear-gradient(135deg, rgba(225,190,126,0.18), rgba(225,190,126,0.04));
-    border-color:rgba(225,190,126,0.32);
+    background:linear-gradient(135deg, rgba(217,185,120,0.16), rgba(217,185,120,0.04));
+    border-color:rgba(217,185,120,0.3);
   }
-  .cta-card-duas:hover{ box-shadow:0 10px 24px rgba(225,190,126,0.12); }
-  .cta-card-duas .cta-plus{ background:rgba(225,190,126,0.2); color:var(--gold); }
+  .cta-card-duas .cta-plus{ background:rgba(217,185,120,0.2); color:var(--gold); }
   .cta-card-duas .cta-chevron{ color:var(--gold); }
 
-  /* ---------- Garden hero card ---------- */
+  /* ---------- Garden hero card (এখন শুধু sheet-এ বড় ভিউয়ের জন্য ব্যবহৃত) ---------- */
   .garden-card{
-    background:var(--card); border:1px solid var(--card-line); border-radius:var(--radius-lg);
-    padding:18px; box-shadow:var(--shadow-md);
+    background:var(--card); border:1px solid var(--card-line); border-radius:18px;
+    padding:16px; box-shadow:0 10px 24px rgba(0,0,0,0.3);
   }
-  .garden-head{display:flex; align-items:flex-start; gap:12px; margin-bottom:14px;}
-  .garden-head .leaf-icon{font-size:22px;}
+  .garden-head{display:flex; align-items:flex-start; gap:10px; margin-bottom:12px;}
+  .garden-head .leaf-icon{font-size:20px;}
   .garden-title{font-family:'Noto Serif Bengali', serif; font-size:17px; font-weight:700; color:var(--ink);}
-  .garden-sub{font-size:12.5px; color:var(--ink-dim); margin-top:3px;}
-  .garden-scene{ position:absolute; inset:0; z-index:1; border-radius:0; overflow:hidden; }
-  .garden-layer{ position:absolute; inset:0; opacity:0; transition:opacity 1.1s ease; }
+  .garden-sub{font-size:12.5px; color:var(--ink-dim); margin-top:2px;}
+  .garden-scene{
+    position:absolute; inset:0; z-index:1; border-radius:0; overflow:hidden;
+  }
+  .garden-layer{
+    position:absolute; inset:0; opacity:0; transition:opacity 1.1s ease;
+  }
   .garden-layer.active{opacity:1;}
   .garden-layer svg{display:block; width:100%; height:100%;}
   .garden-layer svg .sparkle circle{ animation: twinkle 2.2s ease-in-out infinite; }
@@ -396,6 +271,7 @@
   .garden-layer svg .sparkle circle:nth-child(5){ animation-delay:1.6s; }
   @keyframes twinkle{ 0%,100%{opacity:0.2;} 50%{opacity:1;} }
 
+  /* অ্যাম্বিয়েন্ট (সবসময় চলতে থাকা) মাইক্রো-অ্যানিমেশন */
   .garden-layer svg .tree-sway-branches{ animation: swayBranches 4.5s ease-in-out infinite; }
   @keyframes swayBranches{ 0%,100%{transform:rotate(-1deg);} 50%{transform:rotate(1deg);} }
   .garden-layer svg .fire-flicker{ animation: flicker 1.3s ease-in-out infinite; transform-origin:center; }
@@ -405,6 +281,7 @@
   .garden-layer svg .bird-flap{ animation: flap 1.8s ease-in-out infinite; }
   @keyframes flap{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(-4px);} }
 
+  /* এন্ট্রি লগ করলে সাময়িক পার্টিকল অ্যানিমেশন (ফুল ফোটা/পাতা ঝরা/বৃষ্টি) */
   .garden-particle{
     position:absolute; font-size:17px; pointer-events:none; z-index:5; opacity:0;
   }
@@ -418,520 +295,218 @@
     15%{ opacity:1; }
     100%{ transform:translateY(150px) rotate(220deg); opacity:0; }
   }
+
   .garden-flash{
     position:absolute; inset:0; opacity:0; pointer-events:none; transition:opacity 0.5s ease;
-    display:flex; align-items:center; justify-content:center; font-size:32px;
+    display:flex; align-items:center; justify-content:center; font-size:30px;
   }
   .garden-flash.show{opacity:1;}
-  .garden-state-label{ text-align:center; font-size:11.5px; color:var(--ink-dim); margin-top:8px; }
+  .garden-state-label{
+    text-align:center; font-size:11.5px; color:var(--ink-dim); margin-top:8px;
+  }
 
   /* ---------- Balance slider ---------- */
-  .balance-row{display:flex; align-items:center; gap:12px; margin-top:22px;}
-  .bal-label{font-size:11px; color:var(--ink-dim); white-space:nowrap; font-weight:500;}
+  .balance-row{display:flex; align-items:center; gap:10px; margin-top:22px;}
+  .bal-label{font-size:11px; color:var(--ink-dim); white-space:nowrap;}
   .bal-good{color:var(--green);}
   .bal-bad{color:var(--red);}
   .balance-track{
-    position:relative; flex:1; height:10px; border-radius:999px;
+    position:relative; flex:1; height:8px; border-radius:5px;
     background:linear-gradient(to right, var(--green) 0%, var(--amber) 50%, var(--red) 100%);
-    box-shadow:inset 0 1px 3px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
   }
   .balance-dot{
-    position:absolute; top:50%; width:28px; height:28px; border-radius:50%;
+    position:absolute; top:50%; width:26px; height:26px; border-radius:50%;
     background:var(--green); border:3px solid var(--bg);
     display:flex; align-items:center; justify-content:center; font-size:13px;
-    transform:translate(-50%,-50%); transition:left 0.45s var(--ease-out), background 0.4s ease;
-    box-shadow:0 4px 10px rgba(0,0,0,0.45), 0 0 0 3px rgba(255,255,255,0.05);
+    transform:translate(-50%,-50%); transition:left 0.4s ease, background 0.4s ease;
+    box-shadow:0 2px 6px rgba(0,0,0,0.4);
   }
 
   /* ---------- Stat grid ---------- */
-  .stat-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:8px;}
+  .stat-grid{display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:5px;}
   .stat-card{
-    background:linear-gradient(180deg, var(--card), var(--card-2));
-    border:1px solid var(--card-line); border-radius:var(--radius);
-    aspect-ratio:1; padding:6px 2px; text-align:center; cursor:pointer;
+    background:var(--card); border:1px solid var(--card-line); border-radius:14px;
+    aspect-ratio:1; padding:4px 1px; text-align:center; cursor:pointer; min-width:0; overflow:hidden;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
-    transition:transform .2s var(--ease-out), border-color .2s, box-shadow .25s;
-    position:relative; overflow:hidden;
   }
-  .stat-card::before{
-    content:''; position:absolute; inset:0;
-    background:var(--grad-surface); pointer-events:none;
-  }
-  .stat-card:hover{
-    transform:translateY(-2px); border-color:var(--card-line-strong);
-    box-shadow:0 10px 22px rgba(0,0,0,0.35);
-  }
-  .stat-card:active{ transform:scale(.97); }
   .stat-icon{
-    width:24px; height:24px; border-radius:50%; margin:0 auto 4px;
-    display:flex; align-items:center; justify-content:center; font-size:11px;
-    background:rgba(255,255,255,0.06);
+    width:18px; height:18px; border-radius:50%; margin:0 auto 3px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; font-size:9px;
   }
-  .stat-label{font-size:8.5px; color:var(--ink-dim); line-height:1.15; letter-spacing:.2px;}
-  .stat-value{font-size:15px; font-weight:700; color:var(--ink); margin:2px 0;}
-  .stat-unit{font-size:8px; color:var(--ink-mute);}
+  .stat-label{font-size:7.5px; color:var(--ink-dim); line-height:1.1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;}
+  .stat-value{font-size:12px; font-weight:700; color:var(--ink); margin:1px 0; white-space:nowrap;}
+  .stat-unit{font-size:7px; color:var(--ink-dim);}
 
   /* ---------- Position card ---------- */
   .position-card{
     display:flex; align-items:center; gap:16px;
-    background:linear-gradient(135deg, var(--card), var(--card-2));
-    border:1px solid var(--card-line); border-radius:var(--radius-lg);
-    padding:18px; box-shadow:var(--shadow-md);
+    background:var(--card); border:1px solid var(--card-line); border-radius:16px;
+    padding:16px;
   }
-  .position-ring{position:relative; width:66px; height:66px; flex-shrink:0;
-    filter:drop-shadow(0 4px 8px rgba(74,222,128,0.25));}
+  .position-ring{position:relative; width:64px; height:64px; flex-shrink:0;}
   .position-ring svg{width:100%; height:100%; transform:rotate(-90deg);}
   .position-pct{
     position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     font-size:14px; font-weight:700; color:var(--green);
   }
-  .position-title{font-size:15px; font-weight:700; color:var(--green); letter-spacing:.2px;}
-  .position-desc{font-size:12.5px; color:var(--ink-dim); margin-top:4px; line-height:1.65;}
+  .position-title{font-size:14.5px; font-weight:700; color:var(--green);}
+  .position-desc{font-size:12.5px; color:var(--ink-dim); margin-top:3px; line-height:1.6;}
 
   /* ---------- Quote card ---------- */
   .quote-card{
-    background:linear-gradient(135deg, var(--card), var(--card-2));
-    border:1px solid var(--card-line); border-radius:var(--radius-lg);
-    padding:22px 20px; text-align:center; position:relative;
-    box-shadow:var(--shadow-md);
+    background:var(--card); border:1px solid var(--card-line); border-radius:16px;
+    padding:20px 18px; text-align:center; position:relative;
   }
   .quote-mark{
-    position:absolute; top:8px; left:18px; font-size:38px; color:var(--green);
-    font-family:Georgia, serif; opacity:0.7; line-height:1;
+    position:absolute; top:6px; left:16px; font-size:34px; color:var(--green);
+    font-family:Georgia, serif; opacity:0.7;
   }
-  .quote-ar{font-size:20px; color:var(--green); direction:rtl; line-height:1.95; margin-bottom:8px;}
-  .quote-bn{font-size:13.5px; color:var(--ink-dim); line-height:1.75;}
-  .quote-src{font-size:12px; color:var(--green); margin-top:10px; font-weight:500;}
+  .quote-ar{font-size:19px; color:var(--green); direction:rtl; line-height:1.9; margin-bottom:8px;}
+  .quote-bn{font-size:13px; color:var(--ink-dim); line-height:1.7;}
+  .quote-src{font-size:12px; color:var(--green); margin-top:8px;}
 
   /* ---------- CTA card ---------- */
   .cta-card{
-    display:flex; align-items:center; gap:14px;
-    background:var(--grad-green);
-    border:1px solid rgba(74,222,128,0.32); border-radius:var(--radius);
-    padding:12px 16px; cursor:pointer;
-    transition:transform .2s var(--ease-out), box-shadow .25s, border-color .25s;
+    display:flex; align-items:center; gap:12px;
+    background:linear-gradient(135deg, rgba(74,222,128,0.14), rgba(74,222,128,0.04));
+    border:1px solid rgba(74,222,128,0.3); border-radius:14px;
+    padding:11px 14px; cursor:pointer;
   }
-  .cta-card:hover{ transform:translateY(-2px); box-shadow:0 12px 26px rgba(74,222,128,0.15); border-color:rgba(74,222,128,0.5); }
-  .cta-card:active{ transform:scale(.98); }
   .cta-plus{
-    width:34px; height:34px; border-radius:50%;
-    background:var(--green-soft); color:var(--green);
+    width:32px; height:32px; border-radius:50%; background:var(--green-soft); color:var(--green);
     display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;
-    box-shadow:inset 0 0 0 1px rgba(74,222,128,0.35);
   }
   .cta-title{font-size:13.5px; font-weight:700; color:var(--ink);}
-  .cta-sub{font-size:12px; color:var(--ink-dim); margin-top:3px;}
+  .cta-sub{font-size:12px; color:var(--ink-dim); margin-top:2px;}
   .cta-chevron{margin-left:auto; color:var(--green); font-size:18px;}
 
   /* ---------- Bottom nav ---------- */
   .bottom-nav{
     position:fixed; bottom:0; left:0; right:0; z-index:40;
-    background:linear-gradient(180deg, rgba(12,30,23,0.85), rgba(12,30,23,0.98));
-    backdrop-filter:blur(18px) saturate(160%);
-    -webkit-backdrop-filter:blur(18px) saturate(160%);
-    border-top:1px solid var(--card-line);
+    background:var(--bg-2); border-top:1px solid var(--card-line);
     display:flex; justify-content:space-around; align-items:center;
-    padding:10px 4px 18px;
-    box-shadow:0 -8px 30px rgba(0,0,0,0.45);
+    padding:8px 4px 14px;
   }
   .nav-item{
-    background:none; border:none; color:var(--ink-mute);
+    background:none; border:none; color:var(--ink-dim);
     display:flex; flex-direction:column; align-items:center; gap:4px;
-    font-size:10.5px; cursor:pointer; padding:6px 10px; border-radius:12px;
-    transition:color .2s, transform .15s;
+    font-size:10.5px; cursor:pointer; padding:4px 6px;
   }
-  .nav-item:hover{ color:var(--ink-dim); }
-  .nav-item:active{ transform:scale(.94); }
   .nav-item .nav-ic{font-size:19px; display:flex; align-items:center; justify-content:center;}
-  .nav-item .nav-ic svg{width:22px; height:22px;}
-  .nav-item.active{
-    color:var(--green);
-    text-shadow:0 0 12px rgba(74,222,128,0.35);
-  }
+  .nav-item .nav-ic svg{width:21px; height:21px;}
+  .nav-item.active{color:var(--green);}
   .nav-center .nav-ic{
-    width:52px; height:52px; border-radius:50%;
-    background:radial-gradient(circle at 30% 30%, rgba(74,222,128,0.35), rgba(74,222,128,0.12));
-    display:flex; align-items:center; justify-content:center; margin-top:-26px;
+    width:46px; height:46px; border-radius:50%; background:var(--green-soft);
+    display:flex; align-items:center; justify-content:center; margin-top:-22px;
     border:4px solid var(--bg-2); font-size:20px; overflow:hidden;
-    box-shadow:0 8px 22px rgba(74,222,128,0.28), inset 0 0 0 1px rgba(74,222,128,0.35);
-    transition:transform .25s var(--ease-out), box-shadow .25s;
   }
-  .nav-center:hover .nav-ic{ transform:translateY(-2px) scale(1.03); }
   .nav-center .nav-ic svg{width:110%; height:110%;}
-  .nav-center.active .nav-ic{
-    background:radial-gradient(circle at 30% 30%, #7bf3a4, var(--green));
-    color:var(--bg);
-    box-shadow:0 10px 28px rgba(74,222,128,0.5), inset 0 0 0 1px rgba(255,255,255,0.35);
-  }
+  .nav-center.active .nav-ic{background:var(--green); color:var(--bg);}
   .sidebar-tree-icon{display:inline-flex; width:20px; height:20px; vertical-align:middle; overflow:hidden;}
   .sidebar-tree-icon svg{width:100%; height:100%;}
 
-  /* ---------- Page card ---------- */
+  /* ---------- Today's page (manuscript card kept for the entry list) ---------- */
   .page-card{
-    background:linear-gradient(180deg, var(--card), var(--card-2));
-    color:var(--ink);
-    border-radius:var(--radius-lg); padding:20px 18px;
-    border:1px solid var(--card-line); box-shadow:var(--shadow-md);
+    background:var(--card); color:var(--ink);
+    border-radius:14px; padding:18px 16px;
+    border:1px solid var(--card-line);
   }
   .empty-state{
-    text-align:center; padding:26px 14px; color:var(--ink-dim); font-size:13.5px; line-height:1.75;
+    text-align:center; padding:20px 10px; color:var(--ink-dim); font-size:13.5px; line-height:1.7;
   }
   .entry-row{
     display:flex; justify-content:space-between; align-items:flex-start;
-    padding:12px 0; border-bottom:1px dashed rgba(255,255,255,0.1); gap:12px;
-    transition:background .2s;
+    padding:10px 0; border-bottom:1px dashed rgba(255,255,255,0.1); gap:10px;
   }
   .entry-row:last-child{border-bottom:none;}
   .entry-name{font-weight:600; font-size:15px; color:var(--ink);}
-  .entry-note{font-size:12px; color:var(--ink-dim); margin-top:3px; line-height:1.6;}
-  .entry-badge{
-    font-size:10.5px; padding:3px 10px; border-radius:999px; white-space:nowrap;
-    height:fit-content; font-weight:600; letter-spacing:.2px;
-  }
-  .badge-kabira{background:rgba(240,86,61,0.18); color:#ff9c85; border:1px solid rgba(240,86,61,0.25);}
-  .badge-sagira{background:rgba(74,222,128,0.18); color:#8fecb2; border:1px solid rgba(74,222,128,0.25);}
-  .return-check{display:flex; align-items:center; gap:8px; margin-top:8px; font-size:11.5px; color:var(--ink-dim);}
-  .return-check input{accent-color:var(--green); width:14px; height:14px;}
-  .entry-remove{
-    background:rgba(240,86,61,0.08); border:1px solid rgba(240,86,61,0.2);
-    color:#ff9781; font-size:11px; cursor:pointer; padding:4px 10px; border-radius:8px;
-    transition:background .2s;
-  }
-  .entry-remove:hover{ background:rgba(240,86,61,0.16); }
+  .entry-note{font-size:12px; color:var(--ink-dim); margin-top:2px;}
+  .entry-badge{font-size:10.5px; padding:2px 8px; border-radius:10px; white-space:nowrap; height:fit-content;}
+  .badge-kabira{background:rgba(240,86,61,0.15); color:#ff8a72;}
+  .badge-sagira{background:rgba(74,222,128,0.15); color:#7fe3a6;}
+  .return-check{display:flex; align-items:center; gap:6px; margin-top:6px; font-size:11.5px; color:var(--ink-dim);}
+  .return-check input{accent-color:var(--green);}
+  .entry-remove{background:none; border:none; color:#ff7a63; font-size:11px; cursor:pointer; padding:2px 6px;}
   .add-btn{
-    display:block; width:100%; margin-top:16px;
-    background:var(--grad-green); color:#a8f0c4;
+    display:block; width:100%; margin-top:14px;
+    background:var(--green-soft); color:var(--green);
     border:1px solid rgba(74,222,128,0.4);
-    font-size:14px; font-weight:600; padding:13px; border-radius:12px; cursor:pointer;
-    transition:transform .15s var(--ease-out), box-shadow .25s;
+    font-size:14px; font-weight:600; padding:12px; border-radius:10px; cursor:pointer;
   }
-  .add-btn:hover{ box-shadow:0 8px 20px rgba(74,222,128,0.2); }
   .add-btn:active{transform:scale(0.98);}
 
   /* ---------- Sin index (fihrist) ---------- */
-  .filter-tabs{display:flex; gap:8px; overflow-x:auto; padding-bottom:6px; margin-bottom:12px;}
-  .filter-tabs::-webkit-scrollbar{ display:none; }
+  .filter-tabs{display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; margin-bottom:10px;}
   .filter-tab{
-    font-size:12.5px; padding:8px 16px; border-radius:999px; border:1px solid var(--card-line);
-    background:var(--card); color:var(--ink-dim); white-space:nowrap; cursor:pointer;
-    transition:all .2s var(--ease-out);
+    font-size:12.5px; padding:7px 14px; border-radius:16px; border:1px solid var(--card-line);
+    background:transparent; color:var(--ink-dim); white-space:nowrap; cursor:pointer;
   }
-  .filter-tab:hover{ color:var(--ink); border-color:var(--card-line-strong); }
-  .filter-tab.active{
-    background:var(--grad-gold); color:#0b1a13; border-color:transparent;
-    font-weight:600; box-shadow:0 6px 16px rgba(225,190,126,0.22);
-  }
-  .fihrist{display:flex; flex-direction:column; gap:2px; border-top:1px solid var(--card-line);}
+  .filter-tab.active{background:var(--gold); color:var(--bg); border-color:var(--gold); font-weight:600;}
+  .fihrist{display:flex; flex-direction:column; gap:1px; border-top:1px solid var(--card-line);}
   .fihrist-item{
     display:flex; align-items:center; justify-content:space-between;
-    padding:15px 8px; border-bottom:1px solid var(--card-line); cursor:pointer;
-    transition:background .2s, padding-left .2s;
+    padding:14px 4px; border-bottom:1px solid var(--card-line); cursor:pointer;
   }
-  .fihrist-item:hover{background:rgba(255,255,255,0.035); padding-left:14px;}
-  .fihrist-left{display:flex; flex-direction:column; min-width:0;}
+  .fihrist-item:hover{background:rgba(255,255,255,0.03);}
+  .fihrist-left{display:flex; flex-direction:column;}
   .fihrist-name{font-size:16px; font-weight:600; color:var(--ink);}
-  .fihrist-name-ar{font-family:'Amiri', serif; font-size:14px; color:var(--gold-soft); direction:rtl; margin-top:2px;}
-  .fihrist-tags{margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;}
-  .tag{font-size:10px; padding:3px 8px; border-radius:999px; font-weight:500; letter-spacing:.2px;}
-  .tag-kabira{background:rgba(240,86,61,0.2); color:#ff9781;}
-  .tag-sagira{background:rgba(74,222,128,0.2); color:#8fecb2;}
-  .tag-huquq{background:rgba(225,190,126,0.22); color:var(--gold-soft);}
-  .tag-common{background:rgba(74,222,128,0.2); color:#8fecb2;}
-  .tag-neglect{background:rgba(79,195,217,0.2); color:#7ccfe3;}
-  .tag-neki{background:rgba(232,178,61,0.22); color:#f0cf70;}
-  .chevron{color:var(--gold); font-size:18px; flex-shrink:0; margin-left:8px;}
-
+  .fihrist-name-ar{font-family:'Amiri', serif; font-size:14px; color:var(--gold-soft); direction:rtl;}
+  .fihrist-tags{margin-top:4px; display:flex; gap:6px;}
+  .tag{font-size:10px; padding:2px 7px; border-radius:9px;}
+  .tag-kabira{background:rgba(240,86,61,0.18); color:#ff8a72;}
+  .tag-sagira{background:rgba(74,222,128,0.18); color:#7fe3a6;}
+  .tag-huquq{background:rgba(217,185,120,0.2); color:var(--gold-soft);}
+  .tag-common{background:rgba(74,222,128,0.18); color:#7fe3a6;}
+  .tag-neglect{background:rgba(79,195,217,0.18); color:#6fc9e0;}
+  .tag-neki{background:rgba(232,178,61,0.2); color:#e8c15e;}
+  .chevron{color:var(--gold); font-size:18px;}
+  /* .sheet-এর ভেতরে (হালকা পার্চমেন্ট ব্যাকগ্রাউন্ড) .fihrist-item রেন্ডার হলে রঙ ওভাররাইড করা প্রয়োজন,
+     নাহলে ডার্ক-থিমের হালকা রঙের টেক্সট হালকা ব্যাকগ্রাউন্ডে অদৃশ্য হয়ে যায় */
   .sheet .fihrist{border-top-color:rgba(18,48,46,0.15);}
   .sheet .fihrist-item{border-bottom-color:rgba(18,48,46,0.12);}
-  .sheet .fihrist-item:hover{background:rgba(18,48,46,0.05);}
+  .sheet .fihrist-item:hover{background:rgba(18,48,46,0.04);}
   .sheet .fihrist-name{color:#12302E;}
   .sheet .fihrist-name-ar{color:#A65D45;}
   .sheet .chevron{color:#A65D45;}
 
-  /* ---------- Modal (light manuscript) ---------- */
-  .overlay{
-    position:fixed; inset:0;
-    background:rgba(4,12,9,0.72); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
-    display:none; align-items:flex-end; justify-content:center; z-index:50;
-  }
-  .overlay.open{display:flex; animation:fadeIn .25s var(--ease-out);}
-  @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+  /* ---------- Modal (kept as a light manuscript page for contrast) ---------- */
+  .overlay{position:fixed; inset:0; background:rgba(4,12,9,0.75); display:none; align-items:flex-end; justify-content:center; z-index:50;}
+  .overlay.open{display:flex;}
   .sheet{
-    background:linear-gradient(180deg,#F7F1E2,#EFE7D3);
-    color:#12302E;
-    width:100%; max-width:680px; max-height:88vh; overflow-y:auto;
-    border-radius:22px 22px 0 0; padding:22px 20px 34px;
-    animation:slideup .32s var(--ease-out);
-    box-shadow:0 -20px 60px rgba(0,0,0,0.4);
-    position:relative;
+    background:#F3ECDD; color:#12302E;
+    width:100%; max-width:640px; max-height:88vh; overflow-y:auto;
+    border-radius:16px 16px 0 0; padding:20px 18px 30px;
+    animation:slideup 0.25s ease;
   }
-  @keyframes slideup{from{transform:translateY(40px); opacity:0;} to{transform:translateY(0); opacity:1;}}
-  .sheet-handle{width:44px; height:5px; background:rgba(18,48,46,0.22); border-radius:3px; margin:0 auto 18px;}
-  .sheet h2{margin:0 0 4px; font-size:23px; font-family:'Noto Serif Bengali', serif; font-weight:700; letter-spacing:.2px;}
-  .sheet h2 .ar{font-family:'Amiri', serif; font-size:18px; color:#A65D45; margin-right:8px; direction:rtl; display:inline-block; font-weight:400;}
-  .sheet .close-x{
-    position:absolute; top:14px; right:16px;
-    background:rgba(18,48,46,0.06); border:1px solid rgba(18,48,46,0.1);
-    width:34px; height:34px; border-radius:10px;
-    font-size:18px; color:#5b5142; cursor:pointer;
-    display:inline-flex; align-items:center; justify-content:center;
-    transition:background .2s;
-  }
-  .sheet .close-x:hover{ background:rgba(18,48,46,0.12); }
-  .block-label{
-    font-size:11.5px; letter-spacing:1.2px; text-transform:uppercase;
-    color:#A65D45; margin:20px 0 8px; font-weight:700;
-    display:flex; align-items:center; gap:8px;
-  }
+  @keyframes slideup{from{transform:translateY(30px); opacity:0;} to{transform:translateY(0); opacity:1;}}
+  .sheet-handle{width:40px; height:4px; background:rgba(18,48,46,0.25); border-radius:2px; margin:0 auto 16px;}
+  .sheet h2{margin:0 0 2px; font-size:22px; font-family:'Noto Serif Bengali', serif;}
+  .sheet h2 .ar{font-family:'Amiri', serif; font-size:17px; color:#A65D45; margin-right:8px; direction:rtl; display:inline-block;}
+  .sheet .close-x{position:absolute; top:16px; right:18px; background:none; border:none; font-size:20px; color:#5b5142; cursor:pointer;}
+  .block-label{font-size:11.5px; letter-spacing:0.5px; text-transform:uppercase; color:#A65D45; margin:18px 0 6px; font-weight:600; display:flex; align-items:center; gap:6px;}
   .info-ic{cursor:pointer; font-size:12.5px; color:#7a6a4d; text-transform:none; letter-spacing:0; font-weight:400;}
-  .remedy-badge{
-    font-size:12.5px; color:#5b5142;
-    background:rgba(166,93,69,0.08); border:1px solid rgba(166,93,69,0.22);
-    border-radius:10px; padding:10px 14px; margin-bottom:10px; line-height:1.65;
-  }
-  .block-text{font-size:14.5px; line-height:1.85; font-family:'Noto Serif Bengali', serif;}
-  .evidence-item{
-    font-size:13.5px; line-height:1.8; margin-bottom:8px;
-    padding:8px 14px; border-left:3px solid #C79A56;
-    background:rgba(199,154,86,0.08); border-radius:0 8px 8px 0;
-    font-family:'Noto Serif Bengali', serif;
-  }
+  .remedy-badge{font-size:12.5px; color:#5b5142; background:rgba(166,93,69,0.08); border:1px solid rgba(166,93,69,0.2); border-radius:8px; padding:8px 12px; margin-bottom:8px;}
+  .block-text{font-size:14.5px; line-height:1.8; font-family:'Noto Serif Bengali', serif;}
+  .evidence-item{font-size:13.5px; line-height:1.75; margin-bottom:6px; padding-left:12px; border-left:2px solid #C79A56; font-family:'Noto Serif Bengali', serif;}
   .evidence-src{font-size:11px; color:#7a6a4d;}
-  .madhab-toggle{display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;}
-  .madhab-btn{
-    font-size:12px; padding:7px 14px; border-radius:999px;
-    border:1px solid rgba(18,48,46,0.22); background:transparent; cursor:pointer; color:#5b5142;
-    transition:all .2s;
-  }
-  .madhab-btn:hover{ background:rgba(18,48,46,0.05); }
+  .madhab-toggle{display:flex; gap:6px; margin-top:6px; flex-wrap:wrap;}
+  .madhab-btn{font-size:12px; padding:6px 12px; border-radius:14px; border:1px solid rgba(18,48,46,0.25); background:transparent; cursor:pointer; color:#5b5142;}
   .madhab-btn.active{background:#12302E; color:#E4C98A; border-color:#12302E;}
-  .kaffarah-box{
-    margin-top:10px;
-    background:rgba(107,143,123,0.12); border:1px solid rgba(107,143,123,0.32);
-    border-radius:10px; padding:13px 15px; font-size:13.5px; line-height:1.75;
-    font-family:'Noto Serif Bengali', serif;
-  }
-  .huquq-note{
-    margin-top:10px;
-    background:rgba(199,154,86,0.14); border:1px solid rgba(199,154,86,0.38);
-    border-radius:10px; padding:11px 15px; font-size:13px; line-height:1.75;
-  }
-  .dua-box{
-    margin-top:10px;
-    background:linear-gradient(160deg,#173A2E,#0F2A21); color:#F3ECDD;
-    border-radius:12px; padding:16px; text-align:center;
-    box-shadow:inset 0 0 0 1px rgba(228,201,138,0.18);
-  }
-  .dua-ar{font-family:'Amiri', serif; font-size:20px; direction:rtl; line-height:1.95; color:#E4C98A;}
-  .dua-uccharan{font-size:12.5px; margin-top:10px; color:#E4C98A; font-style:italic; opacity:0.92;}
-  .dua-bn{font-size:12px; margin-top:8px; color:#E7DDC7; line-height:1.7;}
-  .dua-src{font-size:10.5px; margin-top:10px; color:#B5A57A; border-top:1px solid rgba(228,201,138,0.2); padding-top:8px;}
-  .log-this-btn{
-    width:100%; margin-top:24px; padding:14px; border-radius:12px; border:none;
-    background:linear-gradient(135deg,#B96A50,#A65D45); color:#F7EFD9;
-    font-size:14.5px; font-weight:700; cursor:pointer; letter-spacing:.3px;
-    box-shadow:0 10px 22px rgba(166,93,69,0.35);
-    transition:transform .15s var(--ease-out), box-shadow .25s;
-  }
-  .log-this-btn:hover{ transform:translateY(-1px); box-shadow:0 14px 28px rgba(166,93,69,0.45); }
-  .log-this-btn:active{ transform:scale(.98); }
-  .reviewed-note{
-    margin-top:16px; font-size:11.5px; color:#8a6d3b;
-    background:rgba(199,154,86,0.14); padding:9px 14px; border-radius:10px; line-height:1.65;
-  }
+  .kaffarah-box{margin-top:10px; background:rgba(107,143,123,0.1); border:1px solid rgba(107,143,123,0.3); border-radius:8px; padding:12px 14px; font-size:13.5px; line-height:1.7; font-family:'Noto Serif Bengali', serif;}
+  .huquq-note{margin-top:10px; background:rgba(199,154,86,0.12); border:1px solid rgba(199,154,86,0.35); border-radius:8px; padding:10px 14px; font-size:13px; line-height:1.7;}
+  .dua-box{margin-top:8px; background:#12302E; color:#F3ECDD; border-radius:8px; padding:14px; text-align:center;}
+  .dua-ar{font-family:'Amiri', serif; font-size:19px; direction:rtl; line-height:1.9; color:#E4C98A;}
+  .dua-uccharan{font-size:12.5px; margin-top:8px; color:#E4C98A; font-style:italic; opacity:0.9;}
+  .dua-bn{font-size:12px; margin-top:6px; color:#E7DDC7;}
+  .dua-src{font-size:10.5px; margin-top:8px; color:#B5A57A; border-top:1px solid rgba(228,201,138,0.2); padding-top:6px;}
+  .log-this-btn{width:100%; margin-top:22px; padding:13px; border-radius:8px; border:none; background:#A65D45; color:#F3ECDD; font-size:14.5px; font-weight:600; cursor:pointer;}
+  .reviewed-note{margin-top:16px; font-size:11px; color:#8a6d3b; background:rgba(199,154,86,0.12); padding:8px 12px; border-radius:8px; line-height:1.6;}
 
-  footer{text-align:center; margin-top:32px; padding:0 20px 22px; font-size:11px; color:rgba(234,243,236,0.4); line-height:1.85;}
-  .umar-strip{ text-align:center; padding:4px 24px 12px; }
-  .umar-strip .arabic{ font-size:14px; color:var(--green); line-height:1.65; }
-  .umar-strip .ui-label{ font-size:10.5px; color:var(--ink-dim); margin-top:4px; line-height:1.55; }
+  footer{text-align:center; margin-top:30px; padding:0 20px 20px; font-size:11px; color:rgba(234,243,236,0.35); line-height:1.8;}
+  .umar-strip{ text-align:center; padding:2px 24px 10px; }
+  .umar-strip .arabic{ font-size:14px; color:var(--green); line-height:1.6; }
+  .umar-strip .ui-label{ font-size:10.5px; color:var(--ink-dim); margin-top:3px; line-height:1.5; }
   .umar-strip .umar-name{ white-space:nowrap; margin-top:2px; }
-
-  /* ---------- Fihrist page (Sayyiat & Hasanat) — light manuscript palette ---------- */
-  /* বৃক্ষ ট্যাবের বিস্তারিত মোডালে ব্যবহৃত কালার প্যালেট এখানে সাইয়্যিআত ও হাসানাত ফিহরিস্তেও */
-  #view-fihrist .accordion-item{
-    background:linear-gradient(180deg,#F7F1E2,#EFE7D3);
-    border:1px solid rgba(18,48,46,0.14);
-    box-shadow:0 6px 18px rgba(18,48,46,0.10);
-  }
-  #view-fihrist .accordion-item:hover{ border-color:rgba(166,93,69,0.35); }
-  #view-fihrist .accordion-item.open{
-    border-color:rgba(199,154,86,0.55);
-    box-shadow:0 14px 34px rgba(18,48,46,0.18);
-  }
-  #view-fihrist .accordion-title{ color:#12302E; font-family:'Noto Serif Bengali', serif; }
-  #view-fihrist .accordion-title-ar{ color:#A65D45; }
-  #view-fihrist .accordion-caret{ color:#A65D45; }
-  #view-fihrist .accordion-body-inner{ border-top-color:rgba(18,48,46,0.12); }
-  #view-fihrist .accordion-body-inner .block-label{
-    color:#A65D45; letter-spacing:1.2px; font-weight:700;
-  }
-  #view-fihrist .accordion-body-inner .block-text{
-    color:#12302E; font-family:'Noto Serif Bengali', serif;
-  }
-  #view-fihrist .accordion-body-inner .evidence-item{
-    color:#12302E; background:rgba(199,154,86,0.10);
-    border-left:3px solid #C79A56; border-radius:0 8px 8px 0;
-    font-family:'Noto Serif Bengali', serif;
-  }
-  #view-fihrist .accordion-body-inner .evidence-src{ color:#7a6a4d; }
-
-  #view-fihrist .sub-accordion{
-    background:rgba(18,48,46,0.04);
-    border:1px solid rgba(18,48,46,0.14);
-  }
-  #view-fihrist .sub-accordion-header{
-    color:#A65D45;
-    background:linear-gradient(90deg, rgba(199,154,86,0.14), rgba(199,154,86,0.02));
-  }
-  #view-fihrist .sub-accordion .madhab-btn{
-    color:#5b5142; border:1px solid rgba(18,48,46,0.22); background:transparent;
-  }
-  #view-fihrist .sub-accordion .madhab-btn:hover{ background:rgba(18,48,46,0.06); color:#12302E; border-color:rgba(18,48,46,0.35); }
-  #view-fihrist .sub-accordion .madhab-btn.active{
-    background:#12302E; color:#E4C98A; border-color:#12302E;
-  }
-  #view-fihrist .sub-accordion .remedy-badge{
-    color:#5b5142;
-    background:rgba(166,93,69,0.08); border:1px solid rgba(166,93,69,0.22);
-  }
-  #view-fihrist .sub-accordion .kaffarah-text{
-    color:#12302E;
-    background:rgba(107,143,123,0.14); border:1px solid rgba(107,143,123,0.32);
-    border-radius:10px; padding:12px 14px; line-height:1.75;
-    font-family:'Noto Serif Bengali', serif;
-  }
-  #view-fihrist .sub-accordion .dua-box-inline{
-    background:linear-gradient(160deg,#173A2E,#0F2A21);
-    border:1px solid rgba(228,201,138,0.22);
-  }
-  #view-fihrist .sub-accordion .dua-ar-inline{ color:#E4C98A; font-family:'Amiri', serif; }
-  #view-fihrist .sub-accordion .dua-bn-inline{ color:#E7DDC7; }
-  #view-fihrist .sub-accordion .dua-src-inline{ color:#B5A57A; border-top:1px solid rgba(228,201,138,0.2); padding-top:8px; }
-
-  /* ট্যাগগুলো ম্যানুস্ক্রিপ্ট প্যালেটে সামঞ্জস্যপূর্ণ */
-  #view-fihrist .tag{ border:1px solid transparent; }
-  #view-fihrist .tag-kabira{ background:rgba(185,74,74,0.15); color:#a13a3a; border-color:rgba(185,74,74,0.3); }
-  #view-fihrist .tag-sagira{ background:rgba(199,154,86,0.18); color:#8a6d3b; border-color:rgba(199,154,86,0.35); }
-  #view-fihrist .tag-huquq{ background:rgba(166,93,69,0.15); color:#8a4a35; border-color:rgba(166,93,69,0.32); }
-  #view-fihrist .tag-neki{ background:rgba(107,143,123,0.18); color:#3f6b52; border-color:rgba(107,143,123,0.35); }
-
-  /* ---------- Font scale controls (sidebar) ---------- */
-  .font-scale-ctrl{ display:inline-flex; align-items:center; gap:6px; }
-  .fs-btn{
-    width:30px; height:28px; border-radius:8px; border:1px solid var(--card-line);
-    background:var(--card); color:var(--gold); font-weight:700; font-size:12px; cursor:pointer;
-    font-family:inherit; transition:all .18s var(--ease-out);
-  }
-  .fs-btn:hover{ background:var(--card-line); color:var(--ink); }
-  .fs-label{ min-width:42px; text-align:center; font-size:11px; color:var(--ink-dim); }
-
-  /* ---------- Reading detail full-page ---------- */
-  .fihrist-card-clickable{ transition:transform .18s var(--ease-out), box-shadow .18s var(--ease-out); }
-  .fihrist-card-clickable:hover{ transform:translateY(-1px); box-shadow:0 8px 22px rgba(0,0,0,0.18); }
-  #view-detail{ font-size: calc(14px * var(--reading-scale, 1)); }
-  .detail-page-content{ padding-bottom:80px; }
-  .detail-hero{
-    background:linear-gradient(180deg, rgba(225,190,126,0.12), rgba(225,190,126,0.02));
-    border:1px solid var(--card-line); border-radius:20px; padding:22px 20px; margin-bottom:18px;
-  }
-  .detail-title{
-    font-family:'Noto Serif Bengali', serif; color:var(--ink);
-    font-size:calc(22px * var(--reading-scale, 1)); font-weight:700; line-height:1.4;
-  }
-  .detail-title-ar{
-    font-family:'Amiri', serif; color:var(--gold-soft); direction:rtl;
-    font-size:calc(20px * var(--reading-scale, 1)); margin-top:8px; line-height:1.7;
-  }
-  .detail-section{
-    background:var(--card); border:1px solid var(--card-line); border-radius:20px;
-    padding:22px 20px; display:flex; flex-direction:column; gap:6px;
-  }
-  .detail-section .block-label{
-    color:var(--gold); font-size:calc(11.5px * var(--reading-scale, 1));
-    letter-spacing:1.4px; font-weight:600; text-transform:uppercase; margin-top:18px;
-  }
-  .detail-section .block-label:first-child{ margin-top:0; }
-  .detail-body{
-    color:var(--ink); font-size:calc(15px * var(--reading-scale, 1));
-    line-height:1.9; margin-top:6px;
-  }
-  .detail-section .evidence-item{
-    color:var(--ink-dim); font-size:calc(14px * var(--reading-scale, 1));
-    line-height:1.9; margin:8px 0; padding:10px 14px;
-    border-left:3px solid var(--gold); background:rgba(225,190,126,0.05); border-radius:8px;
-  }
-  .detail-section .evidence-src{ color:var(--ink-mute); font-size:calc(11.5px * var(--reading-scale, 1)); margin-top:4px; }
-  .detail-dua-box{
-    padding:18px; border-radius:14px; margin:10px 0 4px;
-    background:linear-gradient(180deg, rgba(228,201,138,0.08), rgba(228,201,138,0.02));
-    border:1px solid rgba(228,201,138,0.25);
-  }
-  .detail-ar{
-    font-family:'Amiri', serif; direction:rtl; color:#E4C98A;
-    font-size:calc(22px * var(--reading-scale, 1)); line-height:2.1;
-  }
-  .detail-uccharan{
-    margin-top:14px; padding-top:12px; border-top:1px dashed rgba(228,201,138,0.25);
-    color:#E4C98A; font-style:italic; opacity:0.95;
-    font-size:calc(14px * var(--reading-scale, 1)); line-height:1.85;
-  }
-  .detail-translation{
-    margin-top:14px; padding-top:12px; border-top:1px dashed rgba(228,201,138,0.25);
-    color:var(--ink); font-size:calc(14.5px * var(--reading-scale, 1)); line-height:1.9;
-  }
-  .detail-section .dua-src-inline{ margin-top:12px; color:var(--ink-mute); font-size:calc(11.5px * var(--reading-scale, 1)); }
-  .detail-kaffarah{
-    background:rgba(0,0,0,0.15); border:1px solid var(--card-line);
-    border-radius:14px; padding:14px; margin-top:8px;
-    display:flex; flex-direction:column; gap:10px;
-  }
-  .detail-kaffarah .kaffarah-text{ color:var(--ink); font-size:calc(14.5px * var(--reading-scale, 1)); line-height:1.9; }
-  .detail-kaffarah .remedy-badge{ font-size:calc(13px * var(--reading-scale, 1)); color:var(--ink-dim); }
-  .detail-kaffarah .madhab-toggle{ display:flex; gap:6px; flex-wrap:wrap; }
-
-  /* Detail styling scoped for light Fihrist palette on sin/neki items */
-  #view-detail.fihrist-theme .detail-hero,
-  #view-detail.fihrist-theme .detail-section{
-    background:linear-gradient(180deg,#F7F1E2,#EFE7D3);
-    border-color:rgba(199,154,86,0.35);
-  }
-  #view-detail.fihrist-theme .detail-title,
-  #view-detail.fihrist-theme .detail-body,
-  #view-detail.fihrist-theme .detail-translation{ color:#12302E; }
-  #view-detail.fihrist-theme .detail-title-ar{ color:#A65D45; }
-  #view-detail.fihrist-theme .detail-section .block-label{ color:#A65D45; }
-  #view-detail.fihrist-theme .detail-section .evidence-item{
-    color:#3a4a3a; background:rgba(199,154,86,0.10); border-left-color:#C79A56; border-radius:8px;
-  }
-  #view-detail.fihrist-theme .detail-section .evidence-src{ color:#7a6a4d; }
-
-
-
-  /* ---------- Responsive: tablet & desktop ---------- */
-  @media (min-width:720px){
-    .stat-grid{ gap:12px; }
-    .stat-value{ font-size:17px; }
-    .stat-label{ font-size:10px; }
-    .stat-icon{ width:28px; height:28px; font-size:13px; }
-    .dash-hero{ height:170px; }
-    .dash-state-label{ font-size:20px; }
-    .dash-sub{ font-size:12.5px; }
-    .fihrist-item{ padding:16px 12px; }
-    .chip{ font-size:13.5px; padding:11px 18px; }
-  }
-  @media (min-width:960px){
-    body{ padding-bottom:32px; }
-    .bottom-nav{
-      position:sticky; bottom:16px; margin:24px auto 0; max-width:560px;
-      border-radius:22px; border:1px solid var(--card-line-strong);
-      box-shadow:0 20px 50px rgba(0,0,0,0.5);
-    }
-    #view-dashboard.active{ height:auto; min-height:auto; overflow:visible; gap:20px; }
-    .dash-hero{ height:220px; }
-  }
-  @media (prefers-reduced-motion:reduce){
-    *, *::before, *::after{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
-  }
 </style>
 </head>
 <body>
@@ -987,19 +562,6 @@
   </div>
   <div class="sidebar-divider"></div>
 
-  <div class="sidebar-section">
-    <div class="sidebar-item ui-label" style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
-      <span>🔤 পড়ার ফন্ট সাইজ</span>
-      <span class="font-scale-ctrl">
-        <button type="button" class="fs-btn" onclick="event.stopPropagation(); setReadingFontScale(-0.1)" aria-label="ছোট">A−</button>
-        <span id="fontScaleLabel" class="fs-label">100%</span>
-        <button type="button" class="fs-btn" onclick="event.stopPropagation(); setReadingFontScale(0.1)" aria-label="বড়">A+</button>
-      </span>
-    </div>
-  </div>
-  <div class="sidebar-divider"></div>
-
-
   <div class="sidebar-footer ui-label">ফতোয়া হিসেবে নয়, আত্মজিজ্ঞাসা ও স্মরণের উপকরণ হিসেবে ব্যবহার করুন।</div>
 </div>
 
@@ -1023,7 +585,6 @@
         <div class="garden-layer" id="gardenLayerB"></div>
         <div class="garden-flash" id="gardenFlash"></div>
       </div>
-      <div class="dash-hero-scrim"></div>
       <div class="dash-hero-overlay">
         <div class="dash-greeting ui-label">নফসের বৃক্ষ</div>
         <div style="display:flex; align-items:center; gap:5px;">
@@ -1040,7 +601,10 @@
       <span class="bal-label bal-bad ui-label">গুনাহ ও অবহেলা 🔥</span>
     </section>
 
-    <section class="stat-grid" id="statGrid"></section>
+    <section id="pendingSinSection" style="display:none;">
+      <div class="section-title ui-label" style="font-size:11.5px; margin-bottom:8px;">⏳ তওবা/কাফফারা এখনো বাকি</div>
+      <div class="chip-grid" id="pendingSinChips"></div>
+    </section>
 
     <section class="position-card" style="display:none;">
       <div class="position-ring">
@@ -1166,7 +730,16 @@
       <button class="entry-toggle-btn" data-fmode="sin" onclick="setFihristPageMode('sin')">🔥 সাইয়্যিআত</button>
     </section>
     <section>
-      <div class="accordion-list" id="fihristPageList"></div>
+      <div class="fihrist" id="fihristPageList"></div>
+    </section>
+  </div>
+
+  <div class="tab-view" id="view-fihrist-detail">
+    <div class="fullpage-header">
+      <button class="fullpage-back" onclick="closeFihristItemDetail()">← ফিরে যাও</button>
+    </div>
+    <section>
+      <div class="page-card" id="fihristDetailContent"></div>
     </section>
   </div>
 
@@ -1179,13 +752,6 @@
       <div class="ui-label" style="font-size:12px; color:var(--ink-dim); margin-bottom:12px;">মুমিনের জন্য যথেষ্ট, সহীহ/হাসান সূত্রে বর্ণিত কয়েকটি শক্তিশালী দোয়া ও আয়াত — প্রতিটায় ট্যাপ করলে বিস্তারিত দেখাবে।</div>
       <div class="accordion-list" id="duasPageList"></div>
     </section>
-  </div>
-
-  <div class="tab-view" id="view-detail">
-    <div class="fullpage-header">
-      <button class="fullpage-back" onclick="closeDetailPage()">← ফিরে যাও</button>
-    </div>
-    <div id="detailPageContent" class="detail-page-content"></div>
   </div>
 </main>
 
@@ -1262,7 +828,7 @@ const POWERFUL_DUAS = [
   {
     id:'ayatul_kursi', name_bn:'আয়াতুল কুরসি', name_ar:'آية الكرسي',
     ar:'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ',
-    uccharan:'আল্লাহু লা ইলাহা ইল্লা হুওয়াল হাইয়ুল কাইয়ুম, লা তা\'খুযুহু সিনাতুঁও ওয়ালা নাউম, লাহু মা ফিস সামাওয়াতি ওয়ামা ফিল আরদ।',
+    uccharan:'আল্লাহু লা ইলাহা ইল্লা হুওয়াল হাইয়্যুল কাইয়্যুম, লা তা\'খুযুহু সিনাতুও ওয়ালা নাওম, লাহু মা ফিস সামাওয়াতি ওয়ামা ফিল আরদ',
     bn:'আল্লাহ, তিনি ছাড়া কোনো (সত্য) উপাস্য নেই, তিনি চিরঞ্জীব, সর্বসত্তার ধারক। তন্দ্রা তাঁকে স্পর্শ করে না, নিদ্রাও না। আসমান ও জমিনে যা কিছু আছে সব তাঁরই।',
     fazilat:'রাসূল (সা.) নিজেই একে কুরআনের সর্বশ্রেষ্ঠ আয়াত বলে ঘোষণা করেছেন। প্রতি ওয়াক্ত ফরয নামাজের পর পড়লে মৃত্যু ছাড়া জান্নাতে প্রবেশে আর কিছু বাধা থাকে না বলে বর্ণিত হয়েছে।',
     src:'কুরআন ২:২৫৫; ফজিলত — সহীহ মুসলিম ৮১০ (সর্বশ্রেষ্ঠ আয়াত), সুনানে নাসাঈ (আততরগীব, সহীহ সনদে) — প্রতি নামাজের পর পাঠের ফজিলত'
@@ -1270,7 +836,7 @@ const POWERFUL_DUAS = [
   {
     id:'baqarah_last2', name_bn:'সূরা বাকারার শেষ দুই আয়াত', name_ar:'آخر آيتين من سورة البقرة',
     ar:'آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ ۚ كُلٌّ آمَنَ بِاللَّهِ وَمَلَائِكَتِهِ وَكُتُبِهِ وَرُسُلِهِ...',
-    uccharan:'আমানার রাসূলু বিমা উনযিলা ইলাইহি মিররব্বিহি ওয়াল মু\'মিনূন, কুল্লুন আমানা বিল্লাহি ওয়ামালা-ইকাতিহি ওয়াকুতুবিহি ওয়ারুসুলিহি...',
+    uccharan:'আমানার রাসূলু বিমা উনযিলা ইলাইহি মির রব্বিহী ওয়াল মু\'মিনূন, কুল্লুন আমানা বিল্লাহি ওয়া মালাইকাতিহী ওয়া কুতুবিহী ওয়া রুসুলিহী...',
     bn:'রাসূল তার প্রতি যা অবতীর্ণ হয়েছে তাতে ঈমান এনেছেন, আর মুমিনগণও। প্রত্যেকে ঈমান এনেছে আল্লাহ, তাঁর ফেরেশতাগণ, তাঁর কিতাবসমূহ ও তাঁর রাসূলগণের প্রতি...',
     fazilat:'রাসূল (সা.) বলেছেন, যে রাতে এই দুই আয়াত পড়বে, তা তার জন্য যথেষ্ট হয়ে যাবে। "যথেষ্ট" (كَفَتَاهُ) শব্দটি হাদিসে সরাসরি ব্যবহৃত হয়েছে।',
     src:'কুরআন ২:২৮৫-২৮৬; সহীহ বুখারী ৫০০৯, সহীহ মুসলিম ৮০৭'
@@ -1278,7 +844,7 @@ const POWERFUL_DUAS = [
   {
     id:'dua_yunus', name_bn:'দোয়া ইউনুস', name_ar:'دعاء يونس',
     ar:'لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ',
-    uccharan:'লা ইলাহা ইল্লা আন্তা সুবহানাকা ইন্নী কুন্তু মিনায যালিমীন।',
+    uccharan:'লা ইলাহা ইল্লা আনতা সুবহানাকা ইন্নী কুনতু মিনায যালিমীন',
     bn:'তুমি ছাড়া কোনো (সত্য) উপাস্য নেই, তুমি পবিত্র, নিশ্চয় আমি জালিমদের (নিজের উপর জুলুমকারীদের) অন্তর্ভুক্ত ছিলাম।',
     fazilat:'ইউনুস (আ.) মাছের পেটে অন্ধকারের মধ্যে এই দোয়া করেছিলেন। রাসূল (সা.) বলেছেন, কোনো মুসলিম কোনো বিষয়ে এই দোয়া দিয়ে আল্লাহর কাছে চাইলে আল্লাহ তা কবুল করেন।',
     src:'কুরআন ২১:৮৭; জামি আত-তিরমিযী ৩৫০৫ (হাসান, আলবানী)'
@@ -1286,7 +852,7 @@ const POWERFUL_DUAS = [
   {
     id:'hasbunallah', name_bn:'হাসবুনাল্লাহু ওয়া নি\'মাল ওয়াকীল', name_ar:'حسبنا الله ونعم الوكيل',
     ar:'حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ',
-    uccharan:'হাসবুনাল্লাহু ওয়া নি\'মাল ওয়াকীল।',
+    uccharan:'হাসবুনাল্লাহু ওয়া নি\'মাল ওয়াকীল',
     bn:'আল্লাহই আমাদের জন্য যথেষ্ট, আর তিনিই উত্তম কর্মবিধায়ক।',
     fazilat:'ইবরাহীম (আ.) যখন আগুনে নিক্ষিপ্ত হচ্ছিলেন তখন এই বাক্য বলেছিলেন। মুমিনরাও শত্রুদের বিশাল বাহিনীর সংবাদ শুনে একই বাক্যে আল্লাহর উপর ভরসা প্রকাশ করেছিলেন এবং আল্লাহ তাদের হেফাজত করেছিলেন।',
     src:'কুরআন ৩:১৭৩ (এবং ইবরাহীম আ.-এর প্রসঙ্গে ২১:৬৯-এর সাথে সম্পর্কিত বর্ণনা, সহীহ বুখারী ৪৫৬৩)'
@@ -1294,7 +860,7 @@ const POWERFUL_DUAS = [
   {
     id:'sayyidul_istighfar', name_bn:'সাইয়িদুল ইস্তিগফার', name_ar:'سيد الاستغفار',
     ar:'اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ',
-    uccharan:'আল্লাহুম্মা আন্তা রাব্বী, লা ইলাহা ইল্লা আন্তা, খালাকতানী ওয়া আনা আবদুকা, ওয়া আনা আলা আহদিকা ওয়া ওয়া\'দিকা মাসতাতা\'তু...',
+    uccharan:'আল্লাহুম্মা আনতা রব্বী লা ইলাহা ইল্লা আনতা, খালাক্বতানী ওয়া আনা আবদুকা, ওয়া আনা আলা আহদিকা ওয়া ওয়াদিকা মাসতাতা\'তু',
     bn:'হে আল্লাহ, তুমি আমার রব, তুমি ছাড়া কোনো উপাস্য নেই। তুমি আমাকে সৃষ্টি করেছ, আমি তোমার বান্দা, আর আমি যথাসাধ্য তোমার প্রতিশ্রুতি ও ওয়াদার উপর আছি...',
     fazilat:'রাসূল (সা.) বলেছেন, যে ব্যক্তি দৃঢ় বিশ্বাসের সাথে দিনে এই দোয়া পড়ে সেদিন সন্ধ্যার আগে মারা গেলে সে জান্নাতি; আর যে রাতে পড়ে সকালের আগে মারা গেলে সেও জান্নাতি।',
     src:'সহীহ বুখারী ৬৩০৬'
@@ -1302,7 +868,7 @@ const POWERFUL_DUAS = [
   {
     id:'durood_ibrahim', name_bn:'দরুদ ইবরাহীম', name_ar:'الصلاة الإبراهيمية',
     ar:'اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَىٰ إِبْرَاهِيمَ وَعَلَىٰ آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ',
-    uccharan:'আল্লাহুম্মা সাল্লি আলা মুহাম্মাদিঁও ওয়া আলা আলি মুহাম্মাদ, কামা সাল্লাইতা আলা ইবরাহীমা ওয়া আলা আলি ইবরাহীম, ইন্নাকা হামীদুম মাজীদ।',
+    uccharan:'আল্লাহুম্মা সাল্লি আলা মুহাম্মাদিও ওয়া আলা আলি মুহাম্মাদিন কামা সাল্লাইতা আলা ইবরাহীমা ওয়া আলা আলি ইবরাহীম, ইন্নাকা হামীদুম মাজীদ',
     bn:'হে আল্লাহ, মুহাম্মদ ও মুহাম্মদের পরিবারের উপর রহমত বর্ষণ করো, যেমন তুমি ইবরাহীম ও ইবরাহীমের পরিবারের উপর রহমত বর্ষণ করেছিলে। নিশ্চয় তুমি প্রশংসিত, মহিমান্বিত।',
     fazilat:'সাহাবীদের প্রশ্নের জবাবে রাসূল (সা.) নিজে এই শব্দগুলো শিখিয়েছিলেন — তাশাহহুদে পঠিত সবচেয়ে প্রামাণ্য দরুদ। একবার দরুদ পড়লে আল্লাহ দশবার রহমত বর্ষণ করেন বলে বর্ণিত হয়েছে।',
     src:'সহীহ বুখারী ৩৩৭০, সহীহ মুসলিম ৪০৬'
@@ -1344,158 +910,35 @@ function openDuasPage(){
 }
 function renderDuasPage(){
   const el = document.getElementById('duasPageList');
-  el.innerHTML = POWERFUL_DUAS.map(d => `
-    <div class="accordion-item" onclick="openDuaDetail('${d.id}')" style="cursor:pointer;">
-      <div class="accordion-header">
+  el.innerHTML = POWERFUL_DUAS.map(d => {
+    const accId = 'dua_' + d.id;
+    return `
+    <div class="accordion-item" data-acc-id="${accId}">
+      <div class="accordion-header" onclick="toggleAccordion('${accId}')">
         <div>
           <div class="accordion-title">${d.name_bn}</div>
           <div class="accordion-title-ar">${d.name_ar}</div>
         </div>
-        <span class="accordion-caret" style="transform:rotate(-90deg);">▾</span>
+        <span class="accordion-caret">▾</span>
       </div>
-    </div>`).join('');
-}
-
-// ---------------- বিস্তারিত ফুল-পেজ (ফিহরিস্ত/দোয়া আইটেম) ----------------
-let previousFullPageBeforeDetail = 'dashboard';
-function openDetailPage(){
-  const activeView = document.querySelector('.tab-view.active');
-  if(activeView) previousFullPageBeforeDetail = activeView.id.replace('view-','');
-  document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
-  document.getElementById('view-detail').classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  window.scrollTo({top:0});
-}
-function closeDetailPage(){
-  if(previousFullPageBeforeDetail === 'fihrist' || previousFullPageBeforeDetail === 'duas'){
-    openFullPage(previousFullPageBeforeDetail);
-    if(previousFullPageBeforeDetail === 'fihrist') renderFihristPage();
-    else renderDuasPage();
-  } else {
-    switchTab(previousFullPageBeforeDetail || 'dashboard');
-  }
-}
-function openDuaDetail(id){
-  const d = POWERFUL_DUAS.find(x => x.id === id);
-  if(!d) return;
-  openDetailPage();
-  document.getElementById('view-detail').classList.remove('fihrist-theme');
-  document.getElementById('detailPageContent').innerHTML = `
-    <div class="detail-hero">
-      <div class="detail-title">${d.name_bn}</div>
-      <div class="detail-title-ar">${d.name_ar}</div>
-    </div>
-    <div class="detail-section">
-      <div class="dua-box-inline detail-dua-box">
-        <div class="dua-ar-inline detail-ar">${d.ar}</div>
-        ${d.uccharan ? `<div class="detail-uccharan"><span class="block-label" style="display:block;margin-bottom:4px;">বাংলা উচ্চারণ</span>${d.uccharan}</div>` : ''}
-        <div class="detail-translation"><span class="block-label" style="display:block;margin-bottom:4px;">অনুবাদ</span>${d.bn}</div>
+      <div class="accordion-body">
+        <div class="accordion-body-inner">
+          <div class="sub-accordion open" style="margin-top:0;">
+            <div class="sub-accordion-body" style="max-height:2000px; padding:12px;">
+              <div class="dua-box-inline">
+                <div class="dua-ar-inline">${d.ar}</div>
+                <div class="dua-bn-inline">${d.bn}</div>
+              </div>
+              <div class="block-text" style="margin-top:10px;">${d.fazilat}</div>
+              <div class="evidence-src" style="margin-top:6px;">সূত্র: ${d.src}</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="block-label">ফজিলত</div>
-      <div class="block-text detail-body">${d.fazilat}</div>
-      <div class="block-label">সূত্র</div>
-      <div class="block-text detail-body">${d.src}</div>
     </div>`;
+  }).join('');
+  applyAccordionStates();
 }
-function openFihristDetail(id, isSin){
-  const list = isSin ? SINS : NEKI;
-  const x = list.find(a => a.id === id);
-  if(!x) return;
-  openDetailPage();
-  document.getElementById('view-detail').classList.add('fihrist-theme');
-  const accId = (isSin ? 'sin_' : 'neki_') + x.id + '_det';
-  // pre-open sub-accordions so reader sees everything
-  openAccordions.add(accId + '_kaf');
-  openAccordions.add(accId + '_dua');
-  const tagHtml = isSin
-    ? `<span class="tag ${x.category==='kabira'?'tag-kabira':'tag-sagira'}">${x.category==='kabira'?'কবিরা':'সগিরা'}</span>${x.huquq ? '<span class="tag tag-huquq">বান্দার হক</span>' : ''}`
-    : `<span class="tag tag-neki">${NEKI_CATEGORY_LABELS[x.category] || x.category}</span>`;
-  const selMadhab = accordionMadhab[accId] || 'hanafi';
-  const madhabLabel = m => m==='hanafi'?'হানাফী':m==='shafii'?'শাফেয়ী':m==='maliki'?'মালেকী':'হাম্বলী';
-  const madhabButtons = () => ['hanafi','shafii','maliki','hanbali'].map(m =>
-    `<button class="madhab-btn ${m===selMadhab?'active':''}" onclick="switchDetailMadhab('${accId}','${m}',${isSin},'${id}')">${madhabLabel(m)}</button>`
-  ).join('');
-  const hasMulti = isSin
-    ? (x.kaffarah.hanafi || x.kaffarah.shafii || x.kaffarah.maliki || x.kaffarah.hanbali)
-    : (x.madhab && (x.madhab.hanafi || x.madhab.shafii || x.madhab.maliki || x.madhab.hanbali));
-
-  let kaffarahHtml = '';
-  if(isSin){
-    const remedy = REMEDY_LABELS[x.remedy] || REMEDY_LABELS.none;
-    const kaffarahBody = hasMulti
-      ? `<div class="madhab-toggle">${madhabButtons()}</div><div class="kaffarah-text">${x.kaffarah[selMadhab] || 'এই মাযহাবের বিস্তারিত এখনো যুক্ত করা হয়নি।'}</div>`
-      : `<div class="kaffarah-text">${x.kaffarah.ijma}</div>`;
-    kaffarahHtml = `
-      <div class="block-label">কাফফারা / প্রতিকার</div>
-      <div class="detail-kaffarah">
-        <div class="remedy-badge">${remedy.dot} ${remedy.text}</div>
-        ${kaffarahBody}
-        ${x.diyah_note ? `<div class="remedy-badge">💰 ${x.diyah_note}</div>` : ''}
-        ${x.nisab_info ? `<div class="remedy-badge">💰 ${x.nisab_info}</div>` : ''}
-        ${x.huquq ? `<div class="remedy-badge">⚠️ ${x.huquq_note}</div>` : ''}
-      </div>`;
-  } else if(hasMulti){
-    kaffarahHtml = `
-      <div class="block-label">মাযহাবভেদে বিস্তারিত</div>
-      <div class="detail-kaffarah">
-        <div class="madhab-toggle">${madhabButtons()}</div>
-        <div class="kaffarah-text">${x.madhab[selMadhab] || 'এই মাযহাবের বিস্তারিত এখনো যুক্ত করা হয়নি।'}</div>
-      </div>`;
-  }
-
-  const duaHtml = x.dua ? `
-    <div class="block-label">${isSin ? 'ইস্তিগফার' : 'দোয়া'}</div>
-    <div class="dua-box-inline detail-dua-box">
-      <div class="dua-ar-inline detail-ar">${x.dua.ar}</div>
-      ${x.dua.uccharan ? `<div class="detail-uccharan"><span class="block-label" style="display:block;margin-bottom:4px;">বাংলা উচ্চারণ</span>${x.dua.uccharan}</div>` : ''}
-      <div class="detail-translation"><span class="block-label" style="display:block;margin-bottom:4px;">অনুবাদ</span>${x.dua.bn}</div>
-      <div class="dua-src-inline">সূত্র: ${x.dua.src}</div>
-    </div>` : '';
-
-  const bodyMainHtml = isSin
-    ? `<div class="block-label">কুরআন ও হাদিসের সূত্র</div>
-       ${x.evidence.map(e=>`<div class="evidence-item">${e.text}<div class="evidence-src">— ${e.src}</div></div>`).join('')}
-       <div class="block-label">দুনিয়াবি দিক</div>
-       <div class="block-text detail-body">${x.dunya}</div>
-       <div class="block-label">আখিরাতের দিক</div>
-       <div class="block-text detail-body">${x.akhirah}</div>`
-    : `<div class="block-label">কুরআন ও হাদিসের সূত্র</div>
-       ${x.evidence.map(e=>`<div class="evidence-item">${e.text}<div class="evidence-src">— ${e.src}</div></div>`).join('')}
-       <div class="block-label">ফজিলত ও প্রতিদান</div>
-       <div class="block-text detail-body">${x.fazilat}</div>
-       <div class="block-label">কোন গুনাহ মিটিয়ে দেয়?</div>
-       <div class="block-text detail-body">${x.erases}</div>`;
-
-  document.getElementById('detailPageContent').innerHTML = `
-    <div class="detail-hero">
-      <div class="detail-title">${x.name_bn}</div>
-      <div class="detail-title-ar">${x.name_ar}</div>
-      <div class="fihrist-tags" style="margin-top:8px;">${tagHtml}</div>
-    </div>
-    <div class="detail-section">
-      ${bodyMainHtml}
-      ${kaffarahHtml}
-      ${duaHtml}
-    </div>`;
-}
-function switchDetailMadhab(accId, m, isSin, id){
-  accordionMadhab[accId] = m;
-  openFihristDetail(id, isSin);
-}
-
-// ---------------- ফন্ট সাইজ (পড়ার সুবিধায়) ----------------
-let readingFontScale = parseFloat(localStorage.getItem('muhasaba_fontScale') || '1');
-function applyReadingFontScale(){
-  document.documentElement.style.setProperty('--reading-scale', readingFontScale);
-  const lbl = document.getElementById('fontScaleLabel');
-  if(lbl) lbl.textContent = Math.round(readingFontScale * 100) + '%';
-}
-function setReadingFontScale(delta){
-  readingFontScale = Math.min(1.6, Math.max(0.85, +(readingFontScale + delta).toFixed(2)));
-  localStorage.setItem('muhasaba_fontScale', readingFontScale);
-  applyReadingFontScale();
-}
-
 
 const GLOSSARY = [
   { id:'nafs_ammarah', term_bn:'নফসে আম্মারা', term_ar:'النفس الأمارة', def:'কুরআনে বর্ণিত নফসের (প্রবৃত্তি/সত্তা) সর্বনিম্ন স্তর — "নিশ্চয় নফস মন্দ কাজের প্রতি প্ররোচনাদানকারী" (কুরআন ১২:৫৩)। এই স্তরে মানুষ প্রবৃত্তির তাড়নায় অবাধে গুনাহর দিকে ঝুঁকে পড়ে, তেমন প্রতিরোধ করে না।' },
@@ -2083,6 +1526,82 @@ function loadCumulative(){
 }
 function saveCumulative(){ storageSet(CUMULATIVE_KEY, JSON.stringify(cumulative)); }
 
+// ---------------- অনিষ্পন্ন সাইয়্যিআত (তারিখ-নিরপেক্ষ, যতক্ষণ না তওবা/কাফফারা আদায় হয়) ----------------
+// todayEntries প্রতিদিন রিসেট হয়, কিন্তু একটা গুনাহর "তওবা/কাফফারা বাকি" অবস্থা দিনের সীমানা পার হয়েও
+// থেকে যাওয়া উচিত — তাই এটা আলাদাভাবে, তারিখ ছাড়া একটাই key-তে জমা থাকে।
+const PENDING_SINS_KEY = 'pendingSinsV1';
+// এই রেমেডি টাইপগুলার জন্য শুধু তওবা/ইস্তিগফার যথেষ্ট নয় — নির্দিষ্ট কাফফারা/ফিদিয়া/কাযাও আদায় করা লাগবে
+const REMEDY_NEEDS_KAFFARAH = ['waajib','fidyah_wajib','kaffarah_wajib','qada','disputed'];
+let pendingSins = [];
+function loadPendingSins(){
+  try{
+    const raw = storageGet(PENDING_SINS_KEY);
+    pendingSins = raw ? JSON.parse(raw) : [];
+  }catch(e){ pendingSins = []; }
+}
+function savePendingSins(){ storageSet(PENDING_SINS_KEY, JSON.stringify(pendingSins)); }
+function sinNeedsKaffarah(sin){ return REMEDY_NEEDS_KAFFARAH.includes(sin.remedy); }
+function isPendingSinSettled(p){
+  const sin = SINS.find(s=>s.id===p.sinId);
+  if(!sin) return true;
+  return sinNeedsKaffarah(sin) ? (p.tawbahDone && p.kaffarahDone) : p.tawbahDone;
+}
+function renderPendingSinChips(){
+  const section = document.getElementById('pendingSinSection');
+  const grid = document.getElementById('pendingSinChips');
+  if(!section || !grid) return;
+  const unsettled = pendingSins.filter(p => !isPendingSinSettled(p));
+  if(unsettled.length === 0){
+    section.style.display = 'none';
+    grid.innerHTML = '';
+    return;
+  }
+  section.style.display = '';
+  grid.innerHTML = unsettled.map(p => {
+    const sin = SINS.find(s=>s.id===p.sinId);
+    if(!sin) return '';
+    return `<button class="chip chip-sin ui-label" onclick="openSettleSin('${p.uid}')">🔥 ${sin.name_bn}</button>`;
+  }).join('');
+}
+// ড্যাশবোর্ডের চিপে ট্যাপ করলে তওবা/কাফফারা আদায়ের অবস্থা আপডেট করার জন্য একটা ছোট শিট খোলে
+function openSettleSin(uid){
+  const p = pendingSins.find(x=>x.uid===uid);
+  if(!p) return;
+  const sin = SINS.find(s=>s.id===p.sinId);
+  if(!sin) return;
+  const needsKaffarah = sinNeedsKaffarah(sin);
+  const remedy = REMEDY_LABELS[sin.remedy] || REMEDY_LABELS.none;
+  document.getElementById('sheet').innerHTML = `
+    <div class="sheet-handle"></div>
+    <button class="close-x" onclick="closeSheet()">✕</button>
+    <h2><span class="ar">${sin.name_ar}</span>${sin.name_bn}</h2>
+    <div class="remedy-badge ui-label">${remedy.dot} ${remedy.text}</div>
+    <label class="return-check ui-label" style="display:block; margin-top:14px;">
+      <input type="checkbox" ${p.tawbahDone?'checked':''} onchange="toggleSettleField('${uid}','tawbahDone')">
+      ইস্তিগফার/তওবা করেছি
+    </label>
+    ${needsKaffarah ? `
+    <label class="return-check ui-label" style="display:block; margin-top:8px;">
+      <input type="checkbox" ${p.kaffarahDone?'checked':''} onchange="toggleSettleField('${uid}','kaffarahDone')">
+      কাফফারা/ফিদিয়া/কাযা আদায় করেছি
+    </label>` : ''}
+  `;
+  document.getElementById('overlay').classList.add('open');
+}
+function toggleSettleField(uid, field){
+  const p = pendingSins.find(x=>x.uid===uid);
+  if(!p) return;
+  p[field] = !p[field];
+  if(field === 'tawbahDone'){
+    // এই একই এন্ট্রি যদি আজকের পাতাতেও থাকে, সেটার চেকবক্সও সিঙ্কে রাখা হয়
+    const todayEntry = todayEntries.find(e=>e.uid===uid);
+    if(todayEntry){ todayEntry.returned = p.tawbahDone; saveToday(); renderToday(); }
+  }
+  savePendingSins();
+  if(isPendingSinSettled(p)) closeSheet();
+  renderDashboard();
+}
+
 // পয়েন্ট ওজন — এখানে বদলালে পুরো স্কোরিং কেমন কঠোর/নমনীয় হবে তা পরিবর্তন হবে
 const SCORE_WEIGHTS = { neki:3, sadaqah:4, tawbah:8, istighfar:2, quranPerMinute:0.3, kabira:-10, sagira:-4, repeat:-3 };
 function computeGardenScore(){
@@ -2113,6 +1632,7 @@ async function loadToday(){
     todayStats = rawStats ? JSON.parse(rawStats) : { neki:0, sadaqah:0, kaffarah:0 };
   }catch(e){ todayStats = { neki:0, sadaqah:0, istighfar:0, quran:0, kaffarah:0 }; }
   loadCumulative();
+  loadPendingSins();
   renderToday();
   renderObligationToday();
   renderObligationIndex();
@@ -2203,16 +1723,7 @@ function renderHasanatToday(){
 
 function renderDashboard(){
   renderHasanatToday();
-  const counts = currentCounts();
-  const grid = document.getElementById('statGrid');
-  grid.innerHTML = STAT_DEFS.map(d=>`
-    <div class="stat-card" onclick="${d.editable ? `adjustStat('${d.key}')` : ''}">
-      <div class="stat-icon" style="background:${d.bg}; color:${d.color};">${d.icon}</div>
-      <div class="stat-value">${toBn(counts[d.key])} <span class="stat-unit">${d.unit}</span></div>
-      <div class="stat-label ui-label">${d.label}</div>
-      <div class="stat-unit ui-label">আজ</div>
-    </div>
-  `).join('');
+  renderPendingSinChips(); // অনিষ্পন্ন (তওবা/কাফফারা বাকি) সাইয়্যিআতের চিপ ড্যাশবোর্ডে দেখায়
 
   // ড্যাশবোর্ডের CTA কার্ডে আজকের সংক্ষিপ্ত হিসাব দেখায় (এন্ট্রি ট্যাবের শর্টকাট হিসেবে)
   const hasanatToday = (todayStats.neki||0) + (todayStats.sadaqah||0) + (todayStats.istighfar||0);
@@ -2282,6 +1793,12 @@ function toggleReturned(i){
     cumulative.tawbah = Math.max(0, cumulative.tawbah - 1);
   }
   saveCumulative();
+  // সংশ্লিষ্ট পেন্ডিং-সিন এন্ট্রিতেও (থাকলে) তওবার অবস্থা সিঙ্ক করা হয়
+  const uid = todayEntries[i].uid;
+  if(uid){
+    const p = pendingSins.find(x=>x.uid===uid);
+    if(p){ p.tawbahDone = todayEntries[i].returned; savePendingSins(); }
+  }
   renderToday();
 }
 
@@ -2368,13 +1885,9 @@ function drawBonsai(cfg){
 }
 function gardenPart(cfg, preserveAspect, viewBoxOverride){
   const bonsai = drawBonsai(cfg);
-  return `<svg viewBox="${viewBoxOverride || '0 0 300 320'}" preserveAspectRatio="${preserveAspect || 'xMidYMid meet'}" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="sky-${cfg.id}" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="${cfg.sky1}"/><stop offset="1" stop-color="${cfg.sky2}"/>
-      </linearGradient>
-    </defs>
-    <rect x="-50" y="-50" width="400" height="420" fill="url(#sky-${cfg.id})"/>
+  // নোট: এখানে আর আলাদা "sky" ব্যাকগ্রাউন্ড রেক্ট আঁকা হয় না, যাতে গাছটা সবসময়
+  // কার্ডের নিজস্ব ব্যাকগ্রাউন্ডের উপর ভাসমান থাকে (কোনো ভিন্ন রঙের বক্স/সীমানা দেখা না যায়)।
+  return `<svg viewBox="${viewBoxOverride || '0 0 300 335'}" preserveAspectRatio="${preserveAspect || 'xMidYMid meet'}" xmlns="http://www.w3.org/2000/svg">
     ${cfg.showSparkle ? `<circle cx="235" cy="55" r="58" fill="${cfg.moonColor}" opacity="0.14"/>` : ''}
     <circle cx="235" cy="55" r="42" fill="${cfg.moonColor}" opacity="${cfg.moonOpacity}"/>
     ${bonsai}
@@ -2443,14 +1956,14 @@ function renderGarden(score){
   const inactiveLayer = activeLayer === layerA ? layerB : layerA;
   updateNavTreeIcon(state); // ন্যাভ-বার ও সাইডবারের ছোট আইকনটাও গাছের বর্তমান অবস্থার সাথে সিঙ্কে রাখা হয়
   if(activeLayer.dataset.state === state.label) return; // অবস্থা বদলায়নি, রি-রেন্ডার দরকার নেই
-  inactiveLayer.innerHTML = gardenPart(state.cfg, 'xMidYMid slice', '0 88 300 145');
+  inactiveLayer.innerHTML = gardenPart(state.cfg, 'xMaxYMid meet');
   inactiveLayer.dataset.state = state.label;
   inactiveLayer.classList.add('active');
   activeLayer.classList.remove('active');
 }
 // বটম-ন্যাভের "বৃক্ষ" বাটন ও সাইডবারে গাছটার একটা ছোট, transparent-background সংস্করণ বসায়
 function updateNavTreeIcon(state){
-  const iconSvg = `<svg viewBox="20 60 260 250" xmlns="http://www.w3.org/2000/svg">${drawBonsai(state.cfg)}</svg>`;
+  const iconSvg = `<svg viewBox="20 60 260 275" xmlns="http://www.w3.org/2000/svg">${drawBonsai(state.cfg)}</svg>`;
   const navIcon = document.getElementById('navTreeIcon');
   const sideIcon = document.getElementById('sidebarTreeIcon');
   if(navIcon) navIcon.innerHTML = iconSvg;
@@ -2517,6 +2030,11 @@ function editNote(i){
   openTextDialog('সংক্ষেপে লিখো — কী হয়েছিল, কোথায়, কার সাথে (নিজের স্মরণের জন্য):', current);
 }
 function removeEntry(i){
+  const uid = todayEntries[i].uid;
+  if(uid){
+    pendingSins = pendingSins.filter(p=>p.uid!==uid); // ভুলে যোগ হওয়া এন্ট্রি মুছলে তার পেন্ডিং চিপও মুছে যাবে
+    savePendingSins();
+  }
   todayEntries.splice(i,1);
   saveToday();
   renderToday();
@@ -2591,18 +2109,54 @@ function setFihristPageMode(mode){
 function renderFihristPage(){
   const isSin = fihristPageMode === 'sin';
   const items = isSin ? SINS : NEKI;
-  document.getElementById('fihristPageList').innerHTML = items.map(x => renderFihristAccordionItem(x, isSin)).join('');
-  applyAccordionStates();
+  document.getElementById('fihristPageList').innerHTML = items.map(x => renderFihristListRow(x, isSin)).join('');
 }
-function renderFihristAccordionItem(x, isSin){
+// লিস্টে এখন প্রতিটা আইটেম শুধু একটা সাধারণ রো — ট্যাপ করলে ইনলাইন এক্সপ্যান্ড না হয়ে আলাদা ফুল পেজে চলে যায়
+function renderFihristListRow(x, isSin){
   const accId = (isSin ? 'sin_' : 'neki_') + x.id;
+  const tagHtml = isSin
+    ? `<span class="tag ${x.category==='kabira'?'tag-kabira':'tag-sagira'}">${x.category==='kabira'?'কবিরা':'সগিরা'}</span>${x.huquq ? '<span class="tag tag-huquq">বান্দার হক</span>' : ''}`
+    : `<span class="tag tag-neki">${NEKI_CATEGORY_LABELS[x.category] || x.category}</span>`;
+  return `
+    <div class="fihrist-item" onclick="openFihristItemDetail('${isSin ? 'sin' : 'neki'}', '${x.id}')">
+      <div class="fihrist-left">
+        <div class="fihrist-name">${x.name_bn}</div>
+        <div class="fihrist-name-ar">${x.name_ar}</div>
+        <div class="fihrist-tags" style="margin-top:5px;">${tagHtml}</div>
+      </div>
+      <div class="chevron">›</div>
+    </div>`;
+}
+// প্রতিটা ফিহরিস্ত-আইটেমের সম্পূর্ণ বিস্তারিত এখন এই আলাদা ফুল পেজে দেখানো হয় (accordion-এর বদলে)
+let fihristDetailAccId = null;
+function openFihristItemDetail(mode, id){
+  fihristDetailAccId = (mode === 'sin' ? 'sin_' : 'neki_') + id;
+  document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-fihrist-detail').classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  window.scrollTo({top:0});
+  renderFihristDetailPage();
+}
+function closeFihristItemDetail(){
+  document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-fihrist').classList.add('active');
+  window.scrollTo({top:0});
+}
+function renderFihristDetailPage(){
+  const isSin = fihristDetailAccId.startsWith('sin_');
+  const id = fihristDetailAccId.slice(isSin ? 4 : 5);
+  const x = (isSin ? SINS : NEKI).find(item => item.id === id);
+  if(!x) return;
+  document.getElementById('fihristDetailContent').innerHTML = renderFihristDetailBody(x, isSin, fihristDetailAccId);
+}
+function renderFihristDetailBody(x, isSin, accId){
   const hasMulti = isSin
     ? (x.kaffarah.hanafi || x.kaffarah.shafii || x.kaffarah.maliki || x.kaffarah.hanbali)
     : (x.madhab && (x.madhab.hanafi || x.madhab.shafii || x.madhab.maliki || x.madhab.hanbali));
   const selMadhab = accordionMadhab[accId] || 'hanafi';
   const madhabLabel = m => m==='hanafi'?'হানাফী':m==='shafii'?'শাফেয়ী':m==='maliki'?'মালেকী':'হাম্বলী';
   const madhabButtons = () => ['hanafi','shafii','maliki','hanbali'].map(m =>
-    `<button class="madhab-btn ${m===selMadhab?'active':''}" onclick="event.stopPropagation(); switchAccordionMadhab('${accId}','${m}')">${madhabLabel(m)}</button>`
+    `<button class="madhab-btn ${m===selMadhab?'active':''}" onclick="switchDetailMadhab('${accId}','${m}')">${madhabLabel(m)}</button>`
   ).join('');
 
   let kaffarahSubHtml = '';
@@ -2612,37 +2166,25 @@ function renderFihristAccordionItem(x, isSin){
       ? `<div class="madhab-toggle">${madhabButtons()}</div><div class="kaffarah-text">${x.kaffarah[selMadhab] || 'এই মাযহাবের বিস্তারিত এখনো যুক্ত করা হয়নি।'}</div>`
       : `<div class="kaffarah-text">${x.kaffarah.ijma}</div>`;
     kaffarahSubHtml = `
-      <div class="sub-accordion" data-acc-id="${accId}_kaf">
-        <div class="sub-accordion-header" onclick="toggleAccordion('${accId}_kaf')"><span>কাফফারা/প্রতিকার বিস্তারিত</span><span>▾</span></div>
-        <div class="sub-accordion-body">
-          <div class="remedy-badge">${remedy.dot} ${remedy.text}</div>
-          ${kaffarahBody}
-          ${x.diyah_note ? `<div class="remedy-badge">💰 ${x.diyah_note}</div>` : ''}
-          ${x.nisab_info ? `<div class="remedy-badge">💰 ${x.nisab_info}</div>` : ''}
-          ${x.huquq ? `<div class="remedy-badge">⚠️ ${x.huquq_note}</div>` : ''}
-        </div>
-      </div>`;
+      <div class="block-label">কাফফারা/প্রতিকার বিস্তারিত</div>
+      <div class="remedy-badge">${remedy.dot} ${remedy.text}</div>
+      ${kaffarahBody}
+      ${x.diyah_note ? `<div class="remedy-badge">💰 ${x.diyah_note}</div>` : ''}
+      ${x.nisab_info ? `<div class="remedy-badge">💰 ${x.nisab_info}</div>` : ''}
+      ${x.huquq ? `<div class="remedy-badge">⚠️ ${x.huquq_note}</div>` : ''}`;
   }else if(hasMulti){
     kaffarahSubHtml = `
-      <div class="sub-accordion" data-acc-id="${accId}_kaf">
-        <div class="sub-accordion-header" onclick="toggleAccordion('${accId}_kaf')"><span>মাযহাবভেদে বিস্তারিত</span><span>▾</span></div>
-        <div class="sub-accordion-body">
-          <div class="madhab-toggle">${madhabButtons()}</div>
-          <div class="kaffarah-text">${x.madhab[selMadhab] || 'এই মাযহাবের বিস্তারিত এখনো যুক্ত করা হয়নি।'}</div>
-        </div>
-      </div>`;
+      <div class="block-label">মাযহাবভেদে বিস্তারিত</div>
+      <div class="madhab-toggle">${madhabButtons()}</div>
+      <div class="kaffarah-text">${x.madhab[selMadhab] || 'এই মাযহাবের বিস্তারিত এখনো যুক্ত করা হয়নি।'}</div>`;
   }
 
   const duaSubHtml = x.dua ? `
-    <div class="sub-accordion" data-acc-id="${accId}_dua">
-      <div class="sub-accordion-header" onclick="toggleAccordion('${accId}_dua')"><span>${isSin ? 'ইস্তিগফার' : 'দোয়া'}</span><span>▾</span></div>
-      <div class="sub-accordion-body">
-        <div class="dua-box-inline">
-          <div class="dua-ar-inline">${x.dua.ar}</div>
-          <div class="dua-bn-inline">${x.dua.uccharan ? x.dua.uccharan + '<br>' : ''}${x.dua.bn}</div>
-          <div class="dua-src-inline">সূত্র: ${x.dua.src}</div>
-        </div>
-      </div>
+    <div class="block-label">${isSin ? 'ইস্তিগফার' : 'দোয়া'}</div>
+    <div class="dua-box-inline">
+      <div class="dua-ar-inline">${x.dua.ar}</div>
+      <div class="dua-bn-inline">${x.dua.uccharan ? x.dua.uccharan + '<br>' : ''}${x.dua.bn}</div>
+      <div class="dua-src-inline">সূত্র: ${x.dua.src}</div>
     </div>` : '';
 
   const bodyMainHtml = isSin
@@ -2664,20 +2206,17 @@ function renderFihristAccordionItem(x, isSin){
     : `<span class="tag tag-neki">${NEKI_CATEGORY_LABELS[x.category] || x.category}</span>`;
 
   return `
-    <div class="accordion-item fihrist-card-clickable" onclick="openFihristDetail('${x.id}',${isSin})" style="cursor:pointer;">
-      <div class="accordion-header">
-        <div>
-          <div class="accordion-title">${x.name_bn}</div>
-          <div class="accordion-title-ar">${x.name_ar}</div>
-          <div class="fihrist-tags" style="margin-top:5px;">${tagHtml}</div>
-        </div>
-        <span class="accordion-caret" style="transform:rotate(-90deg);">▾</span>
-      </div>
-    </div>`;
+    <h2><span class="ar">${x.name_ar}</span>${x.name_bn}</h2>
+    <div class="fihrist-tags" style="margin-bottom:10px;">${tagHtml}</div>
+    ${bodyMainHtml}
+    ${kaffarahSubHtml}
+    ${duaSubHtml}
+    ${isSin ? `<button class="log-this-btn ui-label" onclick="logSin('${x.id}')">আজকের পাতায় যোগ করো</button>` : ''}
+  `;
 }
-function switchAccordionMadhab(accId, m){
+function switchDetailMadhab(accId, m){
   accordionMadhab[accId] = m;
-  renderFihristPage();
+  renderFihristDetailPage();
 }
 
 
@@ -2973,8 +2512,13 @@ function switchMadhab(sinId, m){
 function logSin(sinId){
   const sin = SINS.find(x=>x.id===sinId);
   const alreadyLoggedToday = todayEntries.some(e=>e.sinId===sinId);
-  todayEntries.push({sinId, note:'', returned:false, ts:Date.now()});
+  const uid = 'sin_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+  todayEntries.push({sinId, note:'', returned:false, ts:Date.now(), uid});
   saveToday();
+
+  // তওবা/কাফফারা না হওয়া পর্যন্ত ড্যাশবোর্ডে চিপ হিসেবে দেখানোর জন্য, তারিখ-নিরপেক্ষভাবে জমা রাখা হয়
+  pendingSins.push({ uid, sinId, ts:Date.now(), tawbahDone:false, kaffarahDone:false });
+  savePendingSins();
 
   if(sin.category === 'kabira') cumulative.kabira++; else cumulative.sagira++;
   if(alreadyLoggedToday) cumulative.repeats++; // একই দিনে একই গুনাহ বারবার হলে অতিরিক্ত পেনাল্টি
@@ -3248,10 +2792,12 @@ function resetAllData(){
   todayObligations = [];
   todayStats = { neki:0, sadaqah:0, istighfar:0, quran:0, kaffarah:0 };
   cumulative = CUMULATIVE_DEFAULT();
+  pendingSins = [];
   saveToday();
   saveObligations();
   saveStats();
   saveCumulative();
+  savePendingSins();
   renderToday();
   renderObligationToday();
   renderIndex();
@@ -3361,7 +2907,6 @@ function renderCalendar(){
   document.getElementById('calendarGrid').innerHTML = html;
 }
 
-applyReadingFontScale();
 renderIndex();
 renderNekiIndex();
 renderChipGrid();
