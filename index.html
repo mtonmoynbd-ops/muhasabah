@@ -139,8 +139,17 @@
     content:''; position:absolute; top:-30px; right:-30px; width:120px; height:120px; border-radius:50%;
     background:radial-gradient(circle, rgba(217,185,120,0.25), transparent 70%);
   }
-  .satisfaction-title{ font-family:'Noto Serif Bengali', serif; font-size:15.5px; font-weight:700; color:var(--gold-soft); display:flex; align-items:center; gap:8px; }
-  .satisfaction-verse{ font-size:12px; color:var(--ink-dim); line-height:1.7; margin:8px 0 10px; font-style:italic; }
+  .satisfaction-title{ font-family:'Noto Serif Bengali', serif; font-size:15.5px; font-weight:700; color:var(--gold-soft); display:flex; align-items:center; gap:8px; cursor:pointer; position:relative; z-index:1; }
+  .satisfaction-title-text{ flex:1; }
+  .satisfaction-status-pill{ font-size:10px; padding:3px 9px; border-radius:10px; font-weight:600; }
+  .satisfaction-status-pill.on{ background:rgba(74,222,128,0.18); color:#7fe3a6; }
+  .satisfaction-status-pill.off{ background:rgba(255,255,255,0.08); color:var(--ink-dim); }
+  .satisfaction-caret{ font-size:13px; color:var(--gold-soft); transition:transform 0.25s; flex-shrink:0; }
+  .satisfaction-card.expanded .satisfaction-caret{ transform:rotate(180deg); }
+  .satisfaction-collapse{ display:grid; grid-template-rows:0fr; transition:grid-template-rows 0.28s ease; }
+  .satisfaction-card.expanded .satisfaction-collapse{ grid-template-rows:1fr; }
+  .satisfaction-collapse-inner{ overflow:hidden; }
+  .satisfaction-verse{ font-size:12px; color:var(--ink-dim); line-height:1.7; margin:12px 0 10px; font-style:italic; }
   .satisfaction-desc{ font-size:12px; color:var(--ink-dim); line-height:1.75; margin-bottom:14px; }
   .satisfaction-conditions{ margin-top:12px; font-size:11px; color:var(--ink-dim); line-height:1.7; background:rgba(255,255,255,0.04); border-radius:10px; padding:10px 12px; position:relative; z-index:1; }
   .satisfaction-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; position:relative; z-index:1; }
@@ -284,13 +293,16 @@
   /* ---------- Dashboard hero: ফুল-ওয়াইড বৃক্ষ ব্যাকগ্রাউন্ড, বামে টেক্সট ওভারলে ---------- */
   /* dvh (dynamic viewport height) ব্যবহার করা হয়েছে যাতে মোবাইল ব্রাউজারের অ্যাড্রেস-বার দেখা/লুকানো সত্ত্বেও
      ড্যাশবোর্ড সবসময় স্ক্রিনে ফিট থাকে, কোনো স্ক্রলবার ছাড়াই */
+  /* dvh (dynamic viewport height) দিয়ে ন্যূনতম উচ্চতা রাখা হয়েছে যাতে অল্প কন্টেন্টেও ড্যাশবোর্ড
+     পুরো স্ক্রিন জুড়ে সুন্দর দেখায়, কিন্তু কন্টেন্ট বেশি হলে এখন স্বাভাবিকভাবে স্ক্রল/প্রবাহিত হবে —
+     আগে ফিক্সড height + overflow:hidden থাকায় নিচের সেকশনগুলো কেটে যাচ্ছিল */
   #view-dashboard.active{
     display:flex; flex-direction:column; gap:6px;
-    height:calc(100dvh - 195px); min-height:380px; max-width:100%; overflow:hidden;
+    min-height:calc(100dvh - 195px); max-width:100%;
   }
-  #view-dashboard.active section{ margin-top:0; flex-shrink:0; min-width:0; }
+  #view-dashboard.active section{ margin-top:0; min-width:0; }
   .dash-hero{
-    position:relative; width:100%; height:110px; flex-shrink:1; min-height:70px;
+    position:relative; width:100%; height:110px; flex-shrink:0;
     border-radius:16px; overflow:hidden; cursor:pointer;
     border:1px solid rgba(217,185,120,0.22); box-shadow:0 6px 16px rgba(0,0,0,0.3);
     background:
@@ -1653,40 +1665,54 @@ function toggleLifeSatisfaction(){
   renderLifeSatisfactionCard();
   renderDashboard();
 }
+// দুই জায়গাতেই (ড্যাশবোর্ড ও প্রোফাইল) কার্ডটা আলাদাভাবে এক্সপ্যান্ড/কলাপ্স করা যাবে
+let satisfactionCardExpanded = { lifeSatisfactionCardDash:false, lifeSatisfactionCard:false };
+function toggleSatisfactionCardExpand(id){
+  satisfactionCardExpanded[id] = !satisfactionCardExpanded[id];
+  renderLifeSatisfactionCard();
+}
 function renderLifeSatisfactionCard(){
-  const targets = ['lifeSatisfactionCardDash', 'lifeSatisfactionCard']
-    .map(id => document.getElementById(id))
-    .filter(Boolean);
-  if(targets.length === 0) return;
-  const html = `
-    <div class="satisfaction-title">🌙 রিদা বিল ক্বাদা (তকদিরে সন্তুষ্টি) <span class="info-ic" onclick="openGlossary('nafs_mutmainnah')">ⓘ</span></div>
-    <div class="satisfaction-verse">"হে প্রশান্ত নফস, তুমি তোমার রবের দিকে ফিরে এসো, সন্তুষ্ট হয়ে, সন্তোষভাজন হয়ে।" — কুরআন ৮৯:২৭-২৮</div>
-    <div class="satisfaction-desc ui-label">
-      রিদা বিল ক্বাদা মানে হলো — আল্লাহ যা কিছু নির্ধারণ করেছেন (রিযিক, পরীক্ষা, প্রাপ্তি-অপ্রাপ্তি, ভালো-মন্দ সবকিছুই), তাতে অন্তর থেকে সন্তুষ্ট থাকা, অভিযোগ বা অসন্তোষ পোষণ না করা। এটা কেবল একটা মুখের কথা নয় — নিজের প্রকৃত হৃদয়ের অবস্থা যাচাই করে সৎভাবে উত্তর দিন।
-    </div>
-    <div class="satisfaction-row">
-      <div class="satisfaction-label ui-label">আমি আল্লাহর ফায়সালা, আমার তকদির ও আমার বর্তমান জীবন নিয়ে অন্তর থেকে সন্তুষ্ট</div>
-      <label class="switch">
-        <input type="checkbox" ${lifeSatisfaction?'checked':''} onchange="toggleLifeSatisfaction()">
-        <span class="switch-track"><span class="switch-thumb"></span></span>
-      </label>
-    </div>
-    <div class="satisfaction-status ${lifeSatisfaction?'on':'off'} ui-label">
-      ${lifeSatisfaction
-        ? 'আলহামদুলিল্লাহ, নিয়ত হিসেবে গ্রহণ করা হলো।'
-        : 'এখনো "না" — নিজের প্রকৃত অবস্থা অনুযায়ী রাখুন, তাড়াহুড়ো করে অন করার দরকার নেই।'}
-    </div>
-    <div class="satisfaction-conditions ui-label">
-      বৃক্ষ সম্পূর্ণ "নফসে মুতমাইন্না" অবস্থায় পৌঁছাতে নিচের তিনটা শর্তই একসাথে পূরণ হতে হবে:
-      <ul style="margin:6px 0 0; padding-left:18px; line-height:1.8;">
-        <li>কোনো অনিষ্পন্ন সাইয়্যিআত (তওবা/কাফফারা বাকি) না থাকা</li>
-        <li>ফরযের কোনো অবহেলার কাযা/ফিদিয়া/কাফফারা বাকি না থাকা</li>
-        <li>উপরের এই সন্তুষ্টি অন থাকা</li>
-      </ul>
-      এর যেকোনো একটা অপূর্ণ থাকলে বৃক্ষ "নফসে মুতমাইন্নার সূচনা" পর্যায়ে থামবে — সেটাও একটা সুন্দর অবস্থান, চূড়ান্ত নয় শুধু।
-    </div>
-  `;
-  targets.forEach(el => el.innerHTML = html);
+  ['lifeSatisfactionCardDash', 'lifeSatisfactionCard'].forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    const expanded = !!satisfactionCardExpanded[id];
+    el.className = 'satisfaction-card' + (expanded ? ' expanded' : '');
+    el.innerHTML = `
+      <div class="satisfaction-title" onclick="toggleSatisfactionCardExpand('${id}')">
+        <span>🌙</span>
+        <span class="satisfaction-title-text">রিদা বিল ক্বাদা (তকদিরে সন্তুষ্টি)</span>
+        <span class="satisfaction-status-pill ${lifeSatisfaction?'on':'off'}">${lifeSatisfaction ? 'সন্তুষ্ট ✓' : 'অনির্ধারিত'}</span>
+        <span class="satisfaction-caret">▾</span>
+      </div>
+      <div class="satisfaction-collapse"><div class="satisfaction-collapse-inner">
+        <div class="satisfaction-verse">"হে প্রশান্ত নফস, তুমি তোমার রবের দিকে ফিরে এসো, সন্তুষ্ট হয়ে, সন্তোষভাজন হয়ে।" — কুরআন ৮৯:২৭-২৮ <span class="info-ic" onclick="event.stopPropagation(); openGlossary('nafs_mutmainnah')">ⓘ</span></div>
+        <div class="satisfaction-desc ui-label">
+          রিদা বিল ক্বাদা মানে হলো — আল্লাহ যা কিছু নির্ধারণ করেছেন (রিযিক, পরীক্ষা, প্রাপ্তি-অপ্রাপ্তি, ভালো-মন্দ সবকিছুই), তাতে অন্তর থেকে সন্তুষ্ট থাকা, অভিযোগ বা অসন্তোষ পোষণ না করা। এটা কেবল একটা মুখের কথা নয় — নিজের প্রকৃত হৃদয়ের অবস্থা যাচাই করে সৎভাবে উত্তর দিন।
+        </div>
+        <div class="satisfaction-row">
+          <div class="satisfaction-label ui-label">আমি আল্লাহর ফায়সালা, আমার তকদির ও আমার বর্তমান জীবন নিয়ে অন্তর থেকে সন্তুষ্ট</div>
+          <label class="switch">
+            <input type="checkbox" ${lifeSatisfaction?'checked':''} onchange="event.stopPropagation(); toggleLifeSatisfaction()" onclick="event.stopPropagation();">
+            <span class="switch-track"><span class="switch-thumb"></span></span>
+          </label>
+        </div>
+        <div class="satisfaction-status ${lifeSatisfaction?'on':'off'} ui-label">
+          ${lifeSatisfaction
+            ? 'আলহামদুলিল্লাহ, নিয়ত হিসেবে গ্রহণ করা হলো।'
+            : 'এখনো "না" — নিজের প্রকৃত অবস্থা অনুযায়ী রাখুন, তাড়াহুড়ো করে অন করার দরকার নেই।'}
+        </div>
+        <div class="satisfaction-conditions ui-label">
+          বৃক্ষ সম্পূর্ণ "নফসে মুতমাইন্না" অবস্থায় পৌঁছাতে নিচের তিনটা শর্তই একসাথে পূরণ হতে হবে:
+          <ul style="margin:6px 0 0; padding-left:18px; line-height:1.8;">
+            <li>কোনো অনিষ্পন্ন সাইয়্যিআত (তওবা/কাফফারা বাকি) না থাকা</li>
+            <li>ফরযের কোনো অবহেলার কাযা/ফিদিয়া/কাফফারা বাকি না থাকা</li>
+            <li>উপরের এই সন্তুষ্টি অন থাকা</li>
+          </ul>
+          এর যেকোনো একটা অপূর্ণ থাকলে বৃক্ষ "নফসে মুতমাইন্নার সূচনা" পর্যায়ে থামবে — সেটাও একটা সুন্দর অবস্থান, চূড়ান্ত নয় শুধু।
+        </div>
+      </div></div>
+    `;
+  });
 }
 // নফসে মুতমাইন্না (সর্বোচ্চ স্তর) কেবল তখনই দেখানো হয় যখন: কোনো অনিষ্পন্ন গুনাহ নেই,
 // সব ফরযের অবহেলা কাযা/ফিদিয়া/কাফফারা দিয়ে মিটানো হয়েছে, এবং ব্যক্তি আল্লাহর ফায়সালা ও নিজের জীবনে সন্তুষ্ট
