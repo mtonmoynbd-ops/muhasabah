@@ -87,6 +87,10 @@
   }
   .sidebar-item:active{ background:rgba(255,255,255,0.06); }
   .sidebar-divider{ height:1px; background:var(--card-line); margin:8px 0; }
+  .sidebar-label{ padding:8px 18px 2px; font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:0.5px; }
+  #sidebarMadhabButtons{ padding-left:14px; padding-right:14px; }
+  #sidebarMadhabButtons .madhab-btn{ color:var(--ink-dim); border-color:var(--card-line); }
+  #sidebarMadhabButtons .madhab-btn.active{ background:var(--gold); color:var(--bg); border-color:var(--gold); font-weight:600; }
   .sidebar-footer{ padding:14px 18px; font-size:10.5px; color:var(--ink-dim); line-height:1.6; }
 
   .app-toast{
@@ -124,6 +128,68 @@
   .chip-neki{ border-color:rgba(74,222,128,0.28); }
   .chip-neki:active{ background:rgba(74,222,128,0.16); }
   .insight-label{ font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:0.5px; margin:10px 0 4px; }
+
+  /* ---------- প্রিমিয়াম "সন্তুষ্টি" কার্ড (প্রোফাইল) ---------- */
+  .satisfaction-card{
+    position:relative; overflow:hidden; border-radius:18px; padding:18px;
+    background:linear-gradient(145deg, rgba(217,185,120,0.14), rgba(74,222,128,0.05) 60%, rgba(217,185,120,0.08));
+    border:1px solid rgba(217,185,120,0.35); box-shadow:0 8px 22px rgba(0,0,0,0.25); margin-bottom:14px;
+  }
+  .satisfaction-card::before{
+    content:''; position:absolute; top:-30px; right:-30px; width:120px; height:120px; border-radius:50%;
+    background:radial-gradient(circle, rgba(217,185,120,0.25), transparent 70%);
+  }
+  .satisfaction-title{ font-family:'Noto Serif Bengali', serif; font-size:15.5px; font-weight:700; color:var(--gold-soft); display:flex; align-items:center; gap:8px; }
+  .satisfaction-verse{ font-size:12px; color:var(--ink-dim); line-height:1.7; margin:8px 0 10px; font-style:italic; }
+  .satisfaction-desc{ font-size:12px; color:var(--ink-dim); line-height:1.75; margin-bottom:14px; }
+  .satisfaction-conditions{ margin-top:12px; font-size:11px; color:var(--ink-dim); line-height:1.7; background:rgba(255,255,255,0.04); border-radius:10px; padding:10px 12px; position:relative; z-index:1; }
+  .satisfaction-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; position:relative; z-index:1; }
+  .satisfaction-label{ font-size:13px; color:var(--ink); flex:1; line-height:1.5; }
+  .switch{ position:relative; width:46px; height:26px; flex-shrink:0; cursor:pointer; }
+  .switch input{ opacity:0; width:0; height:0; position:absolute; }
+  .switch-track{ position:absolute; inset:0; background:rgba(255,255,255,0.12); border-radius:14px; transition:background 0.2s; border:1px solid var(--card-line); }
+  .switch-thumb{ position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%; background:var(--ink-dim); transition:transform 0.2s, background 0.2s; }
+  .switch input:checked + .switch-track{ background:rgba(74,222,128,0.35); border-color:rgba(74,222,128,0.5); }
+  .switch input:checked + .switch-track .switch-thumb{ transform:translateX(20px); background:var(--green); }
+  .satisfaction-status{ margin-top:12px; font-size:11.5px; padding:8px 10px; border-radius:10px; line-height:1.6; position:relative; z-index:1; }
+  .satisfaction-status.on{ background:rgba(74,222,128,0.12); color:#7fe3a6; }
+  .satisfaction-status.off{ background:rgba(255,255,255,0.06); color:var(--ink-dim); }
+
+  /* ---------- পেন্ডিং সাইয়্যিআত চিপ (ছোট, প্রিমিয়াম, সংগঠিত) ---------- */
+  .pending-chip-grid{ display:flex; flex-wrap:wrap; gap:7px; }
+  .pending-chip{
+    display:flex; align-items:center; gap:6px; font-size:11.5px; padding:6px 10px 6px 8px;
+    border-radius:20px; background:rgba(240,86,61,0.08); border:1px solid rgba(240,86,61,0.25);
+    color:#ff9d87; cursor:pointer; max-width:100%;
+  }
+  .pending-chip:active{ background:rgba(240,86,61,0.18); }
+  .pending-chip-dot{ width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+  .pending-chip-dot.kabira{ background:#f0563d; }
+  .pending-chip-dot.sagira{ background:#f2b14e; }
+  .pending-chip-name{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:160px; }
+  .pending-chip-stage{ font-size:9.5px; opacity:0.65; }
+
+  /* ---------- ফিহরিস্ত পাতাগুলোর জন্য আলাদা "পার্চমেন্ট/পাণ্ডুলিপি" ধর্মিয় রিডেবল থিম ---------- */
+  .parchment-page{
+    background:#F3ECDD; color:#12302E;
+    margin:0 -16px; padding:0 16px 32px; min-height:calc(100dvh - 60px);
+  }
+  .parchment-page .fullpage-header{ border-bottom:1px solid rgba(18,48,46,0.12); }
+  .parchment-page .fullpage-back{ color:#12302E; border-color:rgba(18,48,46,0.25); background:rgba(255,255,255,0.4); }
+  .parchment-page .entry-toggle{ background:rgba(18,48,46,0.06); }
+  .parchment-page .entry-toggle-btn{ color:#5b5142; }
+  .parchment-page .entry-toggle-btn.active{ background:#12302E; color:#E4C98A; }
+  .parchment-page .fihrist{border-top-color:rgba(18,48,46,0.15);}
+  .parchment-page .fihrist-item{border-bottom-color:rgba(18,48,46,0.12);}
+  .parchment-page .fihrist-item:hover{background:rgba(18,48,46,0.04);}
+  .parchment-page .fihrist-name{color:#12302E;}
+  .parchment-page .fihrist-name-ar{color:#A65D45;}
+  .parchment-page .chevron{color:#A65D45;}
+  .parchment-page .tag-kabira,.parchment-page .tag-sagira,.parchment-page .tag-neki,
+  .parchment-page .tag-huquq,.parchment-page .tag-neglect,.parchment-page .tag-common{ color:#5b5142; background:rgba(166,93,69,0.12); }
+  .parchment-page .section-title{ color:#A65D45; }
+  .parchment-page .page-card{ background:rgba(255,255,255,0.4); color:#12302E; border:1px solid rgba(18,48,46,0.12); border-radius:16px; padding:16px; box-shadow:none; }
+  .parchment-page .log-this-btn{ background:#A65D45; color:#F3ECDD; }
 
   /* ---------- ফুল পেজ (ফিহরিস্ত/দোয়া) ---------- */
   .fullpage-header{ padding:14px 0 4px; }
@@ -174,6 +240,13 @@
   .sub-accordion .dua-uccharan-inline{ font-size:11px; color:#E4C98A; margin-top:6px; font-style:italic; opacity:0.9; }
   .sub-accordion .dua-bn-inline{ font-size:11.5px; color:#E7DDC7; margin-top:6px; }
   .sub-accordion .dua-src-inline{ font-size:10px; color:#E4C98A; opacity:0.75; margin-top:6px; }
+  /* একই স্টাইল, কিন্তু .sub-accordion র‍্যাপার ছাড়াই — নতুন ফিহরিস্ত ডিটেইল ফুল-পেজে সরাসরি ব্যবহারের জন্য */
+  .kaffarah-text{ font-size:13px; color:#3a3226; line-height:1.75; font-family:'Noto Serif Bengali', serif; margin-top:6px; }
+  .dua-box-inline{ background:#12302E; border-radius:10px; padding:14px; text-align:center; margin-top:6px; }
+  .dua-ar-inline{ font-family:'Amiri', serif; font-size:18px; color:#E4C98A; direction:rtl; line-height:1.9; }
+  .dua-uccharan-inline{ font-size:11.5px; color:#E4C98A; margin-top:6px; font-style:italic; opacity:0.9; }
+  .dua-bn-inline{ font-size:12px; color:#E7DDC7; margin-top:6px; }
+  .dua-src-inline{ font-size:10.5px; color:#E4C98A; opacity:0.75; margin-top:8px; }
   .insight-label:first-child{ margin-top:0; }
 
   .calendar-panel{
@@ -219,7 +292,10 @@
   .dash-hero{
     position:relative; width:100%; height:110px; flex-shrink:1; min-height:70px;
     border-radius:16px; overflow:hidden; cursor:pointer;
-    border:1px solid rgba(255,255,255,0.1); box-shadow:0 6px 16px rgba(0,0,0,0.3); background:var(--card);
+    border:1px solid rgba(217,185,120,0.22); box-shadow:0 6px 16px rgba(0,0,0,0.3);
+    background:
+      linear-gradient(135deg, rgba(217,185,120,0.10), rgba(74,222,128,0.04) 55%, rgba(217,185,120,0.06)),
+      var(--card);
   }
   .dash-hero-scrim{
     position:absolute; inset:0; z-index:1;
@@ -562,6 +638,14 @@
   </div>
   <div class="sidebar-divider"></div>
 
+  <div class="sidebar-divider"></div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-label ui-label">⚙️ সেটিংস — আপনার মাযহাব</div>
+    <div class="madhab-toggle" id="sidebarMadhabButtons" style="padding:2px 4px 8px;"></div>
+  </div>
+  <div class="sidebar-divider"></div>
+
   <div class="sidebar-footer ui-label">ফতোয়া হিসেবে নয়, আত্মজিজ্ঞাসা ও স্মরণের উপকরণ হিসেবে ব্যবহার করুন।</div>
 </div>
 
@@ -603,7 +687,11 @@
 
     <section id="pendingSinSection" style="display:none;">
       <div class="section-title ui-label" style="font-size:11.5px; margin-bottom:8px;">⏳ তওবা/কাফফারা এখনো বাকি</div>
-      <div class="chip-grid" id="pendingSinChips"></div>
+      <div class="pending-chip-grid" id="pendingSinChips"></div>
+    </section>
+
+    <section>
+      <div class="satisfaction-card" id="lifeSatisfactionCardDash"></div>
     </section>
 
     <section class="position-card" style="display:none;">
@@ -709,6 +797,7 @@
   <div class="tab-view" id="view-profile">
     <section>
       <div class="section-title">প্রোফাইল</div>
+      <div class="satisfaction-card" id="lifeSatisfactionCard"></div>
       <div class="page-card">
         <div style="text-align:center; padding:10px 0 18px;">
           <div style="font-size:34px;">🌿</div>
@@ -721,7 +810,7 @@
     </section>
   </div>
 
-  <div class="tab-view" id="view-fihrist">
+  <div class="tab-view parchment-page" id="view-fihrist">
     <div class="fullpage-header">
       <button class="fullpage-back" onclick="closeFullPage()">← ফিরে যাও</button>
     </div>
@@ -734,7 +823,7 @@
     </section>
   </div>
 
-  <div class="tab-view" id="view-fihrist-detail">
+  <div class="tab-view parchment-page" id="view-fihrist-detail">
     <div class="fullpage-header">
       <button class="fullpage-back" onclick="closeFihristItemDetail()">← ফিরে যাও</button>
     </div>
@@ -1541,6 +1630,92 @@ function loadPendingSins(){
 }
 function savePendingSins(){ storageSet(PENDING_SINS_KEY, JSON.stringify(pendingSins)); }
 function sinNeedsKaffarah(sin){ return REMEDY_NEEDS_KAFFARAH.includes(sin.remedy); }
+
+// ---------------- অনিষ্পন্ন ফরয-অবহেলা (তারিখ-নিরপেক্ষ) ----------------
+const PENDING_OBLIGATIONS_KEY = 'pendingObligationsV1';
+let pendingObligations = [];
+function loadPendingObligations(){
+  try{
+    const raw = storageGet(PENDING_OBLIGATIONS_KEY);
+    pendingObligations = raw ? JSON.parse(raw) : [];
+  }catch(e){ pendingObligations = []; }
+}
+function savePendingObligations(){ storageSet(PENDING_OBLIGATIONS_KEY, JSON.stringify(pendingObligations)); }
+
+// ---------------- জীবন/তকদির নিয়ে সন্তুষ্টি (প্রিমিয়াম টগল, প্রোফাইলে) ----------------
+const LIFE_SATISFACTION_KEY = 'lifeSatisfactionV1';
+let lifeSatisfaction = false;
+function loadLifeSatisfaction(){ lifeSatisfaction = storageGet(LIFE_SATISFACTION_KEY) === '1'; }
+function saveLifeSatisfaction(){ storageSet(LIFE_SATISFACTION_KEY, lifeSatisfaction ? '1' : '0'); }
+function toggleLifeSatisfaction(){
+  lifeSatisfaction = !lifeSatisfaction;
+  saveLifeSatisfaction();
+  renderLifeSatisfactionCard();
+  renderDashboard();
+}
+function renderLifeSatisfactionCard(){
+  const targets = ['lifeSatisfactionCardDash', 'lifeSatisfactionCard']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+  if(targets.length === 0) return;
+  const html = `
+    <div class="satisfaction-title">🌙 রিদা বিল ক্বাদা (তকদিরে সন্তুষ্টি) <span class="info-ic" onclick="openGlossary('nafs_mutmainnah')">ⓘ</span></div>
+    <div class="satisfaction-verse">"হে প্রশান্ত নফস, তুমি তোমার রবের দিকে ফিরে এসো, সন্তুষ্ট হয়ে, সন্তোষভাজন হয়ে।" — কুরআন ৮৯:২৭-২৮</div>
+    <div class="satisfaction-desc ui-label">
+      রিদা বিল ক্বাদা মানে হলো — আল্লাহ যা কিছু নির্ধারণ করেছেন (রিযিক, পরীক্ষা, প্রাপ্তি-অপ্রাপ্তি, ভালো-মন্দ সবকিছুই), তাতে অন্তর থেকে সন্তুষ্ট থাকা, অভিযোগ বা অসন্তোষ পোষণ না করা। এটা কেবল একটা মুখের কথা নয় — নিজের প্রকৃত হৃদয়ের অবস্থা যাচাই করে সৎভাবে উত্তর দিন।
+    </div>
+    <div class="satisfaction-row">
+      <div class="satisfaction-label ui-label">আমি আল্লাহর ফায়সালা, আমার তকদির ও আমার বর্তমান জীবন নিয়ে অন্তর থেকে সন্তুষ্ট</div>
+      <label class="switch">
+        <input type="checkbox" ${lifeSatisfaction?'checked':''} onchange="toggleLifeSatisfaction()">
+        <span class="switch-track"><span class="switch-thumb"></span></span>
+      </label>
+    </div>
+    <div class="satisfaction-status ${lifeSatisfaction?'on':'off'} ui-label">
+      ${lifeSatisfaction
+        ? 'আলহামদুলিল্লাহ, নিয়ত হিসেবে গ্রহণ করা হলো।'
+        : 'এখনো "না" — নিজের প্রকৃত অবস্থা অনুযায়ী রাখুন, তাড়াহুড়ো করে অন করার দরকার নেই।'}
+    </div>
+    <div class="satisfaction-conditions ui-label">
+      বৃক্ষ সম্পূর্ণ "নফসে মুতমাইন্না" অবস্থায় পৌঁছাতে নিচের তিনটা শর্তই একসাথে পূরণ হতে হবে:
+      <ul style="margin:6px 0 0; padding-left:18px; line-height:1.8;">
+        <li>কোনো অনিষ্পন্ন সাইয়্যিআত (তওবা/কাফফারা বাকি) না থাকা</li>
+        <li>ফরযের কোনো অবহেলার কাযা/ফিদিয়া/কাফফারা বাকি না থাকা</li>
+        <li>উপরের এই সন্তুষ্টি অন থাকা</li>
+      </ul>
+      এর যেকোনো একটা অপূর্ণ থাকলে বৃক্ষ "নফসে মুতমাইন্নার সূচনা" পর্যায়ে থামবে — সেটাও একটা সুন্দর অবস্থান, চূড়ান্ত নয় শুধু।
+    </div>
+  `;
+  targets.forEach(el => el.innerHTML = html);
+}
+// নফসে মুতমাইন্না (সর্বোচ্চ স্তর) কেবল তখনই দেখানো হয় যখন: কোনো অনিষ্পন্ন গুনাহ নেই,
+// সব ফরযের অবহেলা কাযা/ফিদিয়া/কাফফারা দিয়ে মিটানো হয়েছে, এবং ব্যক্তি আল্লাহর ফায়সালা ও নিজের জীবনে সন্তুষ্ট
+function qualifiesForMutmainnah(){
+  const noSinsPending = pendingSins.filter(p=>!isPendingSinSettled(p)).length === 0;
+  const noObligationsPending = pendingObligations.every(o=>o.resolved);
+  return noSinsPending && noObligationsPending && lifeSatisfaction;
+}
+
+// ---------------- ব্যবহারকারীর মাযহাব (সেটিংস, সাইডবার) ----------------
+// একবার সেট করলে পুরো অ্যাপে (কাফফারা/মাযহাবভেদে বিস্তারিত দেখানোর সময়) ডিফল্ট হিসেবে এটাই ব্যবহার হবে
+const MADHAB_KEY = 'preferredMadhabV1';
+const MADHAB_LABEL = m => m==='hanafi'?'হানাফী':m==='shafii'?'শাফেয়ী':m==='maliki'?'মালেকী':'হাম্বলী';
+let preferredMadhab = 'hanafi';
+function loadPreferredMadhab(){
+  preferredMadhab = storageGet(MADHAB_KEY) || 'hanafi';
+}
+function setPreferredMadhab(m){
+  preferredMadhab = m;
+  storageSet(MADHAB_KEY, m);
+  renderSidebarMadhab();
+}
+function renderSidebarMadhab(){
+  const el = document.getElementById('sidebarMadhabButtons');
+  if(!el) return;
+  el.innerHTML = ['hanafi','shafii','maliki','hanbali'].map(m =>
+    `<button class="madhab-btn ${m===preferredMadhab?'active':''}" onclick="event.stopPropagation(); setPreferredMadhab('${m}')">${MADHAB_LABEL(m)}</button>`
+  ).join('');
+}
 function isPendingSinSettled(p){
   const sin = SINS.find(s=>s.id===p.sinId);
   if(!sin) return true;
@@ -1560,23 +1735,61 @@ function renderPendingSinChips(){
   grid.innerHTML = unsettled.map(p => {
     const sin = SINS.find(s=>s.id===p.sinId);
     if(!sin) return '';
-    return `<button class="chip chip-sin ui-label" onclick="openSettleSin('${p.uid}')">🔥 ${sin.name_bn}</button>`;
+    const stage = p.tawbahDone ? 'কাফফারা বাকি' : 'তওবা বাকি';
+    return `<button class="pending-chip ui-label" onclick="openSettleSin('${p.uid}')">
+      <span class="pending-chip-dot ${sin.category}"></span>
+      <span class="pending-chip-name">${sin.name_bn}</span>
+      <span class="pending-chip-stage">· ${stage}</span>
+    </button>`;
   }).join('');
 }
-// ড্যাশবোর্ডের চিপে ট্যাপ করলে তওবা/কাফফারা আদায়ের অবস্থা আপডেট করার জন্য একটা ছোট শিট খোলে
+// ড্যাশবোর্ডের চিপে ট্যাপ করলে সেই নির্দিষ্ট গুনাহর ইস্তিগফার/দোয়া ও কাফফারা (মাযহাবভেদে) দেখিয়ে
+// তওবা/কাফফারা আদায়ের অবস্থা আপডেট করার জন্য একটা শিট খোলে
+let settleSheetMadhab = null;
 function openSettleSin(uid){
+  settleSheetMadhab = null; // প্রতিবার শিট খুললে ব্যবহারকারীর পছন্দের মাযহাব দিয়েই শুরু হবে
+  renderSettleSheet(uid);
+  document.getElementById('overlay').classList.add('open');
+}
+function renderSettleSheet(uid){
   const p = pendingSins.find(x=>x.uid===uid);
   if(!p) return;
   const sin = SINS.find(s=>s.id===p.sinId);
   if(!sin) return;
   const needsKaffarah = sinNeedsKaffarah(sin);
   const remedy = REMEDY_LABELS[sin.remedy] || REMEDY_LABELS.none;
+  const selMadhab = settleSheetMadhab || preferredMadhab;
+  const hasMulti = sin.kaffarah.hanafi || sin.kaffarah.shafii || sin.kaffarah.maliki || sin.kaffarah.hanbali;
+  const madhabButtons = hasMulti ? `
+    <div class="madhab-toggle" style="margin-bottom:8px;">
+      ${['hanafi','shafii','maliki','hanbali'].map(m=>`
+        <button class="madhab-btn ${m===selMadhab?'active':''}" onclick="settleSheetMadhab='${m}'; renderSettleSheet('${uid}')">${MADHAB_LABEL(m)}</button>`).join('')}
+    </div>` : '';
+  const kaffarahText = hasMulti ? (sin.kaffarah[selMadhab] || 'এই মাযহাবের সুনির্দিষ্ট রায় এখনো যুক্ত করা হয়নি।') : sin.kaffarah.ijma;
+
   document.getElementById('sheet').innerHTML = `
     <div class="sheet-handle"></div>
     <button class="close-x" onclick="closeSheet()">✕</button>
     <h2><span class="ar">${sin.name_ar}</span>${sin.name_bn}</h2>
+
+    <div class="block-label">করণীয় (তওবা/কাফফারা/ফিদিয়া)</div>
     <div class="remedy-badge ui-label">${remedy.dot} ${remedy.text}</div>
-    <label class="return-check ui-label" style="display:block; margin-top:14px;">
+    ${needsKaffarah ? `${madhabButtons}<div class="kaffarah-box">${kaffarahText}</div>` : ''}
+    ${sin.diyah_note ? `<div class="huquq-note">💰 ${sin.diyah_note}</div>` : ''}
+    ${sin.nisab_info ? `<div class="huquq-note">💰 ${sin.nisab_info}</div>` : ''}
+    ${sin.huquq ? `<div class="huquq-note">⚠️ ${sin.huquq_note}</div>` : ''}
+
+    ${sin.dua ? `
+    <div class="block-label">ইস্তিগফার</div>
+    <div class="dua-box">
+      <div class="dua-ar">${sin.dua.ar}</div>
+      ${sin.dua.uccharan ? `<div class="dua-uccharan ui-label">${sin.dua.uccharan}</div>` : ''}
+      <div class="dua-bn">${sin.dua.bn}</div>
+      <div class="dua-src ui-label">সূত্র: ${sin.dua.src}</div>
+    </div>` : ''}
+
+    <div class="block-label">অবস্থা আপডেট করুন</div>
+    <label class="return-check ui-label" style="display:block; margin-top:6px;">
       <input type="checkbox" ${p.tawbahDone?'checked':''} onchange="toggleSettleField('${uid}','tawbahDone')">
       ইস্তিগফার/তওবা করেছি
     </label>
@@ -1586,7 +1799,6 @@ function openSettleSin(uid){
       কাফফারা/ফিদিয়া/কাযা আদায় করেছি
     </label>` : ''}
   `;
-  document.getElementById('overlay').classList.add('open');
 }
 function toggleSettleField(uid, field){
   const p = pendingSins.find(x=>x.uid===uid);
@@ -1598,9 +1810,10 @@ function toggleSettleField(uid, field){
     if(todayEntry){ todayEntry.returned = p.tawbahDone; saveToday(); renderToday(); }
   }
   savePendingSins();
-  if(isPendingSinSettled(p)) closeSheet();
+  if(isPendingSinSettled(p)) closeSheet(); else renderSettleSheet(uid);
   renderDashboard();
 }
+
 
 // পয়েন্ট ওজন — এখানে বদলালে পুরো স্কোরিং কেমন কঠোর/নমনীয় হবে তা পরিবর্তন হবে
 const SCORE_WEIGHTS = { neki:3, sadaqah:4, tawbah:8, istighfar:2, quranPerMinute:0.3, kabira:-10, sagira:-4, repeat:-3 };
@@ -1633,6 +1846,11 @@ async function loadToday(){
   }catch(e){ todayStats = { neki:0, sadaqah:0, istighfar:0, quran:0, kaffarah:0 }; }
   loadCumulative();
   loadPendingSins();
+  loadPendingObligations();
+  loadLifeSatisfaction();
+  loadPreferredMadhab();
+  renderSidebarMadhab();
+  renderLifeSatisfactionCard();
   renderToday();
   renderObligationToday();
   renderObligationIndex();
@@ -1943,7 +2161,13 @@ const GARDEN_STATES = [
       potColor:'#e0d4b4', potRim:'#c2ae82'} }
 ];
 function gardenStateForScore(score){
-  return GARDEN_STATES.find(s => score >= s.min && score < s.max) || GARDEN_STATES[GARDEN_STATES.length-1];
+  const matched = GARDEN_STATES.find(s => score >= s.min && score < s.max) || GARDEN_STATES[GARDEN_STATES.length-1];
+  // সর্বোচ্চ স্তর (নফসে মুতমাইন্না, সম্পূর্ণ) কেবল শর্ত পূরণ হলেই দেখানো হবে —
+  // নাহলে তার ঠিক আগের স্তরে (মুতমাইন্নার সূচনা) থামিয়ে রাখা হয়
+  if(matched === GARDEN_STATES[GARDEN_STATES.length-1] && !qualifiesForMutmainnah()){
+    return GARDEN_STATES[GARDEN_STATES.length-2];
+  }
+  return matched;
 }
 function renderGarden(score){
   const state = gardenStateForScore(score);
@@ -2153,7 +2377,7 @@ function renderFihristDetailBody(x, isSin, accId){
   const hasMulti = isSin
     ? (x.kaffarah.hanafi || x.kaffarah.shafii || x.kaffarah.maliki || x.kaffarah.hanbali)
     : (x.madhab && (x.madhab.hanafi || x.madhab.shafii || x.madhab.maliki || x.madhab.hanbali));
-  const selMadhab = accordionMadhab[accId] || 'hanafi';
+  const selMadhab = accordionMadhab[accId] || preferredMadhab;
   const madhabLabel = m => m==='hanafi'?'হানাফী':m==='shafii'?'শাফেয়ী':m==='maliki'?'মালেকী':'হাম্বলী';
   const madhabButtons = () => ['hanafi','shafii','maliki','hanbali'].map(m =>
     `<button class="madhab-btn ${m===selMadhab?'active':''}" onclick="switchDetailMadhab('${accId}','${m}')">${madhabLabel(m)}</button>`
@@ -2266,10 +2490,10 @@ function renderNekiIndex(){
     </div>
   `).join('');
 }
-let currentMadhabNeki = 'hanafi';
+let currentMadhabNeki = preferredMadhab;
 function openNeki(id){
   const n = NEKI.find(x=>x.id===id);
-  currentMadhabNeki = 'hanafi';
+  currentMadhabNeki = preferredMadhab;
   renderNekiSheet(n);
   document.getElementById('overlay').classList.add('open');
 }
@@ -2364,10 +2588,10 @@ function logNeki(id){
 }
 
 // ---------------- SIN DETAIL MODAL ----------------
-let currentMadhab = 'hanafi';
+let currentMadhab = preferredMadhab;
 function openSin(id){
   const s = SINS.find(x=>x.id===id);
-  currentMadhab = 'hanafi';
+  currentMadhab = preferredMadhab;
   renderSinSheet(s);
   document.getElementById('overlay').classList.add('open');
 }
@@ -2553,7 +2777,7 @@ function renderObligationIndex(){
 
 function openObligation(id){
   const o = OBLIGATIONS.find(x=>x.id===id);
-  currentMadhab = 'hanafi';
+  currentMadhab = preferredMadhab;
   renderObligationSheet(o);
   document.getElementById('overlay').classList.add('open');
 }
@@ -2614,8 +2838,12 @@ function switchMadhabObl(oblId, m){
 
 function logObligation(id){
   const o = OBLIGATIONS.find(x=>x.id===id);
-  todayObligations.push({oblId:id, note:'', resolved:false, ts:Date.now()});
+  const uid = 'obl_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+  todayObligations.push({oblId:id, note:'', resolved:false, ts:Date.now(), uid});
   saveObligations();
+
+  pendingObligations.push({ uid, oblId:id, ts:Date.now(), resolved:false });
+  savePendingObligations();
 
   cumulative.faraidhPenalty += o.scoreWeight; // waajib/qada টাইপভেদে আলাদা পয়েন্ট, ওজরযুক্তগুলোতে ০
   saveCumulative();
@@ -2627,12 +2855,24 @@ function logObligation(id){
 function toggleObligationResolved(i){
   todayObligations[i].resolved = !todayObligations[i].resolved;
   saveObligations();
+  const uid = todayObligations[i].uid;
+  if(uid){
+    const p = pendingObligations.find(x=>x.uid===uid);
+    if(p){ p.resolved = todayObligations[i].resolved; savePendingObligations(); }
+  }
   renderObligationToday();
+  renderDashboard();
 }
 function removeObligationEntry(i){
+  const uid = todayObligations[i].uid;
+  if(uid){
+    pendingObligations = pendingObligations.filter(p=>p.uid!==uid);
+    savePendingObligations();
+  }
   todayObligations.splice(i,1);
   saveObligations();
   renderObligationToday();
+  renderDashboard();
 }
 function renderObligationToday(){
   const el = document.getElementById('obligationTodayList');
@@ -2793,14 +3033,19 @@ function resetAllData(){
   todayStats = { neki:0, sadaqah:0, istighfar:0, quran:0, kaffarah:0 };
   cumulative = CUMULATIVE_DEFAULT();
   pendingSins = [];
+  pendingObligations = [];
+  lifeSatisfaction = false;
   saveToday();
   saveObligations();
   saveStats();
   saveCumulative();
   savePendingSins();
+  savePendingObligations();
+  saveLifeSatisfaction();
   renderToday();
   renderObligationToday();
   renderIndex();
+  renderLifeSatisfactionCard();
   alert('সব ডেটা রিসেট হয়ে গেছে।');
 }
 
