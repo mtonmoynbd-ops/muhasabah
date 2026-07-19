@@ -148,6 +148,7 @@
   .satisfaction-card.expanded .satisfaction-caret{ transform:rotate(180deg); }
   .satisfaction-collapse{ display:grid; grid-template-rows:0fr; transition:grid-template-rows 0.28s ease; }
   .satisfaction-card.expanded .satisfaction-collapse{ grid-template-rows:1fr; }
+  #pendingSinSection.expanded .satisfaction-collapse{ grid-template-rows:1fr; }
   .satisfaction-collapse-inner{ overflow:hidden; }
   .satisfaction-verse{ font-size:12px; color:var(--ink-dim); line-height:1.7; margin:12px 0 10px; font-style:italic; }
   .satisfaction-desc{ font-size:12px; color:var(--ink-dim); line-height:1.75; margin-bottom:14px; }
@@ -177,6 +178,14 @@
   .pending-chip-dot.sagira{ background:#f2b14e; }
   .pending-chip-name{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:160px; }
   .pending-chip-stage{ font-size:9.5px; opacity:0.65; }
+  .pending-sin-header{
+    display:flex; align-items:center; justify-content:space-between; gap:10px; cursor:pointer;
+    font-size:12px; color:var(--ink-dim); padding:10px 14px; border-radius:14px;
+    background:rgba(240,86,61,0.06); border:1px solid rgba(240,86,61,0.2);
+  }
+  .pending-sin-header-text{ color:#ff9d87; font-weight:600; }
+  #pendingSinSection.expanded .pending-sin-header{ border-radius:14px 14px 0 0; }
+  #pendingSinSection.expanded .satisfaction-caret{ transform:rotate(180deg); }
 
   /* ---------- ফিহরিস্ত পাতা: বাকি অ্যাপের একই গাঢ় থিমের মধ্যেই থেকে "পাণ্ডুলিপির" অনুভূতি —
      আলাদা হালকা থিমে সুইচ করা হয় না, যাতে পুরো অ্যাপ এক ও অভিন্ন মনে হয় ---------- */
@@ -208,6 +217,22 @@
   .parchment-page .remedy-badge{ color:var(--gold-soft); background:rgba(217,185,120,0.08); border-color:rgba(217,185,120,0.25); }
   .parchment-page .huquq-note{ color:var(--ink); background:rgba(217,185,120,0.08); border-color:rgba(217,185,120,0.3); }
   .parchment-page .info-ic{ color:var(--ink-dim); }
+  .fihrist-detail-float-back{
+    position:fixed; right:16px; bottom:98px; z-index:45;
+    display:flex; align-items:center; gap:6px;
+    padding:9px 16px 9px 12px; border-radius:22px;
+    border:1px solid rgba(217,185,120,0.45);
+    background:linear-gradient(155deg, #1a3327, #0E2118);
+    color:var(--gold-soft); font-size:12.5px; font-weight:600; font-family:'Noto Sans Bengali', sans-serif;
+    box-shadow:0 6px 18px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+    cursor:pointer; letter-spacing:0.2px;
+  }
+  .fihrist-detail-float-back-ic{
+    display:flex; align-items:center; justify-content:center;
+    width:20px; height:20px; border-radius:50%;
+    background:rgba(217,185,120,0.16); color:var(--gold); font-size:13px; font-weight:700;
+  }
+  .fihrist-detail-float-back:active{ transform:scale(0.95); }
 
   /* ---------- ফুল পেজ (ফিহরিস্ত/দোয়া) ---------- */
   .fullpage-header{ padding:14px 0 4px; }
@@ -645,6 +670,7 @@
 
   <div class="sidebar-section">
     <div class="sidebar-item ui-label" onclick="openGlossary(); toggleSidebar();">📖 গ্লোসারি</div>
+    <div class="sidebar-item ui-label" onclick="openReferences(); toggleSidebar();">📚 তথ্যসূত্র ও রেফারেন্স</div>
     <div class="sidebar-item ui-label" onclick="openFihristPage('neki'); toggleSidebar();">🌱 হাসানাত বিস্তারিত</div>
     <div class="sidebar-item ui-label" onclick="openFihristPage('sin'); toggleSidebar();">🔥 সাইয়্যিআত বিস্তারিত</div>
     <div class="sidebar-item ui-label" onclick="toggleSidebar(); toggleCalendar();">☾ ক্যালেন্ডার</div>
@@ -706,8 +732,13 @@
     </section>
 
     <section id="pendingSinSection" style="display:none;">
-      <div class="section-title ui-label" style="font-size:11.5px; margin-bottom:8px;">⏳ তওবা/কাফফারা এখনো বাকি</div>
-      <div class="pending-chip-grid" id="pendingSinChips"></div>
+      <div class="pending-sin-header ui-label" onclick="togglePendingSinExpand()">
+        <span class="pending-sin-header-text">⏳ তওবা/কাফফারা এখনো বাকি — <span id="pendingSinCount">০</span>টা</span>
+        <span class="satisfaction-caret" id="pendingSinCaret">▾</span>
+      </div>
+      <div class="satisfaction-collapse" id="pendingSinCollapse"><div class="satisfaction-collapse-inner">
+        <div class="pending-chip-grid" id="pendingSinChips" style="padding-top:8px;"></div>
+      </div></div>
     </section>
 
     <section>
@@ -850,6 +881,9 @@
     <section>
       <div class="page-card" id="fihristDetailContent"></div>
     </section>
+    <button class="fihrist-detail-float-back" onclick="closeFihristItemDetail()">
+      <span class="fihrist-detail-float-back-ic">←</span>ফিরে যাও
+    </button>
   </div>
 
   <div class="tab-view" id="view-duas">
@@ -1088,6 +1122,40 @@ function openGlossary(highlightId){
       if(el) el.scrollIntoView({block:'center'});
     }, 100);
   }
+}
+
+function openReferences(){
+  const html = `
+    <div class="sheet-handle"></div>
+    <button class="close-x" onclick="closeSheet()">✕</button>
+    <h2 style="margin-bottom:6px;">তথ্যসূত্র ও রেফারেন্স</h2>
+    <div class="block-text" style="margin-bottom:16px; font-size:12.5px; color:#5b5142;">এই এপে ব্যবহৃত কুরআন-হাদিস উদ্ধৃতি ও ফিকহি আলোচনার উৎস সম্পর্কে একটা সাধারণ ধারণা — কোনো নির্দিষ্ট এন্ট্রির উদ্ধৃতির যথার্থতা নিয়ে সন্দেহ থাকলে মূল কিতাব বা কোনো আলেমের কাছে যাচাই করে নিন।</div>
+
+    <div class="block-label">কুরআনের আয়াত</div>
+    <div class="block-text">আয়াত নম্বর প্রচলিত মুসহাফ (উসমানী রশ্‌ম) অনুযায়ী সূরা:আয়াত ফরম্যাটে দেওয়া হয়েছে — যেমন "কুরআন ৪:৪৮" মানে সূরা আন-নিসা, আয়াত ৪৮। অনুবাদ ভাবানুবাদ, শব্দে শব্দে অনুবাদ নয়।</div>
+
+    <div class="block-label">হাদিস সংকলন</div>
+    <div class="block-text">হাদিস উদ্ধৃতিগুলো মূলত ছয়টি প্রসিদ্ধ সংকলন (কুতুবে সিত্তাহ) থেকে নেওয়া:</div>
+    <div class="evidence-item">সহীহ বুখারী — ইমাম মুহাম্মাদ ইবনে ইসমাঈল আল-বুখারী (রহ.)</div>
+    <div class="evidence-item">সহীহ মুসলিম — ইমাম মুসলিম ইবনে হাজ্জাজ (রহ.)</div>
+    <div class="evidence-item">সুনানে আবু দাউদ — ইমাম আবু দাউদ সিজিস্তানী (রহ.)</div>
+    <div class="evidence-item">জামি আত-তিরমিযী — ইমাম আবু ঈসা আত-তিরমিযী (রহ.)</div>
+    <div class="evidence-item">সুনানে নাসাঈ — ইমাম আহমাদ ইবনে শু‘আইব আন-নাসাঈ (রহ.)</div>
+    <div class="evidence-item">সুনানে ইবনে মাজাহ — ইমাম মুহাম্মাদ ইবনে মাজাহ (রহ.)</div>
+    <div class="block-text" style="margin-top:10px;">যেখানে হাদিস নম্বর নিশ্চিতভাবে যাচাই করা সম্ভব হয়নি, সেখানে এন্ট্রিতে সরাসরি "নির্দিষ্ট হাদিস নম্বর হিসেবে যাচাই করা হয়নি" লেখা আছে — অর্থাৎ ভাবার্থ সঠিক হলেও নম্বরটি চূড়ান্ত ধরে নেওয়া উচিত নয়।</div>
+
+    <div class="block-label">মাযহাবভেদে ফিকহি আলোচনা</div>
+    <div class="block-text">মাযহাবভেদে ভিন্ন মত দেখানো এন্ট্রিগুলোর আলোচনা সাধারণভাবে যে ধরনের মূল/প্রসিদ্ধ ফিকহি গ্রন্থে পাওয়া যায় তার ভিত্তিতে সংক্ষেপে উপস্থাপন করা — প্রতিটা এন্ট্রি প্রতিটা কিতাবের সরাসরি উদ্ধৃতি নয়, বরং সেই মাযহাবের প্রসিদ্ধ/প্রচলিত মতের সংক্ষিপ্তসার:</div>
+    <div class="evidence-item">হানাফী — আল-হিদায়াহ (বুরহানুদ্দীন আল-মারগীনানী), রদ্দুল মুহতার (ইবনে আবিদীন)</div>
+    <div class="evidence-item">শাফেয়ী — আল-উম্ম (ইমাম শাফেয়ী), মিনহাজুত ত্বালিবীন (ইমাম নববী)</div>
+    <div class="evidence-item">মালেকী — আল-মুদাওয়ানা, মুখতাসার খলীল</div>
+    <div class="evidence-item">হাম্বলী — আল-মুগনী (ইবনে কুদামা), কাশশাফুল কিনা‘</div>
+
+    <div class="block-label">গুরুত্বপূর্ণ সীমাবদ্ধতা</div>
+    <div class="block-text">প্রতিটা এন্ট্রিতে <span style="color:#A65D45; font-weight:600;">"reviewed:false"</span> চিহ্নিত থাকার অর্থ — এই কনটেন্ট এখনো কোনো যোগ্যতাসম্পন্ন আলেম দ্বারা পূর্ণাঙ্গভাবে যাচাই করা হয়নি। এটা ফতোয়া নয়, শুধু আত্মজিজ্ঞাসা ও প্রাথমিক ধারণার একটা মাধ্যম। কোনো নির্দিষ্ট বিষয়ে সিদ্ধান্ত নেওয়ার আগে (বিশেষত কাফফারা/ফিদিয়া/উত্তরাধিকার/তালাকের মতো গুরুত্বপূর্ণ বিষয়ে) নিজের এলাকার নির্ভরযোগ্য আলেমের সাথে সরাসরি পরামর্শ করুন।</div>
+  `;
+  document.getElementById('sheet').innerHTML = html;
+  document.getElementById('overlay').classList.add('open');
 }
 
 const SINS = [
@@ -1364,6 +1432,89 @@ const SINS = [
     huquq:true, huquq_note:'যার সাথে ওয়াদা করা হয়েছিল তার হক জড়িত।',
     dua:{ar:'اللَّهُمَّ إِنِّي أَتُوبُ إِلَيْكَ مِنْ خُلْفِ الْوَعْدِ', uccharan:'আল্লাহুম্মা ইন্নী আতূবু ইলাইকা মিন খুলফিল ওয়া‘দ', bn:'হে আল্লাহ, আমি ওয়াদা ভঙ্গ থেকে তোমার কাছে তওবা করছি।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
     remedy:'waajib', reviewed:false
+  },
+  {
+    id:'hasad', name_bn:'হিংসা/ঈর্ষা', name_ar:'الحسد', category:'sagira', rights:'ibad', severity:3, common:true,
+    evidence:[{text:'তোমরা পরস্পর হিংসা করো না, পরস্পর ঘৃণা করো না, পরস্পরের প্রতি পিঠ ফিরিয়ে নিও না... আল্লাহর বান্দা ভাই ভাই হয়ে যাও।', src:'সহীহ বুখারী ৬০৬৪, সহীহ মুসলিম ২৫৫৯'}],
+    dunya:'নির্দিষ্ট হদ্দ নেই।',
+    akhirah:'হাদিসে হিংসাকে নেক আমল ধ্বংসকারী বলা হয়েছে — "যেমন আগুন কাঠ পুড়িয়ে দেয়" (আবু দাউদ ৪৯০৩, দুর্বলতা নিয়ে আলোচনা আছে হলেও অর্থগতভাবে অন্যান্য সহীহ হাদিসের সাথে সামঞ্জস্যপূর্ণ)।',
+    kaffarah:{ijma:'অন্তরে হিংসা অনুভব হওয়া মাত্রই গুনাহ নয় (এটি মানুষের স্বাভাবিক প্রবৃত্তির অংশ হতে পারে); গুনাহ হয় যখন তা কথায়/কাজে প্রকাশ পায় বা কারো ক্ষতি চাওয়া হয়। প্রতিকার: অন্তরে অনুভূত হলে দমন করা, ঐ ব্যক্তির জন্য দোয়া করা, এবং প্রকাশ পেয়ে থাকলে তওবা ও ইস্তিগফার।'},
+    huquq:false,
+    dua:{ar:'اللَّهُمَّ اذْهِبْ غَيْظَ قَلْبِي وَأَجِرْنِي مِنَ الشَّيْطَانِ', uccharan:'আল্লাহুম্মা যহিব গাইজা কালবী ওয়া আজিরনী মিনাশ শাইতান', bn:'হে আল্লাহ, আমার অন্তরের এই বিদ্বেষ দূর করো এবং আমাকে শয়তান থেকে রক্ষা করো।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
+    remedy:'none', reviewed:false
+  },
+  {
+    id:'kibr', name_bn:'অহংকার', name_ar:'الكبر', category:'kabira', rights:'allah', severity:4, common:true,
+    evidence:[{text:'যে ব্যক্তির অন্তরে অণু পরিমাণ অহংকার থাকবে সে জান্নাতে প্রবেশ করবে না।', src:'সহীহ মুসলিম, ঈমান অধ্যায়'}],
+    dunya:'নির্দিষ্ট হদ্দ নেই।',
+    akhirah:'একই হাদিসে অহংকারের সংজ্ঞা দেওয়া হয়েছে — "সত্যকে প্রত্যাখ্যান করা এবং মানুষকে তুচ্ছ জ্ঞান করা"। ইবলিসের কবিরা গুনাহে পতনের মূল কারণ হিসেবে অহংকারকে চিহ্নিত করা হয় (কুরআন ২:৩৪, ৭:১২)।',
+    kaffarah:{ijma:'নির্দিষ্ট কোনো কাফফারা নেই। প্রতিকার: বিনয় চর্চা করা, নিজের দুর্বলতা ও আল্লাহর প্রতি নির্ভরতা স্মরণ করা, এবং যাদের প্রতি অহংকার প্রকাশ পেয়েছে সম্ভব হলে তাদের সাথে বিনয়ী আচরণ করা।'},
+    huquq:false,
+    dua:{ar:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكِبْرِ', uccharan:'আল্লাহুম্মা ইন্নী আ‘ঊযু বিকা মিনাল কিবর', bn:'হে আল্লাহ, আমি অহংকার থেকে তোমার কাছে আশ্রয় চাই।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
+    remedy:'none', reviewed:false
+  },
+  {
+    id:'namimah', name_bn:'চোগলখুরি (কথা লাগানো)', name_ar:'النميمة', category:'kabira', rights:'ibad', severity:4, common:true,
+    evidence:[{text:'চোগলখোর জান্নাতে প্রবেশ করবে না।', src:'সহীহ বুখারী ৬০৫৬, সহীহ মুসলিম ১০৫'}],
+    dunya:'নির্দিষ্ট হদ্দ নেই।',
+    akhirah:'হাদিসে এটিকে গীবত থেকে ভিন্ন ও অধিকতর ক্ষতিকর গণ্য করা হয় — কারণ এটি সরাসরি দুই ব্যক্তির মাঝে শত্রুতা সৃষ্টি করে। কবর আজাবের একটি কারণ হিসেবেও হাদিসে চোগলখুরির উল্লেখ আছে (সহীহ বুখারী ২১৬, সহীহ মুসলিম ২৯২)।',
+    kaffarah:{ijma:'নির্দিষ্ট কাফফারা নেই। প্রতিকার: তওবা, যাদের মধ্যে শত্রুতা সৃষ্টি হয়েছে সম্ভব হলে তা মেটানোর চেষ্টা, এবং ভবিষ্যতে কথা বহন থেকে বিরত থাকার দৃঢ় সংকল্প।'},
+    huquq:true, huquq_note:'যাদের মধ্যে শত্রুতা সৃষ্টি করা হয়েছে তাদের হক জড়িত — সুযোগ থাকলে সম্পর্ক মেরামতের চেষ্টা করা উচিত।',
+    dua:{ar:'اللَّهُمَّ سَلِّمْ لِسَانِي مِنَ الْغِيبَةِ وَالنَّمِيمَةِ', uccharan:'আল্লাহুম্মা সাল্লিম লিসানী মিনাল গীবাতি ওয়ান নামীমাহ', bn:'হে আল্লাহ, আমার জিহ্বাকে গীবত ও চোগলখুরি থেকে নিরাপদ রাখো।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
+    remedy:'none', reviewed:false
+  },
+  {
+    id:'rishwat', name_bn:'ঘুষ লেনদেন', name_ar:'الرشوة', category:'kabira', rights:'ibad', severity:4,
+    evidence:[{text:'রাসূলুল্লাহ (সা.) ঘুষদাতা ও ঘুষগ্রহীতা উভয়ের প্রতি লা\'নত করেছেন।', src:'জামি আত-তিরমিযী ১৩৩৭, সুনানে আবু দাউদ ৩৫৮০ (সহীহ)'}],
+    dunya:'ইসলামি রাষ্ট্রে বিচারিক/প্রশাসনিক ব্যবস্থার আওতায় শাস্তিযোগ্য অপরাধ হিসেবে বিবেচিত হতে পারে — নির্দিষ্ট হদ্দ নেই, তবে তা\'যীর প্রযোজ্য।',
+    akhirah:'ঘুষের মাধ্যমে অর্জিত সম্পদ হারাম এবং ন্যায়বিচার নষ্টের একটি প্রধান কারণ হিসেবে চিহ্নিত।',
+    kaffarah:{ijma:'গৃহীত ঘুষের অর্থ যথাসম্ভব মূল মালিককে ফেরত দেওয়া বা, তা সম্ভব না হলে, সংশ্লিষ্ট ব্যক্তিদের সন্ধান না পেলে দাতব্য খাতে ব্যয় করা (এই বিষয়ে ফকীহদের মাঝে বিস্তারিত আলোচনা আছে) — পাশাপাশি আন্তরিক তওবা ও ভবিষ্যতে বিরত থাকা।'},
+    huquq:true, huquq_note:'ঘুষের মাধ্যমে যার হক নষ্ট হয়েছে (যেমন প্রকৃত প্রাপ্য সেবা থেকে বঞ্চিত ব্যক্তি) তার হকও এখানে জড়িত থাকতে পারে।',
+    dua:{ar:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَسْبِ الْحَرَامِ', uccharan:'আল্লাহুম্মা ইন্নী আ‘ঊযু বিকা মিনাল কাসবিল হারাম', bn:'হে আল্লাহ, আমি হারাম উপার্জন থেকে তোমার কাছে আশ্রয় চাই।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
+    remedy:'none', reviewed:false
+  },
+  {
+    id:'qatiur_rahmi', name_bn:'আত্মীয়তার সম্পর্ক ছিন্ন করা', name_ar:'قطيعة الرحم', category:'kabira', rights:'ibad', severity:4, common:true,
+    evidence:[
+      {text:'তোমরা যদি ক্ষমতা পাও তবে কি পৃথিবীতে ফাসাদ সৃষ্টি করবে এবং আত্মীয়তার সম্পর্ক ছিন্ন করবে?', src:'কুরআন ৪৭:২২'},
+      {text:'যে আত্মীয়তার সম্পর্ক ছিন্ন করে সে জান্নাতে প্রবেশ করবে না।', src:'সহীহ বুখারী ৫৯৮৪, সহীহ মুসলিম ২৫৫৬'}
+    ],
+    dunya:'নির্দিষ্ট হদ্দ নেই।',
+    akhirah:'কুরআনে এই কাজকারীদের উপর আল্লাহর লা\'নত ও তাদের কর্মফল বিনষ্ট হওয়ার ঘোষণা (৪৭:২৩)।',
+    kaffarah:{ijma:'নির্দিষ্ট কাফফারা নেই — প্রতিকার হলো যত দ্রুত সম্ভব সম্পর্ক পুনঃস্থাপনের উদ্যোগ নেওয়া (এমনকি অন্যপক্ষ সম্পর্ক না রাখলেও নিজের পক্ষ থেকে চেষ্টা অব্যাহত রাখা), এবং আন্তরিক তওবা।'},
+    huquq:true, huquq_note:'সংশ্লিষ্ট আত্মীয়ের হক জড়িত — শুধু আল্লাহর কাছে তওবায় সম্পর্ক পুনঃস্থাপনের কর্তব্য শেষ হয় না।',
+    dua:{ar:'اللَّهُمَّ صِلْ مَنْ قَطَعَنِي وَأَعِنِّي عَلَى صِلَةِ رَحِمِي', uccharan:'আল্লাহুম্মা সিল মান কাতা‘আনী ওয়া আ‘ইন্নী আলা সিলাতি রাহিমী', bn:'হে আল্লাহ, যে আমার সাথে সম্পর্ক ছিন্ন করেছে তার সাথে তুমি সম্পর্ক জোড়ো, এবং আমাকে আত্মীয়তার হক আদায়ে সাহায্য করো।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
+    remedy:'none', reviewed:false
+  },
+  {
+    id:'israf', name_bn:'অপচয়/অপব্যয়', name_ar:'الإسراف', category:'sagira', rights:'allah', severity:2, common:true,
+    evidence:[{text:'নিশ্চয় অপব্যয়কারীরা শয়তানের ভাই, আর শয়তান তার রবের প্রতি অকৃতজ্ঞ।', src:'কুরআন ১৭:২৬-২৭'}],
+    dunya:'নির্দিষ্ট হদ্দ নেই।',
+    akhirah:'কুরআনে খাওয়া-পান, দান, এমনকি ইবাদতেও (যেমন অজুতে পানির অপচয়) অতিরিক্ততা নিরুৎসাহিত করা হয়েছে (কুরআন ৭:৩১)।',
+    kaffarah:{ijma:'নির্দিষ্ট কাফফারা নেই — প্রতিকার হলো ব্যয়ে ভারসাম্য আনার সংকল্প ও তওবা। মিতব্যয়িতা (কিন্তু কৃপণতা নয়) কুরআনে প্রশংসিত (২৫:৬৭)।'},
+    huquq:false,
+    dua:{ar:'رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ', uccharan:'রব্বানা হাব লানা মিন আজওয়াজিনা ওয়া যুররিয়্যাতিনা কুররতা আ‘ইউন', bn:'হে আমাদের রব, ব্যয়ে ভারসাম্য ও পরিমিতিবোধ দান করো।', src:'সাধারণ দোয়া — সরাসরি হাদিস সূত্র নয়, শুধু ভাবার্থে প্রাসঙ্গিক'},
+    remedy:'none', reviewed:false
+  },
+  {
+    id:'tajassus', name_bn:'অন্যের গোপনীয়তা/দোষ অনুসন্ধান', name_ar:'التجسس', category:'sagira', rights:'ibad', severity:3,
+    evidence:[{text:'তোমরা একে অপরের দোষ অনুসন্ধান করো না এবং একে অপরের গীবত করো না।', src:'কুরআন ৪৯:১২'}],
+    dunya:'নির্দিষ্ট হদ্দ নেই — তবে অন্যের ব্যক্তিগত পরিসরে অনধিকার প্রবেশ অনেক আইনি ব্যবস্থায়ও দণ্ডনীয়।',
+    akhirah:'একই আয়াতে গীবতের সাথে একত্রে নিষেধ করা হয়েছে, কারণ দোষ খুঁজে বের করা প্রায়ই গীবতের প্রথম ধাপ।',
+    kaffarah:{ijma:'নির্দিষ্ট কাফফারা নেই — প্রতিকার হলো অনুসন্ধান থেকে বিরত থাকা, প্রাপ্ত তথ্য গোপন রাখা/প্রচার না করা, এবং তওবা।'},
+    huquq:true, huquq_note:'যার গোপনীয়তা লঙ্ঘন করা হয়েছে তার হক জড়িত থাকতে পারে।',
+    dua:{ar:'اللَّهُمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي', uccharan:'আল্লাহুম্মাস্তুর আওরাতী ওয়া আমিন রাওয়া‘আতী', bn:'হে আল্লাহ, আমার দোষ-ত্রুটি গোপন রাখো এবং আমাকে নিরাপত্তা দাও।', src:'সুনানে আবু দাউদ ৫০৭৪ (ইবনে উমর রা.)'},
+    remedy:'none', reviewed:false
+  },
+  {
+    id:'dhulm', name_bn:'জুলুম (সাধারণ অন্যায়/অত্যাচার)', name_ar:'الظلم', category:'kabira', rights:'ibad', severity:5, common:true,
+    evidence:[{text:'হে আমার বান্দাগণ, আমি নিজের উপর জুলুম হারাম করেছি এবং তোমাদের মধ্যেও তা হারাম করেছি, সুতরাং তোমরা পরস্পর জুলুম করো না।', src:'সহীহ মুসলিম ২৫৭৭ (হাদিসে কুদসী)'}],
+    dunya:'নির্দিষ্ট জুলুমের ধরন অনুযায়ী প্রযোজ্য বিধান ভিন্ন হতে পারে (যেমন সম্পদ আত্মসাৎ, শারীরিক নির্যাতন) — প্রতিটির নিজস্ব বিধান আলাদাভাবে বিবেচ্য।',
+    akhirah:'কিয়ামতের দিন জুলুম ঘোর অন্ধকার হিসেবে আসবে বলে সতর্ক করা হয়েছে (সহীহ বুখারী ২৪৪৭, সহীহ মুসলিম ২৫৭৯)।',
+    kaffarah:{ijma:'যার প্রতি জুলুম করা হয়েছে তার কাছে ক্ষমা চাওয়া ও সাধ্যমতো ক্ষতিপূরণ/হক ফিরিয়ে দেওয়া আবশ্যক — এটি শুধু আল্লাহর কাছে তওবায় মাফ হয় না, নিহিত ব্যক্তির সন্তুষ্টি/ক্ষমা ছাড়া হক আদায় হয় না।'},
+    huquq:true, huquq_note:'এটি সরাসরি বান্দার হক — কিয়ামতের দিন নেক আমল দিয়ে এই হক পরিশোধ করতে হতে পারে যদি দুনিয়াতে মিটমাট না হয়।',
+    dua:{ar:'اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا', uccharan:'আল্লাহুম্মা ইন্নী জলামতু নাফসী জুলমান কাসীরা', bn:'হে আল্লাহ, আমি নিজের উপর অনেক জুলুম করেছি (আমাকে ক্ষমা করো)।', src:'সহীহ বুখারী ৮৩৪, সহীহ মুসলিম ২৭০৫ (আবু বকর রা.-কে শেখানো দোয়ার অংশ)'},
+    remedy:'none', reviewed:false
   }
 ];
 
@@ -1604,6 +1755,54 @@ const NEKI = [
     erases:'এই হাদিসে সরাসরি গুনাহ মোচনের কথা বলা হয়নি, বরং জান্নাতি সাওয়াবের উপমা দেওয়া হয়েছে।',
     madhab:null,
     reviewed:false
+  },
+  {
+    id:'shukr', name_bn:'কৃতজ্ঞতা প্রকাশ (শোকর)', name_ar:'الشكر', category:'dhikr',
+    evidence:[{text:'যদি তোমরা কৃতজ্ঞতা প্রকাশ কর, আমি অবশ্যই তোমাদের (নিয়ামত) বাড়িয়ে দেব; আর যদি অকৃতজ্ঞ হও, তবে আমার আযাব অতি কঠোর।', src:'কুরআন ১৪:৭'}],
+    fazilat:'কৃতজ্ঞতা ঈমানের অর্ধেক বলে বর্ণিত হয়েছে (একটি প্রসিদ্ধ উক্তি, সরাসরি মারফু হাদিস হিসেবে এর মান নিয়ে আলোচনা আছে) — তবে কুরআনে কৃতজ্ঞতার প্রতিদান বৃদ্ধির প্রতিশ্রুতি সুস্পষ্ট (১৪:৭)।',
+    erases:'এই আয়াতে সরাসরি গুনাহ মোচনের কথা নেই, বরং নিয়ামত বৃদ্ধির প্রতিশ্রুতি দেওয়া হয়েছে।',
+    madhab:null,
+    reviewed:false
+  },
+  {
+    id:'husn_zann_billah', name_bn:'আল্লাহর প্রতি সুধারণা ও তাওয়াক্কুল', name_ar:'حسن الظن بالله والتوكل', category:'dhikr',
+    evidence:[{text:'আমি আমার বান্দার সাথে তার ধারণা অনুযায়ী আচরণ করি — সে আমার সম্পর্কে যেমন ধারণা রাখে।', src:'সহীহ বুখারী ৭৪০৫, সহীহ মুসলিম ২৬৭৫ (হাদিসে কুদসী)'}],
+    fazilat:'কঠিন পরিস্থিতিতেও আল্লাহর রহমত ও ফায়সালার প্রতি আস্থা রাখা মুমিনের অন্তরের একটি গুরুত্বপূর্ণ ইবাদত হিসেবে গণ্য।',
+    erases:'সরাসরি গুনাহ মোচনের বিষয়ে হাদিসে কিছু বলা নেই — এটি মূলত অন্তরের অবস্থা ও আল্লাহর সাথে সম্পর্কের গুণগত মান সম্পর্কিত।',
+    madhab:null,
+    reviewed:false
+  },
+  {
+    id:'diyafah', name_bn:'মেহমান নাওয়াজি', name_ar:'الضيافة', category:'sadaqah',
+    evidence:[{text:'যে ব্যক্তি আল্লাহ ও শেষ দিনের প্রতি বিশ্বাস করে, সে যেন তার মেহমানকে সম্মান করে।', src:'সহীহ বুখারী ৬০১৮, সহীহ মুসলিম ৪৭'}],
+    fazilat:'মেহমানের সম্মান করাকে ঈমানের একটি আলামত হিসেবে গণ্য করা হয়েছে, একই হাদিসে প্রতিবেশীর সাথে সদাচরণ ও ভালো কথা বলা/চুপ থাকার সাথে উল্লেখিত।',
+    erases:'এই হাদিসে সরাসরি গুনাহ মোচনের কথা নেই — এটি ঈমানের আলামত ও উত্তম আখলাক হিসেবে বর্ণিত।',
+    madhab:null,
+    reviewed:false
+  },
+  {
+    id:'afw_others', name_bn:'মানুষকে ক্ষমা করা', name_ar:'العفو عن الناس', category:'akhlaq',
+    evidence:[{text:'তাদের উচিত ক্ষমা করা ও উপেক্ষা করা। তোমরা কি চাও না যে আল্লাহ তোমাদের ক্ষমা করুন? আর আল্লাহ ক্ষমাশীল, পরম দয়ালু।', src:'কুরআন ২৪:২২'}],
+    fazilat:'আল্লাহর কাছে নিজের ক্ষমা প্রত্যাশা করার সাথে অন্যকে ক্ষমা করাকে সরাসরি সম্পর্কিত করা হয়েছে এই আয়াতে।',
+    erases:'সরাসরি নির্দিষ্ট গুনাহ মোচনের কথা এই আয়াতে বলা নেই — তবে ক্ষমাশীলতাকে আল্লাহর ক্ষমা লাভের একটি উপায় হিসেবে ইঙ্গিত করা হয়েছে।',
+    madhab:null,
+    reviewed:false
+  },
+  {
+    id:'husn_khuluk', name_bn:'হাসিমুখে কথা বলা ও উত্তম আখলাক', name_ar:'حسن الخلق', category:'akhlaq',
+    evidence:[{text:'তোমার ভাইয়ের সামনে হাসিমুখে থাকাও তোমার জন্য একটি সদকা।', src:'জামি আত-তিরমিযী ১৯৫৬ (হাসান)'}],
+    fazilat:'কিয়ামতের দিন মুমিনের আমলনামায় সবচেয়ে ভারী জিনিস হবে উত্তম আখলাক বলে বর্ণিত হয়েছে (তিরমিযী ২০০২, হাসান-সহীহ)।',
+    erases:'এই হাদিসগুলোতে সরাসরি গুনাহ মোচনের কথা নেই — এগুলো সাওয়াবের বিশালতা ও গুরুত্ব সম্পর্কে বর্ণিত।',
+    madhab:null,
+    reviewed:false
+  },
+  {
+    id:'sabr', name_bn:'ধৈর্য (সবর)', name_ar:'الصبر', category:'akhlaq',
+    evidence:[{text:'আর অবশ্যই আমি তোমাদের পরীক্ষা করব কিছুটা ভয়, ক্ষুধা, সম্পদ-প্রাণ-ফসলের ক্ষতি দিয়ে; আর ধৈর্যশীলদের সুসংবাদ দাও।', src:'কুরআন ২:১৫৫'}],
+    fazilat:'ধৈর্যশীলদের প্রতিদান অপরিমেয় (কুরআন ৩৯:১০) এবং বিপদে "ইন্না লিল্লাহি ওয়া ইন্না ইলাইহি রাজিউন" বলে ধৈর্য ধারণকারীদের আল্লাহর পক্ষ থেকে রহমত ও দরূদের সুসংবাদ দেওয়া হয়েছে (কুরআন ২:১৫৬-১৫৭)।',
+    erases:'সরাসরি গুনাহ মোচনের কথা এই আয়াতগুলোতে বলা নেই — মূলত প্রতিদান ও মর্যাদা বৃদ্ধির প্রতিশ্রুতি।',
+    madhab:null,
+    reviewed:false
   }
 ];
 
@@ -1755,9 +1954,15 @@ function isPendingSinSettled(p){
   if(!sin) return true;
   return sinNeedsKaffarah(sin) ? (p.tawbahDone && p.kaffarahDone) : p.tawbahDone;
 }
+let pendingSinExpanded = false;
+function togglePendingSinExpand(){
+  pendingSinExpanded = !pendingSinExpanded;
+  document.getElementById('pendingSinSection').classList.toggle('expanded', pendingSinExpanded);
+}
 function renderPendingSinChips(){
   const section = document.getElementById('pendingSinSection');
   const grid = document.getElementById('pendingSinChips');
+  const countEl = document.getElementById('pendingSinCount');
   if(!section || !grid) return;
   const unsettled = pendingSins.filter(p => !isPendingSinSettled(p));
   if(unsettled.length === 0){
@@ -1766,6 +1971,8 @@ function renderPendingSinChips(){
     return;
   }
   section.style.display = '';
+  section.classList.toggle('expanded', pendingSinExpanded);
+  if(countEl) countEl.textContent = toBn(unsettled.length);
   grid.innerHTML = unsettled.map(p => {
     const sin = SINS.find(s=>s.id===p.sinId);
     if(!sin) return '';
