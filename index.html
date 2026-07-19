@@ -178,27 +178,36 @@
   .pending-chip-name{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:160px; }
   .pending-chip-stage{ font-size:9.5px; opacity:0.65; }
 
-  /* ---------- ফিহরিস্ত পাতাগুলোর জন্য আলাদা "পার্চমেন্ট/পাণ্ডুলিপি" ধর্মিয় রিডেবল থিম ---------- */
+  /* ---------- ফিহরিস্ত পাতা: বাকি অ্যাপের একই গাঢ় থিমের মধ্যেই থেকে "পাণ্ডুলিপির" অনুভূতি —
+     আলাদা হালকা থিমে সুইচ করা হয় না, যাতে পুরো অ্যাপ এক ও অভিন্ন মনে হয় ---------- */
   .parchment-page{
-    background:#F3ECDD; color:#12302E;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(217,185,120,0.05), transparent 55%),
+      var(--bg);
+    color:var(--ink);
     margin:0 -16px; padding:0 16px 32px; min-height:calc(100dvh - 60px);
   }
-  .parchment-page .fullpage-header{ border-bottom:1px solid rgba(18,48,46,0.12); }
-  .parchment-page .fullpage-back{ color:#12302E; border-color:rgba(18,48,46,0.25); background:rgba(255,255,255,0.4); }
-  .parchment-page .entry-toggle{ background:rgba(18,48,46,0.06); }
-  .parchment-page .entry-toggle-btn{ color:#5b5142; }
-  .parchment-page .entry-toggle-btn.active{ background:#12302E; color:#E4C98A; }
-  .parchment-page .fihrist{border-top-color:rgba(18,48,46,0.15);}
-  .parchment-page .fihrist-item{border-bottom-color:rgba(18,48,46,0.12);}
-  .parchment-page .fihrist-item:hover{background:rgba(18,48,46,0.04);}
-  .parchment-page .fihrist-name{color:#12302E;}
-  .parchment-page .fihrist-name-ar{color:#A65D45;}
-  .parchment-page .chevron{color:#A65D45;}
-  .parchment-page .tag-kabira,.parchment-page .tag-sagira,.parchment-page .tag-neki,
-  .parchment-page .tag-huquq,.parchment-page .tag-neglect,.parchment-page .tag-common{ color:#5b5142; background:rgba(166,93,69,0.12); }
-  .parchment-page .section-title{ color:#A65D45; }
-  .parchment-page .page-card{ background:rgba(255,255,255,0.4); color:#12302E; border:1px solid rgba(18,48,46,0.12); border-radius:16px; padding:16px; box-shadow:none; }
-  .parchment-page .log-this-btn{ background:#A65D45; color:#F3ECDD; }
+  .parchment-page .fullpage-header{ border-bottom:1px solid var(--card-line); }
+  .parchment-page .fullpage-back{ color:var(--gold); }
+  .parchment-page .entry-toggle-btn.active{ background:var(--card); color:var(--gold-soft); border-color:var(--gold); }
+  .parchment-page .fihrist{border-top-color:var(--card-line);}
+  .parchment-page .fihrist-item{border-bottom-color:var(--card-line);}
+  .parchment-page .fihrist-item:active{background:rgba(255,255,255,0.03);}
+  .parchment-page .fihrist-name{color:var(--ink);}
+  .parchment-page .fihrist-name-ar{color:var(--gold-soft);}
+  .parchment-page .chevron{color:var(--gold-soft);}
+  .parchment-page .section-title{ color:var(--gold); }
+  .parchment-page .page-card{ background:var(--card); color:var(--ink); border:1px solid var(--card-line); border-radius:18px; padding:18px; box-shadow:none; }
+  .parchment-page .log-this-btn{ background:var(--gold); color:var(--bg); }
+  /* বিস্তারিত পাতার লেখার ব্লকগুলো (মূলত .sheet-এর জন্য বানানো, হালকা ব্যাকগ্রাউন্ডের উপযোগী রঙে) —
+     এই গাঢ় পাতায় ঠিকমতো পড়া যাওয়ার জন্য আলাদাভাবে ওভাররাইড করা */
+  .parchment-page .block-label{ color:var(--gold-soft); }
+  .parchment-page .block-text, .parchment-page .kaffarah-text{ color:var(--ink); }
+  .parchment-page .evidence-item{ color:var(--ink-dim); border-left-color:var(--gold); }
+  .parchment-page .evidence-src{ color:var(--ink-dim); opacity:0.75; }
+  .parchment-page .remedy-badge{ color:var(--gold-soft); background:rgba(217,185,120,0.08); border-color:rgba(217,185,120,0.25); }
+  .parchment-page .huquq-note{ color:var(--ink); background:rgba(217,185,120,0.08); border-color:rgba(217,185,120,0.3); }
+  .parchment-page .info-ic{ color:var(--ink-dim); }
 
   /* ---------- ফুল পেজ (ফিহরিস্ত/দোয়া) ---------- */
   .fullpage-header{ padding:14px 0 4px; }
@@ -251,7 +260,7 @@
   .sub-accordion .dua-src-inline{ font-size:10px; color:#E4C98A; opacity:0.75; margin-top:6px; }
   /* একই স্টাইল, কিন্তু .sub-accordion র‍্যাপার ছাড়াই — নতুন ফিহরিস্ত ডিটেইল ফুল-পেজে সরাসরি ব্যবহারের জন্য */
   .kaffarah-text{ font-size:13px; color:#3a3226; line-height:1.75; font-family:'Noto Serif Bengali', serif; margin-top:6px; }
-  .dua-box-inline{ background:#12302E; border-radius:10px; padding:14px; text-align:center; margin-top:6px; }
+  .dua-box-inline{ background:#0E2118; border:1px solid rgba(217,185,120,0.25); border-radius:10px; padding:14px; text-align:center; margin-top:6px; }
   .dua-ar-inline{ font-family:'Amiri', serif; font-size:18px; color:#E4C98A; direction:rtl; line-height:1.9; }
   .dua-uccharan-inline{ font-size:11.5px; color:#E4C98A; margin-top:6px; font-style:italic; opacity:0.9; }
   .dua-bn-inline{ font-size:12px; color:#E7DDC7; margin-top:6px; }
@@ -302,24 +311,23 @@
   }
   #view-dashboard.active section{ margin-top:0; min-width:0; }
   .dash-hero{
-    position:relative; width:100%; height:110px; flex-shrink:0;
-    border-radius:16px; overflow:hidden; cursor:pointer;
-    border:1px solid rgba(217,185,120,0.22); box-shadow:0 6px 16px rgba(0,0,0,0.3);
+    position:relative; width:100%; height:250px; min-height:210px; flex-shrink:0;
+    border-radius:20px; overflow:hidden; cursor:pointer;
+    border:1px solid rgba(217,185,120,0.22); box-shadow:0 10px 24px rgba(0,0,0,0.32);
     background:
       linear-gradient(135deg, rgba(217,185,120,0.10), rgba(74,222,128,0.04) 55%, rgba(217,185,120,0.06)),
       var(--card);
   }
   .dash-hero-scrim{
-    position:absolute; inset:0; z-index:1;
-    background:linear-gradient(90deg, rgba(6,16,11,0.88) 0%, rgba(6,16,11,0.55) 45%, rgba(6,16,11,0.05) 78%);
+    position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:linear-gradient(180deg, transparent 45%, rgba(6,16,11,0.78) 82%, rgba(6,16,11,0.92) 100%);
   }
   .dash-hero-overlay{
-    position:relative; z-index:2; height:100%; max-width:66%; padding:12px 16px;
-    display:flex; flex-direction:column; justify-content:center;
+    position:absolute; left:0; right:0; bottom:0; z-index:2; padding:16px 20px 18px;
   }
-  .dash-greeting{ font-size:10.5px; color:rgba(234,243,236,0.7); text-transform:uppercase; letter-spacing:0.5px; }
-  .dash-state-label{ font-size:16px; font-weight:700; color:#fff; margin-top:2px; font-family:'Noto Serif Bengali', serif; }
-  .dash-sub{ font-size:10.5px; color:rgba(234,243,236,0.85); margin-top:5px; line-height:1.5; }
+  .dash-greeting{ font-size:10.5px; color:rgba(234,243,236,0.65); text-transform:uppercase; letter-spacing:1px; }
+  .dash-state-label{ font-size:21px; font-weight:700; color:#fff; margin-top:3px; font-family:'Noto Serif Bengali', serif; }
+  .dash-sub{ font-size:11.5px; color:rgba(234,243,236,0.85); margin-top:6px; line-height:1.6; max-width:92%; }
 
   .dual-btn-row{ display:flex; gap:8px; }
   .dual-btn{
@@ -496,7 +504,7 @@
   /* ---------- Today's page (manuscript card kept for the entry list) ---------- */
   .page-card{
     background:var(--card); color:var(--ink);
-    border-radius:14px; padding:18px 16px;
+    border-radius:18px; padding:18px 16px;
     border:1px solid var(--card-line);
   }
   .empty-state{
@@ -2206,7 +2214,7 @@ function renderGarden(score){
   const inactiveLayer = activeLayer === layerA ? layerB : layerA;
   updateNavTreeIcon(state); // ন্যাভ-বার ও সাইডবারের ছোট আইকনটাও গাছের বর্তমান অবস্থার সাথে সিঙ্কে রাখা হয়
   if(activeLayer.dataset.state === state.label) return; // অবস্থা বদলায়নি, রি-রেন্ডার দরকার নেই
-  inactiveLayer.innerHTML = gardenPart(state.cfg, 'xMaxYMid meet');
+  inactiveLayer.innerHTML = gardenPart(state.cfg, 'xMidYMid meet');
   inactiveLayer.dataset.state = state.label;
   inactiveLayer.classList.add('active');
   activeLayer.classList.remove('active');
