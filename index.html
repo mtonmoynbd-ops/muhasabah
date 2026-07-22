@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -8,9 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Serif+Bengali:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0A1A13;
-    --bg-2:#0E2118;
-    --card:#132A1F;
+    --bg:#070F0C;
+    --bg-2:#0C1A15;
+    --card:#11221B;
     --card-line:rgba(255,255,255,0.07);
     --ink:#EAF3EC;
     --ink-dim:#9FB6A9;
@@ -33,8 +34,7 @@
     overflow-x:hidden;
     background:var(--bg);
     background-image:
-      radial-gradient(circle at 15% 0%, rgba(74,222,128,0.06), transparent 40%),
-      radial-gradient(circle at 90% 20%, rgba(217,185,120,0.05), transparent 45%);
+      radial-gradient(ellipse at 50% -10%, rgba(201,160,99,0.045), transparent 55%);
     color:var(--ink);
     font-family:'Noto Sans Bengali', sans-serif;
     min-height:100vh;
@@ -107,22 +107,26 @@
     min-height:calc(100vh - 230px); padding-bottom:6px;
   }
   .entry-top-hint{
-    text-align:center; color:var(--ink-dim); font-size:12.5px; padding:20px 10px;
+    text-align:center; color:var(--ink-dim); font-size:13px; padding:20px 10px;
+    font-family:'Noto Serif Bengali', serif; font-style:italic; letter-spacing:0.2px;
   }
   .entry-bottom-block{ display:flex; flex-direction:column; gap:12px; }
   .entry-toggle{ display:flex; gap:8px; }
   .entry-toggle-btn{
     flex:1; padding:13px; border-radius:12px; border:1px solid var(--card-line);
     background:var(--card); color:var(--ink-dim); font-size:14px; font-weight:600; cursor:pointer;
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .entry-toggle-btn.active[data-mode="sin"]{ background:rgba(240,86,61,0.18); color:#ff8a72; border-color:rgba(240,86,61,0.4); }
-  .entry-toggle-btn.active[data-mode="neki"]{ background:rgba(74,222,128,0.18); color:#7fe3a6; border-color:rgba(74,222,128,0.4); }
+  .entry-toggle-btn:active{ transform:scale(0.97); }
+  .entry-toggle-btn.active[data-mode="sin"]{ background:rgba(240,86,61,0.18); color:#ff8a72; border-color:rgba(240,86,61,0.4); box-shadow:0 4px 14px rgba(240,86,61,0.15); }
+  .entry-toggle-btn.active[data-mode="neki"]{ background:rgba(74,222,128,0.18); color:#7fe3a6; border-color:rgba(74,222,128,0.4); box-shadow:0 4px 14px rgba(74,222,128,0.15); }
   .chip-grid{ display:flex; flex-wrap:wrap; gap:9px; padding-bottom:4px; }
   .chip{
     padding:10px 15px; border-radius:20px; border:1px solid var(--card-line);
     background:var(--card); color:var(--ink); font-size:13px; cursor:pointer; font-family:inherit;
+    box-shadow:0 2px 6px rgba(0,0,0,0.12); transition:transform 0.12s ease;
   }
-  .chip:active{ transform:scale(0.95); }
+  .chip:active{ transform:scale(0.94); }
   .chip-sin{ border-color:rgba(240,86,61,0.28); }
   .chip-sin:active{ background:rgba(240,86,61,0.16); }
   .chip-neki{ border-color:rgba(74,222,128,0.28); }
@@ -131,60 +135,61 @@
 
   /* ---------- প্রিমিয়াম "সন্তুষ্টি" কার্ড (প্রোফাইল) ---------- */
   .satisfaction-card{
-    position:relative; overflow:hidden; border-radius:18px; padding:18px;
-    background:linear-gradient(145deg, rgba(217,185,120,0.14), rgba(74,222,128,0.05) 60%, rgba(217,185,120,0.08));
-    border:1px solid rgba(217,185,120,0.35); box-shadow:0 8px 22px rgba(0,0,0,0.25); margin-bottom:14px;
+    position:relative; overflow:hidden; border-radius:18px; padding:20px;
+    background:var(--d-card, var(--card));
+    border:1px solid var(--d-line, rgba(217,185,120,0.22)); box-shadow:0 10px 24px rgba(0,0,0,0.28); margin-bottom:14px;
   }
   .satisfaction-card::before{
-    content:''; position:absolute; top:-30px; right:-30px; width:120px; height:120px; border-radius:50%;
-    background:radial-gradient(circle, rgba(217,185,120,0.25), transparent 70%);
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(to right, var(--d-gold, var(--gold)), transparent 75%);
   }
-  .satisfaction-title{ font-family:'Noto Serif Bengali', serif; font-size:15.5px; font-weight:700; color:var(--gold-soft); display:flex; align-items:center; gap:8px; cursor:pointer; position:relative; z-index:1; }
+  .satisfaction-title{ font-family:'Noto Serif Bengali', serif; font-size:15.5px; font-weight:700; color:var(--d-gold-soft, var(--gold-soft)); display:flex; align-items:center; gap:8px; cursor:pointer; position:relative; z-index:1; }
   .satisfaction-title-text{ flex:1; }
   .satisfaction-status-pill{ font-size:10px; padding:3px 9px; border-radius:10px; font-weight:600; }
-  .satisfaction-status-pill.on{ background:rgba(74,222,128,0.18); color:#7fe3a6; }
-  .satisfaction-status-pill.off{ background:rgba(255,255,255,0.08); color:var(--ink-dim); }
-  .satisfaction-caret{ font-size:13px; color:var(--gold-soft); transition:transform 0.25s; flex-shrink:0; }
+  .satisfaction-status-pill.on{ background:rgba(111,163,126,0.18); color:var(--d-sage, #7fe3a6); }
+  .satisfaction-status-pill.off{ background:rgba(255,255,255,0.08); color:var(--d-ink-dim, var(--ink-dim)); }
+  .satisfaction-caret{ font-size:13px; color:var(--d-gold-soft, var(--gold-soft)); transition:transform 0.25s; flex-shrink:0; }
   .satisfaction-card.expanded .satisfaction-caret{ transform:rotate(180deg); }
   .satisfaction-collapse{ display:grid; grid-template-rows:0fr; transition:grid-template-rows 0.28s ease; }
   .satisfaction-card.expanded .satisfaction-collapse{ grid-template-rows:1fr; }
   #pendingSinSection.expanded .satisfaction-collapse{ grid-template-rows:1fr; }
   .satisfaction-collapse-inner{ overflow:hidden; }
-  .satisfaction-verse{ font-size:12px; color:var(--ink-dim); line-height:1.7; margin:12px 0 10px; font-style:italic; }
-  .satisfaction-desc{ font-size:12px; color:var(--ink-dim); line-height:1.75; margin-bottom:14px; }
-  .satisfaction-conditions{ margin-top:12px; font-size:11px; color:var(--ink-dim); line-height:1.7; background:rgba(255,255,255,0.04); border-radius:10px; padding:10px 12px; position:relative; z-index:1; }
+  .satisfaction-verse{ font-size:12px; color:var(--d-ink-dim, var(--ink-dim)); line-height:1.7; margin:14px 0 10px; font-style:italic; }
+  .satisfaction-desc{ font-size:12px; color:var(--d-ink-dim, var(--ink-dim)); line-height:1.8; margin-bottom:16px; }
+  .satisfaction-conditions{ margin-top:14px; font-size:11px; color:var(--d-ink-dim, var(--ink-dim)); line-height:1.75; background:rgba(255,255,255,0.03); border-radius:12px; padding:12px 14px; position:relative; z-index:1; }
   .satisfaction-row{ display:flex; align-items:center; justify-content:space-between; gap:12px; position:relative; z-index:1; }
-  .satisfaction-label{ font-size:13px; color:var(--ink); flex:1; line-height:1.5; }
-  .switch{ position:relative; width:46px; height:26px; flex-shrink:0; cursor:pointer; }
+  .satisfaction-label{ font-size:13px; color:var(--d-ink, var(--ink)); flex:1; line-height:1.55; }
+  .switch{ position:relative; width:44px; height:25px; flex-shrink:0; cursor:pointer; }
   .switch input{ opacity:0; width:0; height:0; position:absolute; }
-  .switch-track{ position:absolute; inset:0; background:rgba(255,255,255,0.12); border-radius:14px; transition:background 0.2s; border:1px solid var(--card-line); }
-  .switch-thumb{ position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%; background:var(--ink-dim); transition:transform 0.2s, background 0.2s; }
-  .switch input:checked + .switch-track{ background:rgba(74,222,128,0.35); border-color:rgba(74,222,128,0.5); }
-  .switch input:checked + .switch-track .switch-thumb{ transform:translateX(20px); background:var(--green); }
-  .satisfaction-status{ margin-top:12px; font-size:11.5px; padding:8px 10px; border-radius:10px; line-height:1.6; position:relative; z-index:1; }
-  .satisfaction-status.on{ background:rgba(74,222,128,0.12); color:#7fe3a6; }
-  .satisfaction-status.off{ background:rgba(255,255,255,0.06); color:var(--ink-dim); }
+  .switch-track{ position:absolute; inset:0; background:rgba(255,255,255,0.1); border-radius:14px; transition:background 0.2s; border:1px solid var(--d-line, var(--card-line)); }
+  .switch-thumb{ position:absolute; top:2px; left:2px; width:19px; height:19px; border-radius:50%; background:var(--d-ink-dim, var(--ink-dim)); transition:transform 0.2s, background 0.2s; }
+  .switch input:checked + .switch-track{ background:rgba(111,163,126,0.3); border-color:rgba(111,163,126,0.5); }
+  .switch input:checked + .switch-track .switch-thumb{ transform:translateX(19px); background:var(--d-sage, var(--green)); }
+  .satisfaction-status{ margin-top:14px; font-size:11.5px; padding:10px 12px; border-radius:12px; line-height:1.65; position:relative; z-index:1; }
+  .satisfaction-status.on{ background:rgba(111,163,126,0.12); color:var(--d-sage, #7fe3a6); }
+  .satisfaction-status.off{ background:rgba(255,255,255,0.05); color:var(--d-ink-dim, var(--ink-dim)); }
 
   /* ---------- পেন্ডিং সাইয়্যিআত চিপ (ছোট, প্রিমিয়াম, সংগঠিত) ---------- */
   .pending-chip-grid{ display:flex; flex-wrap:wrap; gap:7px; }
   .pending-chip{
-    display:flex; align-items:center; gap:6px; font-size:11.5px; padding:6px 10px 6px 8px;
-    border-radius:20px; background:rgba(240,86,61,0.08); border:1px solid rgba(240,86,61,0.25);
-    color:#ff9d87; cursor:pointer; max-width:100%;
+    display:flex; align-items:center; gap:6px; font-size:11.5px; padding:7px 12px 7px 9px;
+    border-radius:20px; background:var(--d-card, var(--card)); border:1px solid var(--d-line, var(--card-line));
+    color:var(--d-ink, var(--ink)); cursor:pointer; max-width:100%;
   }
-  .pending-chip:active{ background:rgba(240,86,61,0.18); }
-  .pending-chip-dot{ width:7px; height:7px; border-radius:50%; flex-shrink:0; }
-  .pending-chip-dot.kabira{ background:#f0563d; }
-  .pending-chip-dot.sagira{ background:#f2b14e; }
+  .pending-chip:active{ background:rgba(190,106,76,0.12); }
+  .pending-chip-dot{ width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+  .pending-chip-dot.kabira{ background:var(--d-clay, #f0563d); }
+  .pending-chip-dot.sagira{ background:var(--d-gold, #f2b14e); }
   .pending-chip-name{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:160px; }
-  .pending-chip-stage{ font-size:9.5px; opacity:0.65; }
+  .pending-chip-stage{ font-size:9.5px; opacity:0.6; color:var(--d-ink-dim, var(--ink-dim)); }
   .pending-sin-header{
     display:flex; align-items:center; justify-content:space-between; gap:10px; cursor:pointer;
-    font-size:12px; color:var(--ink-dim); padding:10px 14px; border-radius:14px;
-    background:rgba(240,86,61,0.06); border:1px solid rgba(240,86,61,0.2);
+    font-size:12px; color:var(--d-ink-dim, var(--ink-dim)); padding:14px 16px; border-radius:16px;
+    background:var(--d-card, var(--card)); border:1px solid var(--d-line, var(--card-line));
   }
-  .pending-sin-header-text{ color:#ff9d87; font-weight:600; }
-  #pendingSinSection.expanded .pending-sin-header{ border-radius:14px 14px 0 0; }
+  .pending-sin-header-text{ color:var(--d-ink, var(--ink)); font-weight:600; display:flex; align-items:center; }
+  .pending-sin-header-text .inline-ic{ color:var(--d-clay, #ff9d87); }
+  #pendingSinSection.expanded .pending-sin-header{ border-radius:16px 16px 0 0; }
   #pendingSinSection.expanded .satisfaction-caret{ transform:rotate(180deg); }
 
   /* ---------- ফিহরিস্ত পাতা: বাকি অ্যাপের একই গাঢ় থিমের মধ্যেই থেকে "পাণ্ডুলিপির" অনুভূতি —
@@ -215,8 +220,29 @@
   .parchment-page .evidence-item{ color:var(--ink-dim); border-left-color:var(--gold); }
   .parchment-page .evidence-src{ color:var(--ink-dim); opacity:0.75; }
   .parchment-page .remedy-badge{ color:var(--gold-soft); background:rgba(217,185,120,0.08); border-color:rgba(217,185,120,0.25); }
+  .feedback-textarea{
+    width:100%; background:rgba(18,48,46,0.04); border:1px solid rgba(18,48,46,0.2); border-radius:12px;
+    padding:12px; font-size:13.5px; color:#12302E; font-family:inherit; resize:vertical; margin-bottom:10px;
+  }
+  .feedback-item{ background:rgba(18,48,46,0.04); border:1px solid rgba(18,48,46,0.12); border-radius:12px; padding:10px 12px; margin-bottom:8px; }
+  .feedback-item-text{ font-size:13px; color:#12302E; line-height:1.6; }
+  .feedback-item-meta{ display:flex; align-items:center; justify-content:space-between; margin-top:6px; font-size:10.5px; color:#8a7d68; }
+  .feedback-item-del{ background:none; border:none; color:#A65D45; font-size:10.5px; cursor:pointer; padding:2px 6px; }
   .parchment-page .huquq-note{ color:var(--ink); background:rgba(217,185,120,0.08); border-color:rgba(217,185,120,0.3); }
   .parchment-page .info-ic{ color:var(--ink-dim); }
+  .fihrist-search{
+    width:100%; padding:11px 14px; border-radius:12px; border:1px solid var(--card-line);
+    background:var(--card); color:var(--ink); font-size:13.5px; font-family:inherit; margin-bottom:10px;
+  }
+  .fihrist-search::placeholder{ color:var(--ink-dim); }
+  .fihrist-filter-row{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:4px; }
+  .fihrist-filter-chip{
+    font-size:11px; padding:6px 12px; border-radius:14px; border:1px solid var(--card-line);
+    background:var(--card); color:var(--ink-dim); cursor:pointer;
+  }
+  .fihrist-filter-chip.active{ background:var(--gold); color:var(--bg); border-color:var(--gold); font-weight:600; }
+  .inline-ic{ width:15px; height:15px; vertical-align:-3px; margin-right:5px; display:inline-block; }
+  .inline-ic svg{ width:100%; height:100%; }
   .fihrist-detail-float-back{
     position:fixed; right:16px; bottom:98px; z-index:45;
     display:flex; align-items:center; gap:6px;
@@ -294,24 +320,47 @@
 
   .calendar-panel{
     max-width:640px; margin:0 auto; padding:0 16px;
-    max-height:0; overflow:hidden; transition:max-height 0.35s ease;
+    max-height:0; overflow:hidden; transition:max-height 0.4s ease;
   }
-  .calendar-panel.open{ max-height:420px; }
-  .calendar-nav{ display:flex; align-items:center; justify-content:space-between; padding:10px 4px; }
-  .cal-arrow{ background:none; border:none; color:var(--gold); font-size:20px; cursor:pointer; padding:4px 10px; }
-  .cal-month-label{ font-size:14px; font-weight:600; color:var(--ink); }
-  .calendar-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
-  .cal-weekday{ text-align:center; font-size:10.5px; color:var(--ink-dim); padding-bottom:4px; }
+  .calendar-panel.open{ max-height:900px; }
+  .cal-panel-inner{
+    background:linear-gradient(160deg, rgba(217,185,120,0.05), transparent 50%), var(--card);
+    border:1px solid var(--card-line); border-radius:18px; padding:14px; margin-bottom:14px;
+    box-shadow:0 10px 24px rgba(0,0,0,0.28);
+  }
+  .calendar-nav{ display:flex; align-items:center; justify-content:space-between; padding:0 2px 10px; }
+  .cal-arrow{ background:rgba(217,185,120,0.08); border:1px solid var(--card-line); border-radius:8px; color:var(--gold); font-size:16px; cursor:pointer; padding:2px 10px; line-height:1.6; }
+  .cal-month-label{ font-size:12.5px; font-weight:600; color:var(--ink); text-align:center; }
+  .cal-month-label .hijri-part{ color:var(--gold-soft); font-family:'Noto Serif Bengali', serif; font-size:13.5px; }
+  .calendar-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
+  .cal-weekday{ text-align:center; font-size:9.5px; color:var(--ink-dim); padding-bottom:3px; }
   .cal-day{
-    aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    border-radius:8px; font-size:11.5px; color:var(--ink); background:var(--card); border:1px solid var(--card-line);
+    aspect-ratio:0.92; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    border-radius:7px; font-size:10.5px; color:var(--ink); background:rgba(255,255,255,0.02); border:1px solid var(--card-line);
+    gap:0px;
   }
   .cal-day.empty{ background:transparent; border:none; }
-  .cal-day .dot{ font-size:8px; margin-top:2px; }
-  .cal-day.today{ border-color:var(--green); border-width:2px; }
+  .cal-day.today{ border-color:var(--green); border-width:1.5px; }
+  .cal-day{ cursor:pointer; }
+  .cal-day-greg{ font-size:10.5px; line-height:1.2; }
+  .cal-day-hijri{ font-size:7px; color:var(--ink-dim); line-height:1.2; }
+  .cal-day.hijri-event{ box-shadow:inset 0 0 0 1.3px var(--gold); }
+  .cal-dot{ width:4px; height:4px; border-radius:50%; margin-top:1px; }
+  .cal-dot.green{ background:var(--green); }
+  .cal-dot.amber{ background:#f2b14e; }
+  .cal-dot.red{ background:#f0563d; }
+  .hijri-disclaimer{ font-size:10px; color:var(--ink-dim); line-height:1.55; background:rgba(217,185,120,0.05); border:1px solid var(--card-line); border-radius:10px; padding:8px 10px; margin-top:10px; }
+  .hijri-upcoming-item{ display:flex; align-items:center; justify-content:space-between; padding:9px 0; border-bottom:1px solid var(--card-line); cursor:pointer; }
+  .hijri-upcoming-item:last-child{ border-bottom:none; }
+  .hijri-upcoming-name{ font-size:12.5px; color:var(--ink); font-weight:600; }
+  .hijri-upcoming-date{ font-size:10px; color:var(--ink-dim); margin-top:2px; }
+  .hijri-upcoming-days-left{ font-size:10px; color:var(--gold-soft); font-weight:600; white-space:nowrap; }
+  .cal-upcoming-label{ font-size:10.5px; color:var(--gold); text-transform:uppercase; letter-spacing:0.4px; margin:12px 0 2px; }
   .calendar-legend{
-    display:flex; flex-wrap:wrap; gap:10px; font-size:10.5px; color:var(--ink-dim); padding:10px 4px 4px;
+    display:flex; flex-wrap:wrap; gap:9px; font-size:9.5px; color:var(--ink-dim); padding:8px 2px 0; align-items:center;
   }
+  .calendar-legend .cal-dot{ margin-top:0; margin-right:3px; }
+  .legend-ring{ display:inline-block; width:7px; height:7px; border-radius:50%; box-shadow:inset 0 0 0 1.3px var(--gold); margin-right:3px; vertical-align:-1px; }
   .chart-legend{
     display:flex; gap:16px; font-size:11px; color:var(--ink-dim); justify-content:center; margin-top:10px;
   }
@@ -331,42 +380,54 @@
      পুরো স্ক্রিন জুড়ে সুন্দর দেখায়, কিন্তু কন্টেন্ট বেশি হলে এখন স্বাভাবিকভাবে স্ক্রল/প্রবাহিত হবে —
      আগে ফিক্সড height + overflow:hidden থাকায় নিচের সেকশনগুলো কেটে যাচ্ছিল */
   #view-dashboard.active{
-    display:flex; flex-direction:column; gap:6px;
+    display:flex; flex-direction:column; gap:20px;
     min-height:calc(100dvh - 195px); max-width:100%;
+    --d-card:#12241C; --d-line:rgba(201,160,99,0.16);
+    --d-gold:#C9A063; --d-gold-soft:#E4C98A;
+    --d-sage:#6FA37E; --d-clay:#BE6A4C;
+    --d-ink:#EDE7DA; --d-ink-dim:#9C9184;
   }
   #view-dashboard.active section{ margin-top:0; min-width:0; }
+  .dash-eyebrow{ font-size:10.5px; color:var(--d-gold); text-transform:uppercase; letter-spacing:1.3px; font-weight:600; }
   .dash-hero{
-    position:relative; width:100%; height:250px; min-height:210px; flex-shrink:0;
-    border-radius:20px; overflow:hidden; cursor:pointer;
-    border:1px solid rgba(217,185,120,0.22); box-shadow:0 10px 24px rgba(0,0,0,0.32);
+    position:relative; width:100%; height:260px; min-height:220px; flex-shrink:0;
+    border-radius:22px; overflow:hidden; cursor:pointer;
+    border:1px solid var(--d-line);
+    box-shadow:0 16px 34px rgba(0,0,0,0.4);
     background:
-      linear-gradient(135deg, rgba(217,185,120,0.10), rgba(74,222,128,0.04) 55%, rgba(217,185,120,0.06)),
-      var(--card);
+      radial-gradient(ellipse at 28% 0%, rgba(201,160,99,0.10), transparent 62%),
+      var(--d-card);
+  }
+  .dash-hero::before{
+    content:''; position:absolute; inset:9px; border:1px solid rgba(201,160,99,0.14);
+    border-radius:16px; z-index:3; pointer-events:none;
   }
   .dash-hero-scrim{
     position:absolute; inset:0; z-index:1; pointer-events:none;
-    background:linear-gradient(180deg, transparent 45%, rgba(6,16,11,0.78) 82%, rgba(6,16,11,0.92) 100%);
+    background:linear-gradient(180deg, transparent 42%, rgba(6,16,11,0.8) 82%, rgba(6,16,11,0.94) 100%);
   }
   .dash-hero-overlay{
-    position:absolute; left:0; right:0; bottom:0; z-index:2; padding:16px 20px 18px;
+    position:absolute; left:0; right:0; bottom:0; z-index:2; padding:18px 22px 20px;
   }
-  .dash-greeting{ font-size:10.5px; color:rgba(234,243,236,0.65); text-transform:uppercase; letter-spacing:1px; }
-  .dash-state-label{ font-size:21px; font-weight:700; color:#fff; margin-top:3px; font-family:'Noto Serif Bengali', serif; }
-  .dash-sub{ font-size:11.5px; color:rgba(234,243,236,0.85); margin-top:6px; line-height:1.6; max-width:92%; }
+  .dash-greeting{ font-size:10.5px; color:rgba(237,231,218,0.68); text-transform:uppercase; letter-spacing:1.4px; }
+  .dash-state-label{ font-size:22px; font-weight:700; color:#fff; margin-top:4px; font-family:'Noto Serif Bengali', serif; letter-spacing:0.2px; }
+  .dash-sub{ font-size:11.5px; color:rgba(237,231,218,0.82); margin-top:7px; line-height:1.65; max-width:92%; }
 
-  .dual-btn-row{ display:flex; gap:8px; }
+  .dual-btn-row{ display:flex; gap:10px; }
   .dual-btn{
-    flex:1; padding:11px 8px; border-radius:12px; border:1px solid var(--card-line);
-    background:var(--card); font-size:12.5px; font-weight:600; cursor:pointer; font-family:inherit;
+    flex:1; padding:14px 10px; border-radius:16px; border:1px solid var(--d-line, var(--card-line));
+    background:var(--d-card, var(--card)); font-size:12.5px; font-weight:600; cursor:pointer; font-family:inherit;
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    transition:transform 0.15s ease;
   }
-  .dual-btn-neki{ color:#7fe3a6; border-color:rgba(74,222,128,0.3); }
-  .dual-btn-sin{ color:#ff8a72; border-color:rgba(240,86,61,0.3); }
+  .dual-btn:active{ transform:scale(0.97); }
+  .dual-btn-neki{ color:var(--d-sage, #7fe3a6); border-color:rgba(111,163,126,0.35); }
+  .dual-btn-sin{ color:var(--d-clay, #ff8a72); border-color:rgba(190,106,76,0.35); }
   .cta-card-duas{
-    background:linear-gradient(135deg, rgba(217,185,120,0.16), rgba(217,185,120,0.04));
-    border-color:rgba(217,185,120,0.3);
+    border-color:rgba(201,160,99,0.3);
   }
-  .cta-card-duas .cta-plus{ background:rgba(217,185,120,0.2); color:var(--gold); }
-  .cta-card-duas .cta-chevron{ color:var(--gold); }
+  .cta-card-duas .cta-plus{ background:rgba(201,160,99,0.16); color:var(--d-gold, var(--gold)); }
+  .cta-card-duas .cta-chevron{ color:var(--d-gold, var(--gold)); }
 
   /* ---------- Garden hero card (এখন শুধু sheet-এ বড় ভিউয়ের জন্য ব্যবহৃত) ---------- */
   .garden-card{
@@ -426,21 +487,22 @@
     text-align:center; font-size:11.5px; color:var(--ink-dim); margin-top:8px;
   }
 
-  /* ---------- Balance slider ---------- */
-  .balance-row{display:flex; align-items:center; gap:10px; margin-top:22px;}
-  .bal-label{font-size:11px; color:var(--ink-dim); white-space:nowrap;}
-  .bal-good{color:var(--green);}
-  .bal-bad{color:var(--red);}
+  /* ---------- Balance strip (স্লিম লেজার-স্ট্রিপ) ---------- */
+  .balance-row{ display:flex; align-items:center; gap:12px; }
+  .bal-label{ font-size:10px; color:var(--d-ink-dim, var(--ink-dim)); white-space:nowrap; text-transform:uppercase; letter-spacing:0.8px; display:flex; align-items:center; gap:5px; }
+  .bal-label .inline-ic{ width:12px; height:12px; margin-right:0; }
+  .bal-good{ color:var(--d-sage, var(--green)); }
+  .bal-bad{ color:var(--d-clay, var(--red)); }
   .balance-track{
-    position:relative; flex:1; height:8px; border-radius:5px;
-    background:linear-gradient(to right, var(--green) 0%, var(--amber) 50%, var(--red) 100%);
+    position:relative; flex:1; height:3px; border-radius:3px;
+    background:linear-gradient(to right, var(--d-sage, var(--green)), var(--d-gold, var(--amber)), var(--d-clay, var(--red)));
+    opacity:0.55;
   }
   .balance-dot{
-    position:absolute; top:50%; width:26px; height:26px; border-radius:50%;
-    background:var(--green); border:3px solid var(--bg);
-    display:flex; align-items:center; justify-content:center; font-size:13px;
+    position:absolute; top:50%; width:12px; height:12px; border-radius:50%;
+    background:var(--d-sage, var(--green)); border:2px solid var(--d-card, var(--bg));
     transform:translate(-50%,-50%); transition:left 0.4s ease, background 0.4s ease;
-    box-shadow:0 2px 6px rgba(0,0,0,0.4);
+    box-shadow:0 2px 6px rgba(0,0,0,0.35);
   }
 
   /* ---------- Stat grid ---------- */
@@ -488,18 +550,20 @@
 
   /* ---------- CTA card ---------- */
   .cta-card{
-    display:flex; align-items:center; gap:12px;
-    background:linear-gradient(135deg, rgba(74,222,128,0.14), rgba(74,222,128,0.04));
-    border:1px solid rgba(74,222,128,0.3); border-radius:14px;
-    padding:11px 14px; cursor:pointer;
+    display:flex; align-items:center; gap:14px;
+    background:var(--d-card, var(--card));
+    border:1px solid var(--d-line, var(--card-line)); border-radius:16px;
+    padding:14px 16px; cursor:pointer;
+    transition:transform 0.15s ease;
   }
+  .cta-card:active{ transform:scale(0.98); }
   .cta-plus{
-    width:32px; height:32px; border-radius:50%; background:var(--green-soft); color:var(--green);
-    display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;
+    width:34px; height:34px; border-radius:50%; background:rgba(111,163,126,0.14); color:var(--d-sage, var(--green));
+    display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0;
   }
-  .cta-title{font-size:13.5px; font-weight:700; color:var(--ink);}
-  .cta-sub{font-size:12px; color:var(--ink-dim); margin-top:2px;}
-  .cta-chevron{margin-left:auto; color:var(--green); font-size:18px;}
+  .cta-title{font-size:13.5px; font-weight:700; color:var(--d-ink, var(--ink));}
+  .cta-sub{font-size:11.5px; color:var(--d-ink-dim, var(--ink-dim)); margin-top:3px;}
+  .cta-chevron{margin-left:auto; color:var(--d-gold, var(--gold)); font-size:18px;}
 
   /* ---------- Bottom nav ---------- */
   .bottom-nav{
@@ -587,6 +651,8 @@
   .sheet .fihrist-item{border-bottom-color:rgba(18,48,46,0.12);}
   .sheet .fihrist-item:hover{background:rgba(18,48,46,0.04);}
   .sheet .fihrist-name{color:#12302E;}
+  .sheet .entry-toggle-btn{ background:rgba(18,48,46,0.05); color:#5b5142; border-color:rgba(18,48,46,0.2); }
+  .sheet .entry-toggle-btn.active{ background:#12302E; color:#E4C98A; border-color:#12302E; }
   .sheet .fihrist-name-ar{color:#A65D45;}
   .sheet .chevron{color:#A65D45;}
 
@@ -669,11 +735,13 @@
   <div class="sidebar-divider"></div>
 
   <div class="sidebar-section">
-    <div class="sidebar-item ui-label" onclick="openGlossary(); toggleSidebar();">📖 গ্লোসারি</div>
-    <div class="sidebar-item ui-label" onclick="openReferences(); toggleSidebar();">📚 তথ্যসূত্র ও রেফারেন্স</div>
-    <div class="sidebar-item ui-label" onclick="openFihristPage('neki'); toggleSidebar();">🌱 হাসানাত বিস্তারিত</div>
-    <div class="sidebar-item ui-label" onclick="openFihristPage('sin'); toggleSidebar();">🔥 সাইয়্যিআত বিস্তারিত</div>
-    <div class="sidebar-item ui-label" onclick="toggleSidebar(); toggleCalendar();">☾ ক্যালেন্ডার</div>
+    <div class="sidebar-item ui-label" onclick="openGlossary(); toggleSidebar();"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5c2-1.2 5-1.2 7 .8v13c-2-2-5-2-7-.8V5.5Z"/><path d="M20 5.5c-2-1.2-5-1.2-7 .8v13c2-2 5-2 7-.8V5.5Z"/></svg></span>গ্লোসারি</div>
+    <div class="sidebar-item ui-label" onclick="openReferences(); toggleSidebar();"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H5V4Z"/><path d="M19 4h-4a3 3 0 0 0-3 3v13a2.5 2.5 0 0 1 2.5-2.5H19V4Z"/></svg></span>তথ্যসূত্র ও রেফারেন্স</div>
+    <div class="sidebar-item ui-label" onclick="openAzkar(); toggleSidebar();"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8l1.8-1.8M18 6l1.8-1.8"/></svg></span>সকাল-সন্ধ্যার আযকার</div>
+    <div class="sidebar-item ui-label" onclick="openFeedback(); toggleSidebar();"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v18"/><path d="M5 4h11l-2 4 2 4H5"/></svg></span>ভুল/মতামত জানান</div>
+    <div class="sidebar-item ui-label" onclick="openFihristPage('neki'); toggleSidebar();"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20c8-1 12-6 13-14C11 6 6 11 5 20Z"/><path d="M6.5 18.5c2.5-3.5 5-6.5 9-10"/></svg></span>হাসানাত বিস্তারিত</div>
+    <div class="sidebar-item ui-label" onclick="openFihristPage('sin'); toggleSidebar();"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c1.2 3-1.5 4.3-1.5 7.3a3.5 3.5 0 1 0 7 0c0-1.8-.8-2.8-.8-2.8.8 3.5-1 4.5-1.8 4.5-1.5 0-1.7-1.5-1.7-3 0-1.8 1-2.7-1.2-6Z"/><path d="M8 13c-1 3 .5 6 4 7.5-3-2.5-2.5-5-1.5-7"/></svg></span>সাইয়্যিআত বিস্তারিত</div>
+    <div class="sidebar-item ui-label" onclick="toggleSidebar(); toggleCalendar();"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9.5h16M8 3v4M16 3v4"/></svg></span>হিজরি ক্যালেন্ডার</div>
   </div>
   <div class="sidebar-divider"></div>
 
@@ -696,14 +764,22 @@
 </div>
 
 <div class="calendar-panel" id="calendarPanel">
-  <div class="calendar-nav">
-    <button class="cal-arrow" onclick="calShift(-1)">‹</button>
-    <div class="cal-month-label ui-label" id="calMonthLabel"></div>
-    <button class="cal-arrow" onclick="calShift(1)">›</button>
-  </div>
-  <div class="calendar-grid" id="calendarGrid"></div>
-  <div class="calendar-legend ui-label">
-    <span>🟢 ভালো দিন</span><span>🟡 মিশ্র</span><span>🔴 কবিরা বাকি</span><span>⚪ কোনো এন্ট্রি নেই</span>
+  <div class="cal-panel-inner">
+    <div class="calendar-nav">
+      <button class="cal-arrow" onclick="calShift(-1)">‹</button>
+      <div class="cal-month-label ui-label" id="calMonthLabel"></div>
+      <button class="cal-arrow" onclick="calShift(1)">›</button>
+    </div>
+    <div class="calendar-grid" id="calendarGrid"></div>
+    <div class="calendar-legend ui-label">
+      <span><i class="cal-dot green"></i>ভালো দিন</span>
+      <span><i class="cal-dot amber"></i>মিশ্র</span>
+      <span><i class="cal-dot red"></i>কবিরা বাকি</span>
+      <span><i class="legend-ring"></i>গুরুত্বপূর্ণ দিন</span>
+    </div>
+    <div class="hijri-disclaimer ui-label">গাণিতিক হিসাব + AlAdhan সার্ভার দিয়ে হিজরি তারিখ যাচাই করা হয় — বাস্তবে চাঁদ দেখা সাপেক্ষে ১ দিন আগে-পিছে হতে পারে। রোজা/ঈদের চূড়ান্ত তারিখে স্থানীয় ঘোষণা অনুসরণ করুন।</div>
+    <div class="cal-upcoming-label ui-label">সামনের গুরুত্বপূর্ণ দিন</div>
+    <div id="calUpcomingList"></div>
   </div>
 </div>
 
@@ -726,14 +802,14 @@
     </section>
 
     <section class="balance-row">
-      <span class="bal-label bal-good ui-label">🌿 পবিত্রতা ও নেকী</span>
-      <div class="balance-track"><div class="balance-dot" id="balanceDot">🌿</div></div>
-      <span class="bal-label bal-bad ui-label">গুনাহ ও অবহেলা 🔥</span>
+      <span class="bal-label bal-good ui-label"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20c8-1 12-6 13-14C11 6 6 11 5 20Z"/><path d="M6.5 18.5c2.5-3.5 5-6.5 9-10"/></svg></span>পবিত্রতা ও নেকী</span>
+      <div class="balance-track"><div class="balance-dot" id="balanceDot"></div></div>
+      <span class="bal-label bal-bad ui-label">গুনাহ ও অবহেলা<span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c1.2 3-1.5 4.3-1.5 7.3a3.5 3.5 0 1 0 7 0c0-1.8-.8-2.8-.8-2.8.8 3.5-1 4.5-1.8 4.5-1.5 0-1.7-1.5-1.7-3 0-1.8 1-2.7-1.2-6Z"/><path d="M8 13c-1 3 .5 6 4 7.5-3-2.5-2.5-5-1.5-7"/></svg></span></span>
     </section>
 
     <section id="pendingSinSection" style="display:none;">
       <div class="pending-sin-header ui-label" onclick="togglePendingSinExpand()">
-        <span class="pending-sin-header-text">⏳ তওবা/কাফফারা এখনো বাকি — <span id="pendingSinCount">০</span>টা</span>
+        <span class="pending-sin-header-text"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9"/></svg></span>তওবা/কাফফারা এখনো বাকি — <span id="pendingSinCount">০</span>টা</span>
         <span class="satisfaction-caret" id="pendingSinCaret">▾</span>
       </div>
       <div class="satisfaction-collapse" id="pendingSinCollapse"><div class="satisfaction-collapse-inner">
@@ -761,7 +837,7 @@
     </section>
 
     <section class="cta-card" onclick="switchTab('entry')">
-      <span class="cta-plus">📿</span>
+      <span class="cta-plus"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="15" r="1.5"/><circle cx="12" cy="8" r="1.5"/><circle cx="17" cy="15" r="1.5"/><path d="M7 15c1-4 3-6 5-7M17 15c-1-4-3-6-5-7"/></svg></span>
       <div>
         <div class="cta-title ui-label" id="todaySummaryTitle">আজকের হিসাব লোড হচ্ছে...</div>
       </div>
@@ -769,12 +845,12 @@
     </section>
 
     <section class="dual-btn-row">
-      <button class="dual-btn dual-btn-neki ui-label" onclick="openFihristPage('neki')">🌱 হাসানাত ফিহরিস্ত</button>
-      <button class="dual-btn dual-btn-sin ui-label" onclick="openFihristPage('sin')">🔥 সাইয়্যিআত ফিহরিস্ত</button>
+      <button class="dual-btn dual-btn-neki ui-label" onclick="openFihristPage('neki')"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20c8-1 12-6 13-14C11 6 6 11 5 20Z"/><path d="M6.5 18.5c2.5-3.5 5-6.5 9-10"/></svg></span>হাসানাত ফিহরিস্ত</button>
+      <button class="dual-btn dual-btn-sin ui-label" onclick="openFihristPage('sin')"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c1.2 3-1.5 4.3-1.5 7.3a3.5 3.5 0 1 0 7 0c0-1.8-.8-2.8-.8-2.8.8 3.5-1 4.5-1.8 4.5-1.5 0-1.7-1.5-1.7-3 0-1.8 1-2.7-1.2-6Z"/><path d="M8 13c-1 3 .5 6 4 7.5-3-2.5-2.5-5-1.5-7"/></svg></span>সাইয়্যিআত ফিহরিস্ত</button>
     </section>
 
     <section class="cta-card cta-card-duas" onclick="openDuasPage()">
-      <span class="cta-plus">🤲</span>
+      <span class="cta-plus"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13c0 4 3.5 7 8 7s8-3 8-7"/><path d="M4 13c1-3 3-5 4-8M20 13c-1-3-3-5-4-8"/></svg></span>
       <div>
         <div class="cta-title ui-label">শক্তিশালী দোয়া</div>
         <div class="cta-sub ui-label">দরুদ, ইস্তিগফার, দোয়া ইউনুস ও আরও</div>
@@ -787,8 +863,8 @@
     <div class="entry-top-hint ui-label">যা করেছ তা এখনই টুকে রাখো</div>
     <div class="entry-bottom-block">
       <section class="entry-toggle">
-        <button class="entry-toggle-btn active" data-mode="sin" onclick="setEntryMode('sin')">🔥 সাইয়্যিআত</button>
-        <button class="entry-toggle-btn" data-mode="neki" onclick="setEntryMode('neki')">🌱 হাসানাত</button>
+        <button class="entry-toggle-btn active" data-mode="sin" onclick="setEntryMode('sin')"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c1.2 3-1.5 4.3-1.5 7.3a3.5 3.5 0 1 0 7 0c0-1.8-.8-2.8-.8-2.8.8 3.5-1 4.5-1.8 4.5-1.5 0-1.7-1.5-1.7-3 0-1.8 1-2.7-1.2-6Z"/><path d="M8 13c-1 3 .5 6 4 7.5-3-2.5-2.5-5-1.5-7"/></svg></span>সাইয়্যিআত</button>
+        <button class="entry-toggle-btn" data-mode="neki" onclick="setEntryMode('neki')"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20c8-1 12-6 13-14C11 6 6 11 5 20Z"/><path d="M6.5 18.5c2.5-3.5 5-6.5 9-10"/></svg></span>হাসানাত</button>
       </section>
       <div class="chip-grid" id="quickChipGrid"></div>
     </div>
@@ -825,7 +901,7 @@
       <div class="section-title">সাপ্তাহিক ট্রেন্ড (গত ৭ দিন)</div>
       <div class="page-card">
         <div id="weeklyChart"></div>
-        <div class="chart-legend ui-label"><span>🟢 নেক আমল/সদকা/ইস্তিগফার</span><span>🔴 গুনাহ লগ হয়েছে</span></div>
+        <div class="chart-legend ui-label"><span><i class="cal-dot green" style="margin-right:5px;"></i>নেক আমল/সদকা/ইস্তিগফার</span><span><i class="cal-dot red" style="margin-right:5px;"></i>গুনাহ লগ হয়েছে</span></div>
       </div>
     </section>
 
@@ -866,8 +942,12 @@
       <button class="fullpage-back" onclick="closeFullPage()">← ফিরে যাও</button>
     </div>
     <section class="entry-toggle">
-      <button class="entry-toggle-btn active" data-fmode="neki" onclick="setFihristPageMode('neki')">🌱 হাসানাত</button>
-      <button class="entry-toggle-btn" data-fmode="sin" onclick="setFihristPageMode('sin')">🔥 সাইয়্যিআত</button>
+      <button class="entry-toggle-btn active" data-fmode="neki" onclick="setFihristPageMode('neki')"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20c8-1 12-6 13-14C11 6 6 11 5 20Z"/><path d="M6.5 18.5c2.5-3.5 5-6.5 9-10"/></svg></span>হাসানাত</button>
+      <button class="entry-toggle-btn" data-fmode="sin" onclick="setFihristPageMode('sin')"><span class="inline-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c1.2 3-1.5 4.3-1.5 7.3a3.5 3.5 0 1 0 7 0c0-1.8-.8-2.8-.8-2.8.8 3.5-1 4.5-1.8 4.5-1.5 0-1.7-1.5-1.7-3 0-1.8 1-2.7-1.2-6Z"/><path d="M8 13c-1 3 .5 6 4 7.5-3-2.5-2.5-5-1.5-7"/></svg></span>সাইয়্যিআত</button>
+    </section>
+    <section>
+      <input type="text" id="fihristSearchInput" class="fihrist-search" placeholder="খুঁজুন (বাংলা/আরবি নাম)..." oninput="renderFihristPage()">
+      <div class="fihrist-filter-row" id="fihristFilterRow"></div>
     </section>
     <section>
       <div class="fihrist" id="fihristPageList"></div>
@@ -1156,6 +1236,117 @@ function openReferences(){
   `;
   document.getElementById('sheet').innerHTML = html;
   document.getElementById('overlay').classList.add('open');
+}
+
+// ---------------- ফিডব্যাক/ভুল রিপোর্ট (লোকাল স্টোরেজে জমা থাকে — নিজে ডিভাইস থেকে দেখে নিতে হবে) ----------------
+const FEEDBACK_KEY = 'feedbackLogV1';
+let feedbackLog = [];
+function loadFeedbackLog(){
+  try{ const raw = storageGet(FEEDBACK_KEY); feedbackLog = raw ? JSON.parse(raw) : []; }catch(e){ feedbackLog = []; }
+}
+function saveFeedbackLog(){ storageSet(FEEDBACK_KEY, JSON.stringify(feedbackLog)); }
+// ---------------- সকাল-সন্ধ্যার আযকার (নতুন ক্যাটাগরি ফিচার — প্রতিদিন রিসেট হয়) ----------------
+const AZKAR_MORNING = [
+  { id:'ayat_kursi', bn:'আয়াতুল কুরসি', count:1, src:'যে সকালে আয়াতুল কুরসি পড়বে, সন্ধ্যা পর্যন্ত জিন থেকে সুরক্ষিত থাকবে — সহীহ (আবু হুরায়রা রা. থেকে, সহীহ বুখারীতে মু\'আল্লাক)' },
+  { id:'ikhlas_falaq_nas', bn:'সূরা ইখলাস, ফালাক, নাস (৩ বার করে)', count:3, src:'জামি আত-তিরমিযী ৩৫৭৫ (হাসান)' },
+  { id:'sayyidul_istighfar', bn:'সাইয়িদুল ইস্তিগফার', count:1, src:'সহীহ বুখারী ৬৩০৬' },
+  { id:'subhanallah_bihamdihi', bn:'সুবহানাল্লাহি ওয়া বিহামদিহি', count:100, src:'সহীহ মুসলিম ২৬৯২' },
+  { id:'la_ilaha_illallah_10', bn:'লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহ্‌...', count:10, src:'সুনানে আবু দাউদ ৫০৭৭ (হাসান)' },
+  { id:'hasbiyallahu_7', bn:'হাসবিয়াল্লাহু লা ইলাহা ইল্লা হুওয়া', count:7, src:'সুনানে আবু দাউদ ৫০৮১ (হাসান)' }
+];
+const AZKAR_EVENING = [
+  { id:'ayat_kursi_e', bn:'আয়াতুল কুরসি', count:1, src:'একই ফজিলত সন্ধ্যায়ও প্রযোজ্য বলে আলেমরা উল্লেখ করেছেন' },
+  { id:'ikhlas_falaq_nas_e', bn:'সূরা ইখলাস, ফালাক, নাস (৩ বার করে)', count:3, src:'জামি আত-তিরমিযী ৩৫৭৫ (হাসান)' },
+  { id:'sayyidul_istighfar_e', bn:'সাইয়িদুল ইস্তিগফার', count:1, src:'সহীহ বুখারী ৬৩০৬' },
+  { id:'amsayna_wa_amsal_mulk', bn:'আমসাইনা ওয়া আমসাল মুলকু লিল্লাহ্‌...', count:1, src:'সহীহ মুসলিম ২৭২৩' },
+  { id:'la_ilaha_illallah_10_e', bn:'লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহ্‌...', count:10, src:'সুনানে আবু দাউদ ৫০৭৭ (হাসান)' },
+  { id:'audhu_bikalimatillah', bn:'আউযু বিকালিমা-তিল্লা-হিত তাম্মাতি মিন শাররি মা খালাক্ব', count:3, src:'সহীহ মুসলিম ২৭০৯' }
+];
+const azkarKey = () => 'azkar:' + new Date().toISOString().slice(0,10);
+let todayAzkar = { morning:{}, evening:{} };
+let azkarPeriod = 'morning';
+function loadTodayAzkar(){
+  try{
+    const raw = storageGet(azkarKey());
+    todayAzkar = raw ? JSON.parse(raw) : { morning:{}, evening:{} };
+  }catch(e){ todayAzkar = { morning:{}, evening:{} }; }
+}
+function saveTodayAzkar(){ storageSet(azkarKey(), JSON.stringify(todayAzkar)); }
+function openAzkar(){
+  renderAzkarSheet();
+  document.getElementById('overlay').classList.add('open');
+}
+function setAzkarPeriod(p){ azkarPeriod = p; renderAzkarSheet(); }
+function toggleAzkarItem(period, id){
+  todayAzkar[period][id] = !todayAzkar[period][id];
+  saveTodayAzkar();
+  renderAzkarSheet();
+}
+function renderAzkarSheet(){
+  const list = azkarPeriod === 'morning' ? AZKAR_MORNING : AZKAR_EVENING;
+  const done = list.filter(a => todayAzkar[azkarPeriod][a.id]).length;
+  document.getElementById('sheet').innerHTML = `
+    <div class="sheet-handle"></div>
+    <button class="close-x" onclick="closeSheet()">✕</button>
+    <h2 style="margin-bottom:10px;">সকাল-সন্ধ্যার আযকার</h2>
+    <div class="entry-toggle" style="margin-bottom:12px;">
+      <button class="entry-toggle-btn ${azkarPeriod==='morning'?'active':''}" onclick="setAzkarPeriod('morning')">☀️ সকাল</button>
+      <button class="entry-toggle-btn ${azkarPeriod==='evening'?'active':''}" onclick="setAzkarPeriod('evening')">🌙 সন্ধ্যা</button>
+    </div>
+    <div class="block-text" style="margin-bottom:10px;">${toBn(done)}/${toBn(list.length)} সম্পন্ন — প্রতিদিন রাত পার হলে রিসেট হয়</div>
+    ${list.map(a => `
+      <label class="return-check ui-label" style="display:flex; align-items:flex-start; gap:8px; margin-bottom:12px;">
+        <input type="checkbox" ${todayAzkar[azkarPeriod][a.id]?'checked':''} onchange="toggleAzkarItem('${azkarPeriod}','${a.id}')" style="margin-top:3px;">
+        <span>
+          <span style="display:block; font-weight:600; color:#12302E;">${a.bn} ${a.count>1?`<span style="color:#A65D45;">× ${toBn(a.count)}</span>`:''}</span>
+          <span style="display:block; font-size:11px; color:#7a6a4d; margin-top:2px;">${a.src}</span>
+        </span>
+      </label>
+    `).join('')}
+  `;
+}
+
+function openFeedback(){
+  renderFeedbackSheet();
+  document.getElementById('overlay').classList.add('open');
+}
+function renderFeedbackSheet(){
+  const listHtml = feedbackLog.length === 0
+    ? `<div class="empty-state ui-label">এখনো কোনো ফিডব্যাক জমা নেই।</div>`
+    : feedbackLog.slice().reverse().map((f,revI) => {
+        const i = feedbackLog.length - 1 - revI;
+        const d = new Date(f.ts);
+        return `<div class="feedback-item">
+          <div class="feedback-item-text">${f.text}</div>
+          <div class="feedback-item-meta ui-label">
+            <span>${d.toLocaleDateString('bn-BD')}</span>
+            <button class="feedback-item-del" onclick="deleteFeedback(${i})">মুছুন</button>
+          </div>
+        </div>`;
+      }).join('');
+  document.getElementById('sheet').innerHTML = `
+    <div class="sheet-handle"></div>
+    <button class="close-x" onclick="closeSheet()">✕</button>
+    <h2 style="margin-bottom:6px;">ভুল/মতামত জানান</h2>
+    <div class="block-text" style="margin-bottom:12px; font-size:12.5px; color:#5b5142;">অ্যাপে কোনো তথ্য ভুল মনে হলে, কোনো ফিচার কাজ না করলে, বা কোনো পরামর্শ থাকলে এখানে লিখে রাখুন। এটা কোথাও অনলাইনে পাঠানো হয় না — এই ডিভাইসেই জমা থাকে, পরে নিজে দেখে ঠিক করার জন্য।</div>
+    <textarea id="feedbackInput" class="feedback-textarea" placeholder="যেমন: 'ঝগড়া-বিবাদ' এন্ট্রিতে হাদিস সূত্রটা ভুল মনে হচ্ছে..." rows="4"></textarea>
+    <button class="log-this-btn ui-label" onclick="submitFeedback()">জমা রাখুন</button>
+    <div class="block-label" style="margin-top:18px;">আগের ফিডব্যাক (${toBn(feedbackLog.length)}টা)</div>
+    <div id="feedbackList">${listHtml}</div>
+  `;
+}
+function submitFeedback(){
+  const el = document.getElementById('feedbackInput');
+  const text = el.value.trim();
+  if(!text) return;
+  feedbackLog.push({text, ts:Date.now()});
+  saveFeedbackLog();
+  renderFeedbackSheet();
+}
+function deleteFeedback(i){
+  feedbackLog.splice(i,1);
+  saveFeedbackLog();
+  renderFeedbackSheet();
 }
 
 const SINS = [
@@ -1515,6 +1706,69 @@ const SINS = [
     huquq:true, huquq_note:'এটি সরাসরি বান্দার হক — কিয়ামতের দিন নেক আমল দিয়ে এই হক পরিশোধ করতে হতে পারে যদি দুনিয়াতে মিটমাট না হয়।',
     dua:{ar:'اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا', uccharan:'আল্লাহুম্মা ইন্নী জলামতু নাফসী জুলমান কাসীরা', bn:'হে আল্লাহ, আমি নিজের উপর অনেক জুলুম করেছি (আমাকে ক্ষমা করো)।', src:'সহীহ বুখারী ৮৩৪, সহীহ মুসলিম ২৭০৫ (আবু বকর রা.-কে শেখানো দোয়ার অংশ)'},
     remedy:'none', reviewed:false
+  },
+  {
+    id:'su_zann', name_bn:'মুসলিম ভাইয়ের ব্যাপারে কুধারণা', name_ar:'سوء الظن', category:'sagira', rights:'ibad', severity:2, common:true,
+    evidence:[{text:'হে মুমিনগণ, তোমরা অধিক ধারণা থেকে বেঁচে থাকো — নিশ্চয় কিছু ধারণা পাপ।', src:'কুরআন ৪৯:১২'}],
+    dunya:'নির্দিষ্ট হদ্দ নেই।',
+    akhirah:'একই আয়াতে দোষ অনুসন্ধান ও গীবতের সাথে একত্রে উল্লেখ করা হয়েছে — কুধারণাকে এই দুটোর প্রথম ধাপ হিসেবে গণ্য করা হয়।',
+    kaffarah:{ijma:'নির্দিষ্ট কাফফারা নেই — প্রতিকার হলো মনে কুধারণা জাগলে তা প্রশ্রয় না দেওয়া, সদুপায়ে ব্যাখ্যা খোঁজা, এবং তা কথায়/কাজে প্রকাশ না করা।'},
+    huquq:false,
+    dua:{ar:'اللَّهُمَّ طَهِّرْ قَلْبِي مِنَ النِّفَاقِ وَعَمَلِي مِنَ الرِّيَاءِ', uccharan:'আল্লাহুম্মা তাহহির কালবী মিনান নিফাকি ওয়া আমালী মিনার রিয়া', bn:'হে আল্লাহ, আমার অন্তরকে নিফাক থেকে ও আমার আমলকে রিয়া থেকে পবিত্র করো।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
+    remedy:'none', reviewed:false
+  },
+  {
+    id:'khiyanah', name_bn:'আমানতের খিয়ানত', name_ar:'خيانة الأمانة', category:'kabira', rights:'ibad', severity:4,
+    evidence:[
+      {text:'হে মুমিনগণ, তোমরা আল্লাহ ও রাসূলের সাথে খিয়ানত করো না, এবং জেনেশুনে নিজেদের আমানতের সাথেও খিয়ানত করো না।', src:'কুরআন ৮:২৭'},
+      {text:'মুনাফিকের আলামত তিনটি: কথা বললে মিথ্যা বলে, ওয়াদা করলে ভঙ্গ করে, আমানত রাখলে খিয়ানত করে।', src:'সহীহ বুখারী ৩৩, সহীহ মুসলিম ৫৯'}
+    ],
+    dunya:'আমানতের ধরন অনুযায়ী (যেমন আর্থিক আমানত) সংশ্লিষ্ট বিধান প্রযোজ্য হতে পারে — বিচার-ব্যবস্থার আওতাধীন বিষয়।',
+    akhirah:'উপরের হাদিসে মুনাফিকের অন্যতম আলামত হিসেবে চিহ্নিত হওয়া একটি গুরুতর সতর্কবার্তা।',
+    kaffarah:{ijma:'যার আমানত রাখা হয়েছিল তাকে তা ফিরিয়ে দেওয়া বা ক্ষতিপূরণ দেওয়া আবশ্যক (সম্ভব হলে) — এটি নিছক তওবায় শেষ হয় না, বান্দার হক জড়িত।'},
+    huquq:true, huquq_note:'আমানতকারীর হক সরাসরি জড়িত — আমানত ফেরত/ক্ষতিপূরণ ছাড়া শুধু তওবায় পূর্ণ মাফ হয় না।',
+    dua:{ar:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخِيَانَةِ', uccharan:'আল্লাহুম্মা ইন্নী আ‘ঊযু বিকা মিনাল খিয়ানাহ', bn:'হে আল্লাহ, আমি আমানতের খিয়ানত থেকে তোমার কাছে আশ্রয় চাই।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
+    remedy:'waajib', reviewed:false
+  },
+  {
+    id:'ard_ightisab', name_bn:'অন্যায়ভাবে জমি/সম্পত্তি দখল', name_ar:'اغتصاب الأرض', category:'kabira', rights:'ibad', severity:4,
+    evidence:[{text:'যে ব্যক্তি এক বিঘত জমিও অন্যায়ভাবে দখল করবে, কিয়ামতের দিন সাত স্তর জমিন তার গলায় বেড়ি বানিয়ে পরানো হবে।', src:'সহীহ বুখারী ৩১৯৮, সহীহ মুসলিম ১৬১০'}],
+    dunya:'সংশ্লিষ্ট রাষ্ট্রের ভূমি আইন ও বিচারব্যবস্থার আওতায় প্রতিকারযোগ্য বিষয়।',
+    akhirah:'হাদিসে বর্ণিত কঠোর সতর্কবার্তা থেকে এই গুনাহর গুরুত্ব স্পষ্ট বোঝা যায়।',
+    kaffarah:{ijma:'প্রকৃত মালিককে দখলকৃত জমি/সম্পত্তি ফিরিয়ে দেওয়া আবশ্যক — শুধু তওবায় এই হক আদায় হয় না, মালিক শনাক্ত থাকলে ফেরত দিতে হবে।'},
+    huquq:true, huquq_note:'সরাসরি বান্দার হক — প্রকৃত মালিককে সম্পত্তি ফিরিয়ে দেওয়া বা তার সন্তুষ্টি ছাড়া এই গুনাহ থেকে মুক্তি নেই।',
+    dua:{ar:'اللَّهُمَّ رَبَّ السَّمَاوَاتِ السَّبْعِ وَرَبَّ الْعَرْشِ الْعَظِيمِ اغْفِرْ لِي ذَنْبِي', uccharan:'আল্লাহুম্মা রব্বাস সামাওয়াতিস সাব‘ ওয়া রব্বাল আরশিল আজীম, ইগফির লী জাম্বী', bn:'হে সাত আসমানের রব ও মহান আরশের রব, আমার গুনাহ ক্ষমা করো।', src:'সহীহ বুখারী ৮৩৪, সহীহ মুসলিম ২৭০৫ (এর নিকটবর্তী অংশ)'},
+    remedy:'waajib', reviewed:false
+  },
+  {
+    id:'tatfif_mizan', name_bn:'মাপে-ওজনে কম দেওয়া (প্রতারণা)', name_ar:'التطفيف في الميزان', category:'kabira', rights:'ibad', severity:3,
+    evidence:[{text:'ধ্বংস তাদের জন্য যারা মাপে কম দেয় — যারা মানুষের থেকে মেপে নেওয়ার সময় পূর্ণ মাত্রায় নেয়, কিন্তু মেপে বা ওজন করে দেওয়ার সময় কম দেয়।', src:'কুরআন ৮৩:১-৩'}],
+    dunya:'ভোক্তা অধিকার/বাণিজ্য আইনের আওতায় শাস্তিযোগ্য হতে পারে।',
+    akhirah:'পুরো একটা সূরা (আল-মুতাফফিফীন) এই গুনাহর ভয়াবহতা নিয়ে অবতীর্ণ হয়েছে।',
+    kaffarah:{ijma:'যাদের কাছ থেকে অতিরিক্ত নেওয়া হয়েছে তাদের প্রাপ্য ফিরিয়ে দেওয়া (সম্ভব হলে), এবং ভবিষ্যতে সততার সাথে মাপা/ওজন করার সংকল্প।'},
+    huquq:true, huquq_note:'ক্রেতা/বিক্রেতা যার সাথে প্রতারণা হয়েছে তার হক জড়িত।',
+    dua:{ar:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخِيَانَةِ فِي الْمِيزَانِ', uccharan:'আল্লাহুম্মা ইন্নী আ‘ঊযু বিকা মিনাল খিয়ানাতি ফিল মীযান', bn:'হে আল্লাহ, আমি মাপে-ওজনে খিয়ানত থেকে তোমার কাছে আশ্রয় চাই।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
+    remedy:'waajib', reviewed:false
+  },
+  {
+    id:'tabarruj', name_bn:'বেপর্দা/অশালীন প্রদর্শন', name_ar:'التبرج', category:'sagira', rights:'allah', severity:3,
+    evidence:[{text:'আর তোমরা (নারীগণ) ঘরে অবস্থান করো এবং সাবেক জাহিলী যুগের মতো নিজেদের প্রদর্শন করে বেড়িও না।', src:'কুরআন ৩৩:৩৩'}],
+    dunya:'নির্দিষ্ট হদ্দ নেই।',
+    akhirah:'পর্দা সংক্রান্ত বিস্তারিত সীমারেখা (যেমন মুখমণ্ডল/হাত ঢাকা আবশ্যক কিনা) নিয়ে মাযহাব ও আলেমদের মাঝে বিস্তারিত মতভেদ আছে — এখানে শুধু মূলনীতিটুকু (শালীনতা ও অহেতুক প্রদর্শন পরিহার) উল্লেখ করা হলো, বিস্তারিত সীমারেখার জন্য স্থানীয় আলেমের পরামর্শ নেওয়া উচিত।',
+    kaffarah:{ijma:'নির্দিষ্ট কাফফারা নেই — প্রতিকার হলো শালীন পোশাক ও আচরণের দিকে ফিরে আসা এবং তওবা।'},
+    huquq:false,
+    dua:{ar:'اللَّهُمَّ اسْتُرْنِي بِسَتْرِكَ الْجَمِيلِ', uccharan:'আল্লাহুম্মাস্তুরনী বিসাতরিকাল জামীল', bn:'হে আল্লাহ, আমাকে তোমার সুন্দর পর্দায় ঢেকে রাখো।', src:'সাধারণ দোয়া — সরাসরি হাদিস সূত্র নয়'},
+    remedy:'none', reviewed:false
+  },
+  {
+    id:'bidah', name_bn:'দ্বীনে নতুন উদ্ভাবন (বিদ‘আত)', name_ar:'البدعة', category:'sagira', rights:'allah', severity:3,
+    evidence:[{text:'যে ব্যক্তি আমাদের এই দ্বীনের মধ্যে এমন কিছু সৃষ্টি করবে যা এর অংশ নয়, তা প্রত্যাখ্যাত।', src:'সহীহ বুখারী ২৬৯৭, সহীহ মুসলিম ১৭১৮'}],
+    dunya:'নির্দিষ্ট হদ্দ নেই।',
+    akhirah:'বিদ‘আত মূলত ইবাদতের ক্ষেত্রে প্রযোজ্য (এমন ইবাদত যার কোনো দলিল নেই) — কোনো নির্দিষ্ট কাজ প্রকৃতপক্ষে বিদ‘আত কিনা তা নিয়ে আলেমদের মাঝে ব্যাপক বিস্তারিত আলোচনা ও মতভেদ আছে (যেমন "বিদ‘আতে হাসানাহ" ধারণা নিয়ে ভিন্ন মত)। এই বিষয়ে চূড়ান্ত সিদ্ধান্ত এখানে দেওয়া হচ্ছে না — একটি নির্দিষ্ট আমল বিদ‘আত কিনা তা যাচাইয়ে যোগ্যতাসম্পন্ন আলেমের পরামর্শ জরুরি।',
+    kaffarah:{ijma:'নির্দিষ্ট কাফফারা নেই — প্রতিকার হলো নিজের আমল কুরআন-সুন্নাহর আলোকে যাচাই করা এবং ভুল বোঝা গেলে তা পরিহার করে তওবা করা।'},
+    huquq:false,
+    dua:{ar:'اللَّهُمَّ أَرِنَا الْحَقَّ حَقًّا وَارْزُقْنَا اتِّبَاعَهُ', uccharan:'আল্লাহুম্মা আরিনাল হাক্কা হাক্কান ওয়ারযুকনাত তিবা‘আহ', bn:'হে আল্লাহ, আমাদের সত্যকে সত্য হিসেবে দেখাও এবং তা অনুসরণের তৌফিক দাও।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
+    remedy:'none', reviewed:false
   }
 ];
 
@@ -1592,6 +1846,19 @@ const OBLIGATIONS = [
     huquq:false,
     dua:{ar:'رَبِّ اغْفِرْ وَارْحَمْ وَأَنْتَ خَيْرُ الرَّاحِمِينَ', uccharan:'রব্বিগফির ওয়ারহাম ওয়া আনতা খাইরুর রাহিমীন', bn:'হে আমার রব, ক্ষমা করো ও দয়া করো, তুমিই শ্রেষ্ঠ দয়ালু।', src:'কুরআন ২৩:১১৮'},
     remedy:'disputed', scoreWeight:0, reviewed:false
+  },
+  {
+    id:'hajj_delay', name_bn:'সামর্থ্য থাকা সত্ত্বেও হজ্জ বিলম্ব', name_ar:'تأخير الحج', category:'neglect',
+    evidence:[
+      {text:'আর মানুষের মধ্যে যাদের সামর্থ্য আছে, আল্লাহর জন্য এই ঘরের হজ্জ করা তাদের উপর কর্তব্য।', src:'কুরআন ৩:৯৭'},
+      {text:'তোমরা হজ্জ (আদায়ে) তাড়াতাড়ি করো — কেননা তোমাদের কেউ জানে না তার সামনে কী বাধা আসতে পারে।', src:'মুসনাদে আহমাদ, সুনানে ইবনে মাজাহ ২৮৮৩ (সনদ নিয়ে আলোচনা আছে)'}
+    ],
+    dunya:'প্রযোজ্য নয় — এটি ব্যক্তিগত ইবাদতের অবহেলা, রাষ্ট্রীয় শাস্তির বিষয় নয়।',
+    akhirah:'আর্থিক ও শারীরিক সামর্থ্য (ইস্তিতা‘আহ) থাকা সত্ত্বেও ইচ্ছাকৃতভাবে বিলম্ব করাকে অধিকাংশ আলেম গুরুতর অবহেলা হিসেবে গণ্য করেন — অসামর্থ্য বা ন্যায্য ওজর থাকলে বিলম্ব গুনাহ নয়।',
+    kaffarah:{ijma:'নির্দিষ্ট আর্থিক কাফফারা/ফিদিয়া নেই — সামর্থ্য অনুযায়ী যত দ্রুত সম্ভব হজ্জ আদায়ের ব্যবস্থা করাই একমাত্র প্রতিকার, পাশাপাশি বিলম্বের জন্য তওবা ও ইস্তিগফার।'},
+    huquq:false,
+    dua:{ar:'اللَّهُمَّ يَسِّرْ لِي حَجَّ بَيْتِكَ الْحَرَامِ', uccharan:'আল্লাহুম্মা ইয়াসসির লী হাজ্জা বাইতিকাল হারাম', bn:'হে আল্লাহ, তোমার পবিত্র ঘরের হজ্জ আমার জন্য সহজ করে দাও।', src:'প্রচলিত দোয়া — নির্দিষ্ট হাদিস সূত্র হিসেবে যাচাই করা হয়নি'},
+    remedy:'qada', scoreWeight:-4, reviewed:false
   }
 ];
 
@@ -1803,6 +2070,62 @@ const NEKI = [
     erases:'সরাসরি গুনাহ মোচনের কথা এই আয়াতগুলোতে বলা নেই — মূলত প্রতিদান ও মর্যাদা বৃদ্ধির প্রতিশ্রুতি।',
     madhab:null,
     reviewed:false
+  },
+  {
+    id:'bismillah_khaowa', name_bn:'বিসমিল্লাহ বলে খাওয়া ও ডান হাতে খাওয়া', name_ar:'التسمية والأكل باليمين', category:'adab',
+    evidence:[{text:'হে বালক, বিসমিল্লাহ বলো, ডান হাতে খাও, এবং তোমার সামনে থেকে খাও।', src:'সহীহ বুখারী ৫৩৭৬, সহীহ মুসলিম ২০২২'}],
+    fazilat:'খাবারে বরকতের একটি কারণ হিসেবে বিসমিল্লাহ বলাকে গণ্য করা হয়েছে; ভুলে গেলে মাঝপথে মনে পড়লে "বিসমিল্লাহি আওয়ালাহু ওয়া আখিরাহ" বলার নির্দেশও হাদিসে এসেছে (সুনানে আবু দাউদ ৩৭৬৭)।',
+    erases:'সরাসরি গুনাহ মোচনের কথা নেই — এটি একটি ছোট্ট কিন্তু নিয়মিত সুন্নাহ চর্চা।',
+    madhab:null,
+    reviewed:false
+  },
+  {
+    id:'dua_ghar_provesh', name_bn:'ঘরে প্রবেশ/বাহির হওয়ার দোয়া', name_ar:'دعاء دخول وخروج المنزل', category:'adab',
+    evidence:[{text:'যখন কেউ ঘরে প্রবেশ করার সময় ও খাওয়ার সময় আল্লাহর নাম স্মরণ করে, তখন শয়তান (তার সাথীদের) বলে, তোমাদের জন্য এখানে রাত কাটানো ও খাবারের কোনো ব্যবস্থা নেই।', src:'সহীহ মুসলিম ২০১৮'}],
+    fazilat:'ঘরে প্রবেশের সময় বিসমিল্লাহ ও সালাম দেওয়াকে শয়তানের প্রভাব থেকে ঘরকে সুরক্ষিত রাখার একটি উপায় হিসেবে বর্ণনা করা হয়েছে।',
+    erases:'সরাসরি গুনাহ মোচনের কথা নেই — এটি শয়তানের প্রভাব থেকে সুরক্ষার একটি আমল হিসেবে বর্ণিত।',
+    madhab:null,
+    reviewed:false
+  },
+  {
+    id:'dua_ghum', name_bn:'ঘুমানোর আগের দোয়া ও আয়াতুল কুরসি', name_ar:'أذكار النوم وآية الكرسي', category:'adab',
+    evidence:[{text:'যে ব্যক্তি রাতে ঘুমানোর সময় আয়াতুল কুরসি পড়বে, আল্লাহর পক্ষ থেকে একজন রক্ষক তার সাথে নিযুক্ত থাকবে, সকাল পর্যন্ত শয়তান তার কাছে ঘেঁষতে পারবে না।', src:'সহীহ বুখারী ২৩১১'}],
+    fazilat:'ঘুমানোর আগে আয়াতুল কুরসি, সূরা ইখলাস-ফালাক-নাস ও অন্যান্য মাসনূন দোয়া পড়া রাতভর সুরক্ষার একটি উপায় হিসেবে হাদিসে বর্ণিত।',
+    erases:'সরাসরি গুনাহ মোচনের কথা নেই — সুরক্ষা ও বরকতের আমল হিসেবে বর্ণিত।',
+    madhab:null,
+    reviewed:false
+  },
+  {
+    id:'hachi_uttor', name_bn:'হাঁচির পর আলহামদুলিল্লাহ ও জবাব দেওয়া', name_ar:'تشميت العاطس', category:'adab',
+    evidence:[{text:'তোমাদের কেউ হাঁচি দিলে "আলহামদুলিল্লাহ" বলবে, আর তার (মুসলিম) ভাই বা সাথী তাকে "ইয়ারহামুকাল্লাহ" বলবে।', src:'সহীহ বুখারী ৬২২৪'}],
+    fazilat:'হাঁচির পর আলহামদুলিল্লাহ বলা ও তার জবাবে "ইয়ারহামুকাল্লাহ" বলাকে মুসলিমের উপর মুসলিমের অধিকারগুলোর একটি হিসেবে গণ্য করা হয়েছে।',
+    erases:'সরাসরি গুনাহ মোচনের কথা নেই — এটি সামাজিক আদব ও পারস্পরিক অধিকারের অংশ।',
+    madhab:null,
+    reviewed:false
+  },
+  {
+    id:'dua_bahire_jaowa', name_bn:'বাড়ি থেকে বের হওয়ার দোয়া', name_ar:'دعاء الخروج من المنزل', category:'adab',
+    evidence:[{text:'যে ব্যক্তি ঘর থেকে বের হওয়ার সময় বলে "বিসমিল্লাহি তাওয়াক্কালতু আলাল্লাহ..." তাকে বলা হয়, তুমি হেদায়েতপ্রাপ্ত হলে, নিরাপদ থাকলে এবং রক্ষিত হলে, আর শয়তান তার থেকে সরে যায়।', src:'জামি আত-তিরমিযী ৩৪২৬ (সহীহ)'}],
+    fazilat:'ঘর থেকে বের হওয়ার সময় এই দোয়া পড়াকে দিনভর আল্লাহর হেফাজতে থাকার একটি মাধ্যম হিসেবে বর্ণনা করা হয়েছে।',
+    erases:'সরাসরি গুনাহ মোচনের কথা নেই — নিরাপত্তা ও হেফাজতের আমল হিসেবে বর্ণিত।',
+    madhab:null,
+    reviewed:false
+  },
+  {
+    id:'masjid_dua', name_bn:'মসজিদে প্রবেশ/বাহির হওয়ার দোয়া', name_ar:'دعاء دخول وخروج المسجد', category:'adab',
+    evidence:[{text:'তোমাদের কেউ মসজিদে প্রবেশ করলে বলবে "আল্লাহুম্মাফতাহ লী আবওয়াবা রাহমাতিক" (হে আল্লাহ, আমার জন্য তোমার রহমতের দরজাগুলো খুলে দাও), আর বের হওয়ার সময় বলবে "আল্লাহুম্মা ইন্নী আসআলুকা মিন ফাদলিক" (হে আল্লাহ, আমি তোমার অনুগ্রহ প্রার্থনা করি)।', src:'সহীহ মুসলিম ৭১৩'}],
+    fazilat:'মসজিদে প্রবেশ ও বাহির হওয়ার সময় ভিন্ন ভিন্ন দোয়া পড়ার মাধ্যমে প্রতিটা মুহূর্তে আল্লাহর সাথে সংযোগ বজায় রাখা।',
+    erases:'সরাসরি গুনাহ মোচনের কথা নেই — মসজিদ-কেন্দ্রিক আদবের অংশ।',
+    madhab:null,
+    reviewed:false
+  },
+  {
+    id:'wudu_pore_dua', name_bn:'ওযুর পরের দোয়া', name_ar:'دعاء بعد الوضوء', category:'adab',
+    evidence:[{text:'তোমাদের মধ্যে যে ভালোভাবে ওযু করে অতঃপর বলে "আশহাদু আল্লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহু..." তার জন্য জান্নাতের আটটি দরজাই খুলে দেওয়া হয়, যেটা দিয়ে ইচ্ছা সে প্রবেশ করতে পারবে।', src:'সহীহ মুসলিম ২৩৪'}],
+    fazilat:'ওযুর পরের এই দোয়াকে জান্নাতের সব দরজা খুলে যাওয়ার প্রতিশ্রুতির সাথে যুক্ত করা হয়েছে — যদিও এটি ওযুর নিজস্ব ফজিলতের অংশ, আলাদা করে দোয়াটি স্মরণ রাখার গুরুত্ব বোঝাতে এখানে যুক্ত করা হলো।',
+    erases:'এই হাদিসে সরাসরি গুনাহ মোচনের কথা নেই।',
+    madhab:null,
+    reviewed:false
   }
 ];
 
@@ -1886,7 +2209,7 @@ function renderLifeSatisfactionCard(){
     el.className = 'satisfaction-card' + (expanded ? ' expanded' : '');
     el.innerHTML = `
       <div class="satisfaction-title" onclick="toggleSatisfactionCardExpand('${id}')">
-        <span>🌙</span>
+        <span class="inline-ic" style="width:18px;height:18px;vertical-align:-4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 1 0 10.5 10.5Z"/></svg></span>
         <span class="satisfaction-title-text">রিদা বিল ক্বাদা (তকদিরে সন্তুষ্টি)</span>
         <span class="satisfaction-status-pill ${lifeSatisfaction?'on':'off'}">${lifeSatisfaction ? 'সন্তুষ্ট ✓' : 'অনির্ধারিত'}</span>
         <span class="satisfaction-caret">▾</span>
@@ -2090,6 +2413,8 @@ async function loadToday(){
   loadPendingObligations();
   loadLifeSatisfaction();
   loadPreferredMadhab();
+  loadFeedbackLog();
+  loadTodayAzkar();
   renderSidebarMadhab();
   renderLifeSatisfactionCard();
   renderToday();
@@ -2199,8 +2524,7 @@ function renderDashboard(){
   const ratio = 1 - (score/100);            // balance-bar-এ পজিশনের জন্য (0=পবিত্র দিকে, 1=গুনাহর দিকে)
 
   document.getElementById('balanceDot').style.left = (ratio*100) + '%';
-  document.getElementById('balanceDot').textContent = ratio < 0.5 ? '🌿' : '🔥';
-  document.getElementById('balanceDot').style.background = ratio < 0.5 ? 'var(--green)' : (ratio < 0.75 ? 'var(--amber)' : 'var(--red)');
+  document.getElementById('balanceDot').style.background = ratio < 0.5 ? 'var(--d-sage, var(--green))' : (ratio < 0.75 ? 'var(--d-gold, var(--amber))' : 'var(--d-clay, var(--red))');
 
   const circumference = 2*Math.PI*27;
   document.getElementById('positionArc').setAttribute('stroke-dasharray', circumference.toFixed(1));
@@ -2559,22 +2883,57 @@ function renderChipGrid(){
 // সব সাইয়্যিআত ও হাসানাতের সম্পূর্ণ বিস্তারিত (সূত্র/ফজিলত/মাযহাব) একটা আলাদা ব্রাউজেবল পাতায়
 // ---------------- বিস্তারিত ফিহরিস্ত (ফুল পেজ, অ্যাকর্ডিয়ন) ----------------
 let fihristPageMode = 'neki';
+let fihristCategoryFilter = 'all';
 let accordionMadhab = {};
 function openFihristPage(mode){
   fihristPageMode = mode;
+  fihristCategoryFilter = 'all';
   rememberTabAndOpen('fihrist');
   document.querySelectorAll('#view-fihrist .entry-toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.fmode === mode));
+  const searchEl = document.getElementById('fihristSearchInput');
+  if(searchEl) searchEl.value = '';
   renderFihristPage();
 }
 function setFihristPageMode(mode){
   fihristPageMode = mode;
+  fihristCategoryFilter = 'all';
   document.querySelectorAll('#view-fihrist .entry-toggle-btn').forEach(b => b.classList.toggle('active', b.dataset.fmode === mode));
+  const searchEl = document.getElementById('fihristSearchInput');
+  if(searchEl) searchEl.value = '';
+  renderFihristPage();
+}
+function setFihristCategoryFilter(cat){
+  fihristCategoryFilter = cat;
   renderFihristPage();
 }
 function renderFihristPage(){
   const isSin = fihristPageMode === 'sin';
-  const items = isSin ? SINS : NEKI;
-  document.getElementById('fihristPageList').innerHTML = items.map(x => renderFihristListRow(x, isSin)).join('');
+  const allItems = isSin ? SINS : NEKI;
+
+  // ক্যাটাগরি ফিল্টার চিপ তৈরি — মোড অনুযায়ী ভিন্ন সেট
+  const categories = isSin
+    ? [['all','সব'], ['kabira','কবিরা'], ['sagira','সগিরা'], ['huquq','বান্দার হক']]
+    : [['all','সব'], ...Object.entries(NEKI_CATEGORY_LABELS)];
+  document.getElementById('fihristFilterRow').innerHTML = categories.map(([key,label]) =>
+    `<button class="fihrist-filter-chip ${fihristCategoryFilter===key?'active':''}" onclick="setFihristCategoryFilter('${key}')">${label}</button>`
+  ).join('');
+
+  // ক্যাটাগরি ফিল্টার প্রয়োগ
+  let items = allItems.filter(x => {
+    if(fihristCategoryFilter === 'all') return true;
+    if(isSin && fihristCategoryFilter === 'huquq') return !!x.huquq;
+    return x.category === fihristCategoryFilter;
+  });
+
+  // সার্চ প্রয়োগ (বাংলা/আরবি নাম, দুই দিক থেকেই মেলানো)
+  const query = (document.getElementById('fihristSearchInput')?.value || '').trim().toLowerCase();
+  if(query){
+    items = items.filter(x => x.name_bn.toLowerCase().includes(query) || x.name_ar.includes(query));
+  }
+
+  document.getElementById('fihristPageList').innerHTML = items.length
+    ? items.map(x => renderFihristListRow(x, isSin)).join('')
+    : `<div class="empty-state ui-label">কোনো ফলাফল পাওয়া যায়নি।</div>`;
 }
 // লিস্টে এখন প্রতিটা আইটেম শুধু একটা সাধারণ রো — ট্যাপ করলে ইনলাইন এক্সপ্যান্ড না হয়ে আলাদা ফুল পেজে চলে যায়
 function renderFihristListRow(x, isSin){
@@ -2714,7 +3073,7 @@ function renderFrequencyInsights(){
 }
 
 
-const NEKI_CATEGORY_LABELS = { faraidh:'ফরয', nafl:'নফল', sadaqah:'দান-সদকা', dhikr:'জিকির', akhlaq:'আখলাক', ilm:'ইলম/কুরআন' };
+const NEKI_CATEGORY_LABELS = { faraidh:'ফরয', nafl:'নফল', sadaqah:'দান-সদকা', dhikr:'জিকির', akhlaq:'আখলাক', ilm:'ইলম/কুরআন', adab:'আদব/সুন্নাহ' };
 function renderNekiIndex(){
   const el = document.getElementById('nekiIndex');
   if(!el) return;
@@ -3353,7 +3712,10 @@ let calDate = new Date();
 function toggleCalendar(){
   const panel = document.getElementById('calendarPanel');
   panel.classList.toggle('open');
-  if(panel.classList.contains('open')) renderCalendar();
+  if(panel.classList.contains('open')){
+    renderCalendar();
+    renderHijriUpcoming();
+  }
 }
 function calShift(delta){
   calDate.setMonth(calDate.getMonth() + delta);
@@ -3376,21 +3738,259 @@ function computeDayColor(dateStr){
 function renderCalendar(){
   const year = calDate.getFullYear();
   const month = calDate.getMonth();
-  document.getElementById('calMonthLabel').textContent = `${BN_MONTHS[month]} ${toBn(year)}`;
+  const daysInMonth0 = new Date(year, month+1, 0).getDate();
+  const midHijri = getHijriDate(year, month+1, Math.ceil(daysInMonth0/2));
+  document.getElementById('calMonthLabel').innerHTML = `${BN_MONTHS[month]} ${toBn(year)} <span class="hijri-part">· ${HIJRI_MONTHS_BN[midHijri.month-1]} ${toBn(midHijri.year)} হি.</span>`;
 
   const startWeekday = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month+1, 0).getDate();
-  const todayStr = new Date().toISOString().slice(0,10);
+  const daysInMonth = daysInMonth0;
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
 
   let html = BN_WEEKDAYS.map(w=>`<div class="cal-weekday">${w}</div>`).join('');
   for(let i=0;i<startWeekday;i++) html += `<div class="cal-day empty"></div>`;
   for(let d=1; d<=daysInMonth; d++){
     const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const color = computeDayColor(dateStr);
-    const dot = color==='green' ? '🟢' : color==='amber' ? '🟡' : color==='red' ? '🔴' : '⚪';
-    html += `<div class="cal-day ${dateStr===todayStr?'today':''}">${toBn(d)}<span class="dot">${dot}</span></div>`;
+    const color = computeDayColor(dateStr); // null | 'green' | 'amber' | 'red'
+    const dotHtml = color ? `<i class="cal-dot ${color}"></i>` : '';
+    const h = getHijriDate(year, month+1, d);
+    const ev = hijriEventFor(h.month, h.day);
+    html += `<div class="cal-day dual ${dateStr===todayStr?'today':''} ${ev?'hijri-event':''}" onclick="openCalendarDayDetail('${dateStr}')">
+      <span class="cal-day-greg">${toBn(d)}</span>
+      <span class="cal-day-hijri">${toBn(h.day)}</span>
+      ${dotHtml}
+    </div>`;
   }
   document.getElementById('calendarGrid').innerHTML = html;
+  ensureHijriMonthFresh(year, month+1, () => { const panel=document.getElementById('calendarPanel'); if(panel && panel.classList.contains('open')) renderCalendar(); });
+}
+function openCalendarDayDetail(dateStr){
+  const [y,m,d] = dateStr.split('-').map(Number);
+  const h = getHijriDate(y, m, d);
+  const ev = hijriEventFor(h.month, h.day);
+  const gregLabel = `${toBn(d)} ${BN_MONTHS[m-1]} ${toBn(y)}`;
+  const hijriLabel = `${toBn(h.day)} ${HIJRI_MONTHS_BN[h.month-1]} ${toBn(h.year)} হিজরি`;
+  const color = computeDayColor(dateStr);
+  const colorText = color==='green' ? '🟢 ভালো দিন — সব এন্ট্রির তওবা/ইস্তিগফার সম্পন্ন হয়েছিল'
+    : color==='amber' ? '🟡 মিশ্র দিন — কিছু এন্ট্রির তওবা তখনো বাকি ছিল'
+    : color==='red' ? '🔴 এই দিন কবিরা গুনাহর তওবা তখনো বাকি ছিল'
+    : '⚪ এই দিনে কোনো এন্ট্রি নেই';
+  const eventBody = buildHijriEventBodyHtml(ev);
+  document.getElementById('sheet').innerHTML = `
+    <div class="sheet-handle"></div>
+    <button class="close-x" onclick="closeSheet()">✕</button>
+    <div class="remedy-badge" style="margin-bottom:10px;">📅 ${gregLabel} — ${hijriLabel}${h.source==='api' ? ' ✓' : ''}</div>
+    <div class="block-text" style="margin-bottom:14px;">${colorText}</div>
+    ${eventBody}
+  `;
+  document.getElementById('overlay').classList.add('open');
+}
+
+// ---------------- হিজরি ক্যালেন্ডার ----------------
+// প্রাথমিকভাবে গাণিতিক/তাবুলার হিসাব দিয়ে সাথে সাথে দেখানো হয় (অফলাইনেও কাজ করার জন্য),
+// এরপর ব্যাকগ্রাউন্ডে প্রসিদ্ধ AlAdhan সার্ভার (api.aladhan.com, Islamic Network) থেকে প্রকৃত তারিখ
+// আনা হয় এবং পাওয়া গেলে সেটা দিয়ে আপডেট করা হয় — মাসভিত্তিক ক্যাশ করা থাকে যাতে বারবার সার্ভারে না যেতে হয়
+function gregorianToHijri(gy, gm, gd){
+  const jd = Math.floor((1461*(gy+4800+Math.floor((gm-14)/12)))/4)
+    + Math.floor((367*(gm-2-12*Math.floor((gm-14)/12)))/12)
+    - Math.floor((3*Math.floor((gy+4900+Math.floor((gm-14)/12))/100))/4)
+    + gd - 32075;
+  let l = jd - 1948440 + 10632;
+  const n = Math.floor((l-1)/10631);
+  l = l - 10631*n + 354;
+  const j = (Math.floor((10985-l)/5316))*(Math.floor((50*l)/17719)) + (Math.floor(l/5670))*(Math.floor((43*l)/15238));
+  l = l - (Math.floor((30-j)/15))*(Math.floor((17719*j)/50)) - (Math.floor(j/16))*(Math.floor((15238*j)/43)) + 29;
+  const hm = Math.floor((24*l)/709);
+  const hd = l - Math.floor((709*hm)/24);
+  const hy = 30*n + j - 30;
+  return {year:hy, month:hm, day:hd, source:'calc'};
+}
+const HIJRI_MONTHS_BN = ['মুহাররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শা\'বান','রমজান','শাওয়াল','জিলকদ','জিলহজ্জ'];
+
+let hijriMonthCache = {}; // in-memory: key "YYYY-M" -> {days:[{hy,hm,hd}, ...indexed by Gregorian day-1], fetchedAt}
+const HIJRI_CACHE_MAX_AGE_MS = 27 * 24 * 60 * 60 * 1000; // ~মাসখানেক পরপর রিফ্রেশ
+
+function loadHijriCacheFromStorage(key){
+  try{
+    const raw = storageGet('hijriApiCache:' + key);
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+function saveHijriCacheToStorage(key, cacheObj){
+  try{ storageSet('hijriApiCache:' + key, JSON.stringify(cacheObj)); }catch(e){}
+}
+// সার্ভার থেকে একটা গ্রেগরিয়ান মাসের সম্পূর্ণ হিজরি ক্যালেন্ডার আনা হয় (ব্যাকগ্রাউন্ডে, নন-ব্লকিং)
+async function fetchHijriMonthFromServer(y, m){
+  const key = `${y}-${m}`;
+  try{
+    const resp = await fetch(`https://api.aladhan.com/v1/gToHCalendar/${m}/${y}`);
+    const json = await resp.json();
+    if(json && json.code === 200 && Array.isArray(json.data)){
+      const days = json.data.map(item => ({
+        hy: parseInt(item.hijri.year, 10),
+        hm: parseInt(item.hijri.month.number, 10),
+        hd: parseInt(item.hijri.day, 10)
+      }));
+      const cacheObj = { days, fetchedAt: Date.now() };
+      hijriMonthCache[key] = cacheObj;
+      saveHijriCacheToStorage(key, cacheObj);
+      return cacheObj;
+    }
+  }catch(e){ /* অফলাইন বা সার্ভার সমস্যা — স্থানীয় গণনায় ফিরে যাওয়া হবে */ }
+  return null;
+}
+// একটা নির্দিষ্ট দিনের হিজরি তারিখ — ক্যাশ/সার্ভার-ডেটা থাকলে সেটা, নাহলে সাথে সাথে স্থানীয় গণনা
+function getHijriDate(y, m, d){
+  const key = `${y}-${m}`;
+  let cache = hijriMonthCache[key];
+  if(!cache){
+    cache = loadHijriCacheFromStorage(key);
+    if(cache) hijriMonthCache[key] = cache;
+  }
+  if(cache && cache.days && cache.days[d-1]){
+    const day = cache.days[d-1];
+    return { year:day.hy, month:day.hm, day:day.hd, source:'api' };
+  }
+  return gregorianToHijri(y, m, d);
+}
+// এই মাসের ডেটা এখনো ক্যাশে না থাকলে বা পুরনো হয়ে গেলে ব্যাকগ্রাউন্ডে সার্ভার থেকে এনে রিফ্রেশ করে, তারপর re-render কলব্যাক চালায়
+function ensureHijriMonthFresh(y, m, onUpdated){
+  const key = `${y}-${m}`;
+  let cache = hijriMonthCache[key] || loadHijriCacheFromStorage(key);
+  const isStale = !cache || (Date.now() - (cache.fetchedAt||0) > HIJRI_CACHE_MAX_AGE_MS);
+  if(isStale){
+    fetchHijriMonthFromServer(y, m).then(result => { if(result && onUpdated) onUpdated(); });
+  }
+}
+
+// প্রতিটা এন্ট্রি: hm (হিজরি মাস ১-১২), hd (হিজরি তারিখ), name_bn, evidence[], amol[] (আমলের তালিকা), madhab_diff (আমল/উদযাপনে মাযহাবভেদে ভিন্নতা থাকলে), disputed_note (থাকলে)
+const HIJRI_IMPORTANT_DAYS = [
+  { hm:1, hd:1, name_bn:'হিজরি নববর্ষ', name_ar:'رأس السنة الهجرية',
+    desc:'হিজরি সনের প্রথম দিন — রাসূলুল্লাহ (সা.)-এর মক্কা থেকে মদিনায় হিজরতের স্মরণে উমর (রা.)-এর খিলাফতকালে এই সন গণনা শুরু হয়।',
+    evidence:[{text:'হিজরি সন গণনা একটি প্রশাসনিক সিদ্ধান্ত হিসেবে উমর (রা.)-এর সময় প্রবর্তিত হয় — কুরআন-হাদিসে এই দিনকে বিশেষভাবে উদযাপনের নির্দেশ নেই।', src:'ঐতিহাসিক তথ্য — সরাসরি কুরআন/হাদিস সূত্র নয়'}],
+    amol:['নতুন বছরে আত্মজিজ্ঞাসা ও নিয়ত নবায়ন করা (এটি অ্যাপের নিজস্ব সুপারিশ, নির্দিষ্ট কোনো ইবাদত নির্ধারিত নয়)।'],
+    madhab_diff:'নির্দিষ্ট কোনো ইবাদত না থাকায় এখানে মাযহাবভেদে ফিকহি ভিন্নতার প্রশ্ন সাধারণত প্রযোজ্য নয়।',
+    disputed_note:'এই দিনকে বিশেষ কোনো ইবাদত/উৎসব হিসেবে পালনের সুনির্দিষ্ট দলিল নেই — এটি মূলত একটি ঐতিহাসিক/প্রশাসনিক তারিখ।'
+  },
+  { hm:1, hd:10, name_bn:'আশুরা', name_ar:'يوم عاشوراء',
+    desc:'মুহাররমের ১০ তারিখ — এই দিনে রোজা রাখা অত্যন্ত ফজিলতপূর্ণ আমল।',
+    evidence:[{text:'আশুরার রোজা সম্পর্কে জিজ্ঞাসা করা হলে রাসূলুল্লাহ (সা.) বলেন, এটি বিগত এক বছরের গুনাহ মোচন করে।', src:'সহীহ মুসলিম ১১৬২'}],
+    amol:['৯ ও ১০ তারিখ (তাসূয়া ও আশুরা) একসাথে রোজা রাখা মুস্তাহাব — শুধুমাত্র ইহুদিদের থেকে ভিন্নতা রাখার উদ্দেশ্যে (সহীহ মুসলিম ১১৩৪)।'],
+    madhab_diff:'রোজা রাখার মূল বিধান ও ফজিলতে চার মাযহাবের মাঝে উল্লেখযোগ্য ভিন্নতা নেই — সবাই ৯ ও ১০ তারিখ একসাথে রাখাকে মুস্তাহাব মনে করেন।'
+  },
+  { hm:2, hd:1, name_bn:'সফর মাস শুরু', name_ar:'بداية شهر صفر',
+    desc:'সফর মাস নিয়ে প্রাক-ইসলামি যুগে অশুভ ধারণা প্রচলিত ছিল, যা ইসলাম বাতিল করেছে।',
+    evidence:[{text:'কোনো রোগের সংক্রামকতা (নিজে নিজে, আল্লাহর ইচ্ছা ছাড়া) নেই, পাখি দিয়ে অশুভ লক্ষণ দেখা নেই, সফর মাস নিয়ে অশুভ ধারণাও নেই।', src:'সহীহ বুখারী ৫৭৭০, সহীহ মুসলিম ২২২০'}],
+    amol:['সফর মাস নিয়ে কোনো কুসংস্কার/অশুভ ধারণা পোষণ না করা — এটাই মূল শিক্ষা, বিশেষ কোনো ইবাদত নির্ধারিত নেই।'],
+    madhab_diff:'নির্দিষ্ট কোনো ইবাদত না থাকায় এখানে মাযহাবভেদে ভিন্নতার প্রশ্ন প্রযোজ্য নয়।'
+  },
+  { hm:3, hd:12, name_bn:'মীলাদুন্নবী (জন্মতারিখ মতান্তরে)', name_ar:'المولد النبوي',
+    desc:'রাসূলুল্লাহ (সা.)-এর জন্মতারিখ হিসেবে প্রসিদ্ধ একটি মত, যদিও সীরাত-বিশারদদের মাঝে সঠিক তারিখ নিয়ে মতভেদ আছে।',
+    evidence:[{text:'রাসূলুল্লাহ (সা.)-এর জন্মতারিখ ঐতিহাসিকভাবে সুনির্দিষ্টভাবে একমতে নিশ্চিত নয় — ১২ রবিউল আউয়াল একটি প্রসিদ্ধ মত মাত্র।', src:'সীরাত-গ্রন্থাদির ঐতিহাসিক আলোচনা — সরাসরি কুরআন/হাদিস সূত্র নয়'}],
+    amol:['রাসূলুল্লাহ (সা.)-এর প্রতি দরূদ পাঠ ও তাঁর জীবনী চর্চা সার্বক্ষণিক প্রশংসনীয় আমল — নির্দিষ্ট এই দিনে "মীলাদ" অনুষ্ঠান পালন করা যাবে কিনা তা নিয়ে আলেমদের মাঝে দীর্ঘদিনের সুপরিচিত ও গুরুত্বপূর্ণ মতভেদ আছে।'],
+    madhab_diff:'এটি প্রধানত ক্লাসিক্যাল চার মাযহাবের নিজস্ব ফিকহি পার্থক্য নয় — বরং পরবর্তীকালে বিভিন্ন চিন্তাধারার আলেমদের মাঝে (মাযহাবনির্বিশেষে) মতপার্থক্য। প্রতিটি মাযহাবের অনুসারীদের মধ্যেই উভয় মত (অনুমোদনযোগ্য/বিদ‘আত) পাওয়া যায়।',
+    disputed_note:'এই দিন পালন নিয়ে আলেমদের মাঝে সুপ্রতিষ্ঠিত মতভেদ আছে — কেউ কেউ একে বিদ‘আত মনে করেন, কেউ কেউ একে "বিদ‘আতে হাসানাহ" হিসেবে অনুমোদনযোগ্য মনে করেন। এখানে কোনো পক্ষ অবলম্বন করা হচ্ছে না — নিজ নিজ অনুসৃত মত অনুযায়ী স্থানীয় আলেমের পরামর্শ নিন।'
+  },
+  { hm:7, hd:27, name_bn:'ইসরা ও মিরাজ (প্রসিদ্ধ মত)', name_ar:'الإسراء والمعراج',
+    desc:'রাসূলুল্লাহ (সা.)-এর মক্কা থেকে বায়তুল মাকদিস হয়ে ঊর্ধ্বাকাশে রাত্রিভ্রমণের স্মরণে প্রসিদ্ধ একটি তারিখ।',
+    evidence:[{text:'তিনি পবিত্র মহান, যিনি তাঁর বান্দাকে রাতের বেলায় ভ্রমণ করালেন মসজিদুল হারাম থেকে মসজিদুল আকসা পর্যন্ত।', src:'কুরআন ১৭:১'}],
+    amol:['এই রাতে বিশেষ কোনো নামাজ/আমল কুরআন-হাদিসে সুনির্দিষ্টভাবে নির্ধারিত নেই — নিয়মিত নফল ইবাদত ও দরূদ পাঠ করা যেতে পারে।'],
+    madhab_diff:'এই রাতে বিশেষ কোনো নামাজ/অনুষ্ঠান পালনযোগ্য কিনা তা নিয়ে ক্লাসিক্যাল মাযহাবভিত্তিক আনুষ্ঠানিক পার্থক্যের চেয়ে বিভিন্ন চিন্তাধারার আলেমদের মাঝে ভিন্নমত বেশি প্রাসঙ্গিক।',
+    disputed_note:'ঘটনার সত্যতা (কুরআন ১৭:১ দ্বারা প্রতিষ্ঠিত) নিয়ে কোনো মতভেদ নেই, তবে এটি ঠিক কোন তারিখে ঘটেছিল তা নিয়ে সীরাত-বিশারদদের মাঝে একাধিক মত আছে — ২৭ রজব একটি প্রসিদ্ধ কিন্তু চূড়ান্তভাবে প্রমাণিত নয় এমন মত।'
+  },
+  { hm:8, hd:15, name_bn:'শবে বরাত (লাইলাতুল বারাআহ)', name_ar:'ليلة النصف من شعبان',
+    desc:'শাবান মাসের মধ্যরাত — কিছু হাদিসে এই রাতের ফজিলতের কথা এসেছে।',
+    evidence:[{text:'আল্লাহ শাবান মাসের মধ্যরাতে (সৃষ্টির প্রতি) লক্ষ্য করেন এবং শিরককারী ও হিংসুক ব্যতীত সবাইকে ক্ষমা করে দেন।', src:'সুনানে ইবনে মাজাহ ১৩৯০ (হাদিসটির সনদ নিয়ে মুহাদ্দিসদের মাঝে দুর্বলতা-সহীহ উভয় মত আছে)'}],
+    amol:['কিছু আলেমের মতে এই রাতে নফল ইবাদত ও পরদিন নফল রোজা রাখা মুস্তাহাব — তবে এই রাত/দিনকে কেন্দ্র করে সুনির্দিষ্ট কোনো সমষ্টিগত অনুষ্ঠান/প্রথা রাসূলুল্লাহ (সা.) থেকে সহীহ সূত্রে প্রমাণিত নয়।'],
+    madhab_diff:'হানাফী ও শাফেয়ী ফিকহের কিছু গ্রন্থে এই রাতের নফল ইবাদতের কথা এসেছে, তবে বিভিন্ন মাযহাবের আলেমদের মাঝেই এই রাত ঘিরে সমষ্টিগত/সামাজিক প্রথাকে (আতশবাজি, বিশেষ খাবার ইত্যাদি) বিদ‘আত মনে করার মতও প্রচলিত — তাই ব্যবহারিক অনুশীলনে ব্যাপক আঞ্চলিক ভিন্নতা দেখা যায়।',
+    disputed_note:'এই রাতের ফজিলত সংক্রান্ত হাদিসগুলোর সনদ নিয়ে মুহাদ্দিসদের মাঝে উল্লেখযোগ্য মতভেদ আছে (কেউ সহীহ/হাসান বলেছেন, কেউ দুর্বল) — তাই এই রাত পালনের ধরন নিয়েও আলেমদের মাঝে ব্যাপক ভিন্নমত রয়েছে। নিজ নিজ অনুসৃত মত অনুযায়ী স্থানীয় আলেমের পরামর্শ নিন।'
+  },
+  { hm:9, hd:1, name_bn:'রমজান শুরু', name_ar:'بداية شهر رمضان',
+    desc:'সিয়াম সাধনার মাস শুরু — ইসলামের অন্যতম স্তম্ভ।',
+    evidence:[{text:'হে মুমিনগণ, তোমাদের উপর রোজা ফরয করা হয়েছে, যেমন ফরয করা হয়েছিল তোমাদের পূর্ববর্তীদের উপর, যাতে তোমরা তাকওয়া অর্জন করতে পারো।', src:'কুরআন ২:১৮৩'}],
+    amol:['ফরয রোজা, তারাবীহ নামাজ, বেশি বেশি কুরআন তিলাওয়াত, দান-সদকা বৃদ্ধি করা।'],
+    madhab_diff:'রোজা শুরুর ক্ষেত্রে চাঁদ দেখার "মাতলা" (স্থানীয় বনাম বৈশ্বিক চাঁদ দেখা যথেষ্ট কিনা) নিয়ে ফকীহদের মাঝে ভিন্নমত আছে। তারাবীহর রাকাত সংখ্যা নিয়েও পার্থক্য আছে — অধিকাংশ ফকীহ (হানাফী, শাফেয়ী, হাম্বলী মাযহাবের প্রসিদ্ধ মত) ২০ রাকাতের পক্ষে, তবে কিছু আলেম ৮ রাকাতকেও যথেষ্ট মনে করেন।'
+  },
+  { hm:9, hd:21, name_bn:'লাইলাতুল কদর সন্ধানের রাত (বিজোড় রাত)', name_ar:'ليلة القدر',
+    desc:'রমজানের শেষ দশকের বিজোড় রাতগুলোতে (২১,২৩,২৫,২৭,২৯) লাইলাতুল কদর অনুসন্ধান করা।',
+    evidence:[{text:'তোমরা রমজানের শেষ দশকের বিজোড় রাতগুলোতে লাইলাতুল কদর অনুসন্ধান করো।', src:'সহীহ বুখারী ২০১৭'}],
+    amol:['ইতিকাফ, রাত জেগে নফল নামাজ ও দোয়া, বিশেষত "আল্লাহুম্মা ইন্নাকা আফুউউন তুহিব্বুল আফওয়া ফা\'ফু আন্নী" পড়া (জামি আত-তিরমিযী ৩৫১৩)।'],
+    madhab_diff:'কোন নির্দিষ্ট বেজোড় রাতেই লাইলাতুল কদর হবে তা নিয়ে ফকীহদের মাঝে বিভিন্ন মত আছে (২৭ তারিখ সবচেয়ে প্রসিদ্ধ, তবে চূড়ান্তভাবে নির্দিষ্ট নয়) — তবে মূল ইবাদতের ধরন (ইতিকাফ, নফল নামাজ, দোয়া) নিয়ে মাযহাবভেদে উল্লেখযোগ্য ভিন্নতা নেই।'
+  },
+  { hm:10, hd:1, name_bn:'ঈদুল ফিতর', name_ar:'عيد الفطر',
+    desc:'রমজানের রোজা শেষে আনন্দের দিন।',
+    evidence:[{text:'ঈদের দিন রোজা রাখা নিষিদ্ধ — এটি আল্লাহর পক্ষ থেকে বান্দাদের জন্য পুরস্কারের দিন।', src:'সহীহ বুখারী ১৯৯০, সহীহ মুসলিম ১১৩৭ (মর্মার্থ)'}],
+    amol:['ফিতরা (সাদাকাতুল ফিতর) আদায়, ঈদের নামাজ আদায়, আত্মীয়-স্বজনের সাথে সাক্ষাৎ ও সুসম্পর্ক।'],
+    madhab_diff:'সাদাকাতুল ফিতরের পরিমাণ ও ধরন নিয়ে মাযহাবভেদে ভিন্নতা আছে — হানাফী মাযহাবে খাদ্যদ্রব্যের সমমূল্যের নগদ অর্থ দেওয়াও গ্রহণযোগ্য মনে করা হয়, অন্য অধিকাংশ মাযহাবের প্রসিদ্ধ মতে (শাফেয়ী, মালেকী, হাম্বলী) মূলত খাদ্যদ্রব্য (গম/যব/খেজুর/কিশমিশ ইত্যাদি) দেওয়াকে প্রাধান্য দেওয়া হয়। ঈদের নামাজে তাকবীরের সংখ্যা ও পদ্ধতিতেও মাযহাবভেদে পার্থক্য আছে।'
+  },
+  { hm:12, hd:8, name_bn:'জিলহজ্জের প্রথম দশক শুরু', name_ar:'بداية عشر ذي الحجة',
+    desc:'বছরের সর্বোত্তম দিনগুলোর একটি হিসেবে বিবেচিত।',
+    evidence:[{text:'দুনিয়ার এমন কোনো দিন নেই যাতে নেক আমল আল্লাহর কাছে এই দশ দিনের নেক আমলের চেয়ে অধিক প্রিয়।', src:'সহীহ বুখারী ৯৬৯'}],
+    amol:['বেশি বেশি তাকবীর-তাহলিল-তাহমিদ পাঠ, নফল রোজা (বিশেষত আরাফার দিন), কুরবানির প্রস্তুতি।'],
+    madhab_diff:'এই দশ দিনে নফল ইবাদত বৃদ্ধির মূলনীতিতে মাযহাবভেদে উল্লেখযোগ্য ভিন্নতা নেই।'
+  },
+  { hm:12, hd:9, name_bn:'আরাফার দিন', name_ar:'يوم عرفة',
+    desc:'হাজিদের জন্য হজ্জের মূল রুকন, অ-হাজিদের জন্য রোজা রাখার বিশেষ ফজিলতপূর্ণ দিন।',
+    evidence:[{text:'আরাফার দিনের রোজা সম্পর্কে আমি আল্লাহর কাছে আশা করি যে তা বিগত ও আগামী এক বছরের গুনাহ মোচন করবে।', src:'সহীহ মুসলিম ১১৬২'}],
+    amol:['(অ-হাজিদের জন্য) রোজা রাখা, বেশি বেশি দোয়া-ইস্তিগফার — বিশেষত "লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহ..." পাঠ।'],
+    madhab_diff:'অ-হাজিদের জন্য এই দিন রোজার ফজিলতে মাযহাবভেদে ভিন্নতা নেই। তবে হাজিদের নিজেদের জন্য এই দিন রোজা রাখা প্রসঙ্গে অধিকাংশ আলেমের মতে না রাখাই উত্তম (রাসূলুল্লাহ (সা.) নিজে হজ্জের সময় রোজা রাখেননি বলে বর্ণিত)।'
+  },
+  { hm:12, hd:10, name_bn:'ঈদুল আযহা', name_ar:'عيد الأضحى',
+    desc:'কুরবানির ঈদ — ইবরাহীম (আ.)-এর ত্যাগের স্মরণে।',
+    evidence:[{text:'অতএব তোমার রবের উদ্দেশ্যে নামাজ পড়ো এবং কুরবানি করো।', src:'কুরআন ১০৮:২'}],
+    amol:['ঈদের নামাজ আদায়, সামর্থ্য থাকলে কুরবানি করা, গোশত বণ্টন (নিজের জন্য, আত্মীয়দের জন্য, গরিবদের জন্য)।'],
+    madhab_diff:'তাকবীরে তাশরীকের শুরু-শেষের সময়সীমা নিয়ে মাযহাবভেদে ভিন্নতা আছে (হানাফী মাযহাবে আরাফার দিনের ফজর থেকে ১৩ তারিখের আসর পর্যন্ত, অন্য মাযহাবে সামান্য ভিন্ন সময়সীমা)। ঈদের নামাজের তাকবীরের সংখ্যা ও পদ্ধতিতেও পার্থক্য আছে (যেমন রাকাতপ্রতি ৩ বা ৭+৫ তাকবীর — মাযহাবভেদে ভিন্ন)। কুরবানির পশুতে অংশীদারিত্বের নিয়মেও কিছু পার্থক্য আছে।'
+  },
+  { hm:12, hd:11, name_bn:'আইয়ামে তাশরীক শুরু', name_ar:'أيام التشريق',
+    desc:'জিলহজ্জের ১১-১৩ তারিখ — এই তিন দিনে রোজা রাখা নিষিদ্ধ।',
+    evidence:[{text:'আইয়ামে তাশরীক হলো খাওয়া-দাওয়া ও আল্লাহর জিকিরের দিন।', src:'সহীহ মুসলিম ১১৪১'}],
+    amol:['তাকবীর পাঠ অব্যাহত রাখা, কুরবানির গোশত ভক্ষণ, এই তিন দিনে রোজা না রাখা।'],
+    madhab_diff:'সাধারণ নফল রোজা না রাখার ব্যাপারে মাযহাবগুলো একমত, তবে হজ্জে তামাত্তু/কিরান পালনকারী যাদের কুরবানির পশু জোগাড় হয়নি তাদের জন্য এই দিনগুলোতে (বিকল্প) রোজা রাখা যাবে কিনা তা নিয়ে ফকীহদের মাঝে কিছুটা ভিন্নমত আছে।'
+  }
+];
+function hijriEventFor(hm, hd){
+  return HIJRI_IMPORTANT_DAYS.find(e => e.hm === hm && e.hd === hd);
+}
+// "সামনের গুরুত্বপূর্ণ দিন" তালিকা — এখন সরাসরি ড্যাশবোর্ডের ক্যালেন্ডার প্যানেলেই দেখানো হয়
+function renderHijriUpcoming(){
+  const el = document.getElementById('calUpcomingList');
+  if(!el) return;
+  const today = new Date();
+  const upcoming = [];
+  for(let i=0; i<365 && upcoming.length<5; i++){
+    const d = new Date(today.getFullYear(), today.getMonth(), today.getDate()+i);
+    const h = getHijriDate(d.getFullYear(), d.getMonth()+1, d.getDate());
+    const ev = hijriEventFor(h.month, h.day);
+    if(ev){
+      const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      upcoming.push({ev, daysLeft:i, dateStr});
+    }
+  }
+  el.innerHTML = upcoming.length ? upcoming.map(u => `
+    <div class="hijri-upcoming-item" onclick="openCalendarDayDetail('${u.dateStr}')">
+      <div>
+        <div class="hijri-upcoming-name">${u.ev.name_bn}</div>
+        <div class="hijri-upcoming-date">${toBn(u.ev.hd)} ${HIJRI_MONTHS_BN[u.ev.hm-1]}</div>
+      </div>
+      <div class="hijri-upcoming-days-left ui-label">${u.daysLeft===0 ? 'আজ' : u.daysLeft===1 ? 'আগামীকাল' : `${toBn(u.daysLeft)} দিন বাকি`}</div>
+    </div>
+  `).join('') : `<div class="empty-state ui-label">সামনের ১ বছরে কোনো তালিকাভুক্ত দিন পাওয়া যায়নি।</div>`;
+}
+function buildHijriEventBodyHtml(ev){
+  return ev ? `
+    <h2 style="margin-bottom:4px;">${ev.name_bn}</h2>
+    <div class="fihrist-name-ar" style="margin-bottom:10px;">${ev.name_ar}</div>
+    <div class="block-text">${ev.desc}</div>
+    <div class="block-label">সূত্র</div>
+    ${ev.evidence.map(e=>`<div class="evidence-item">${e.text}<div class="evidence-src">— ${e.src}</div></div>`).join('')}
+    <div class="block-label">প্রাসঙ্গিক আমল</div>
+    ${ev.amol.map(a=>`<div class="block-text" style="margin-top:4px;">• ${a}</div>`).join('')}
+    ${ev.madhab_diff ? `<div class="block-label">আমল/উদযাপনে মাযহাবভেদে ভিন্নতা</div><div class="kaffarah-text">${ev.madhab_diff}</div>` : ''}
+    ${ev.disputed_note ? `<div class="huquq-note" style="margin-top:12px;">⚠️ ${ev.disputed_note}</div>` : ''}
+  ` : `
+    <h2 style="margin-bottom:10px;">সাধারণ দিন</h2>
+    <div class="block-text">এই তারিখে কোনো বিশেষভাবে চিহ্নিত ইসলামি গুরুত্বপূর্ণ দিন নেই।</div>
+  `;
 }
 
 renderIndex();
